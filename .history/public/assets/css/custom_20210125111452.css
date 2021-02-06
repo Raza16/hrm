@@ -1,0 +1,17 @@
+.first-column {
+    border-width:2px;
+    align-items: center;
+
+}
+.second-column {
+  border-width: 2px;
+}
+
+.page-item.active .page-link{
+  background-color: #007bff;
+    border-color: #007bff;
+}
+
+.ck-editor__editable {
+  min-height: 200px !important;
+}
