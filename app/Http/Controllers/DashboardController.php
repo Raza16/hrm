@@ -24,12 +24,12 @@ class DashboardController extends Controller
         ->groupBy('projects.id','projects.title')
         ->get();
 
-        $countProjectTask = DB::table('tasks')
-        ->join('projects', 'projects.id', '=', 'tasks.project_id')
-        ->select('projects.id','projects.title', DB::raw('COUNT(tasks.project_id) as count_project_task'))
-        // ->where('tasks.status', 'completed')
-        ->groupBy('projects.id','projects.title')
-        ->get();
+        // $countProjectTask = DB::table('tasks')
+        // ->join('projects', 'projects.id', '=', 'tasks.project_id')
+        // ->select('projects.id','projects.title', DB::raw('COUNT(tasks.project_id) as count_project_task'))
+        // // ->where('tasks.status', 'completed')
+        // ->groupBy('projects.id','projects.title')
+        // ->get();
 
 
 
@@ -54,7 +54,7 @@ class DashboardController extends Controller
             'pendingProjects',
             'completedProjects',
             'projectStatus',
-            'countProjectTask'
+            // 'countProjectTask'
         ));
     }
 }

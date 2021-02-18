@@ -19,7 +19,7 @@
                         <h3 class="card-title">Total Employees</h3>
                     </div>
                     <div class="card-body">
-                        <a href="#"><h5 class="number mb-0 font-32 counter">{{$totalEmployees}}</h5></a>
+                        <h5 class="number mb-0 font-32">{{$totalEmployees}}</h5>
                         {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                         <h3 class="card-title">Total Clients</h3>
                     </div>
                     <div class="card-body">
-                        <h5 class="number mb-0 font-32 counter">{{$totalClients}}</h5>
+                        <h5 class="number mb-0 font-32">{{$totalClients}}</h5>
                         {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <h3 class="card-title">Total Project</h3>
                     </div>
                     <div class="card-body">
-                        <h5 class="number mb-0 font-32 counter">{{$totalProjects}}</h5>
+                        <h5 class="number mb-0 font-32">{{$totalProjects}}</h5>
                         {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                         <h3 class="card-title">Total Tasks</h3>
                     </div>
                     <div class="card-body">
-                        <h5 class="number mb-0 font-32 counter">{{$totalTasks}}</h5>
+                        <h5 class="number mb-0 font-32">{{$totalTasks}}</h5>
                         {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                         <h3 class="card-title">Leaves</h3>
                     </div>
                     <div class="card-body">
-                        <h5 class="number mb-0 font-32 counter">19</h5>
+                        <h5 class="number mb-0 font-32">19</h5>
                         {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                         <h3 class="card-title">User</h3>
                     </div>
                     <div class="card-body">
-                        <h5 class="number mb-0 font-32 counter">284</h5>
+                        <h5 class="number mb-0 font-32">284</h5>
                         {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
                     </div>
                 </div>
