@@ -132,7 +132,6 @@ class TaskController extends Controller
         $this->validate($request, [
             'project_id' => 'required',
             'employee_id' => 'required',
-            // 'task_no' => 'required|unique:tasks',
             'priority' => 'required',
             'assign_date' => 'required',
             'status' => 'required',
@@ -142,7 +141,6 @@ class TaskController extends Controller
 
         $task->project_id = $request->project_id;
         $task->employee_id = $request->employee_id;
-        // $task->task_no = $request->task_no;
         $task->priority = $request->priority;
         $task->assign_date = $request->assign_date;
         $task->status = $request->status;

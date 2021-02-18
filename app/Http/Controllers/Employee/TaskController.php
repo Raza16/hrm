@@ -107,8 +107,6 @@ class TaskController extends Controller
 
         $task = Task::find($id);
 
-        // $task->id;
-
         $data = [
             'task_id' => $task->id,
             'date' => $request->date,
