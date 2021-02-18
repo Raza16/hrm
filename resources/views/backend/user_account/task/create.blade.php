@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -229,7 +229,7 @@
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Add Task Progress</h3>
+                                        <h3 class="card-title">Add Task Progress for <span style="color:red;">{{$task->project->title}}</span></h3>
                                         <div class="card-options">
                                             {{-- <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fa fa-chevron-up"></i></a>
                                             <a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fa fa-times"></i></a> --}}
@@ -275,7 +275,7 @@
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                                 <a href="{{url('employee-task')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
-                                        </div> 
+                                        </div>
                                         {{-- /row --}}
                                     </form>
                                 </div>

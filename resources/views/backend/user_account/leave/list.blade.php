@@ -249,17 +249,6 @@
                                             <tbody class="table-hover ">
                                                 @foreach ($leaves as $leave)
                                                     <tr>
-                                                        {{-- <td>
-                                                            @if ($task->employee->first_name)
-                                                                {{$task->employee->first_name.' '.$task->employee->middle_name.' '.$task->employee->last_name}}
-                                                            @endif
-                                                        </td> --}}
-                                                        {{-- <td>
-                                                            @if ($task->project->title)
-                                                            {{$task->project->title}}
-                                                            @endif
-                                                        </td> --}}
-                                                        {{-- <td>{{$leave->employee->first_name}}</td> --}}
                                                         <td>{{$leave->leave_type}}</td>
                                                         <td>{{\Carbon\Carbon::parse($leave->from_date)->format('j F, Y')}}</td>
                                                         <td>{{\Carbon\Carbon::parse($leave->to_date)->format('j F, Y')}}</td>

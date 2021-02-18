@@ -56,7 +56,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $this->validate($request, [
             'project_id' => 'required',
             'employee_id' => 'required',
@@ -78,7 +78,7 @@ class TaskController extends Controller
             // $task->assign_date = date("Y-m-d");
             $task->status = $request->status;
             $task->note = $request->note;
-            
+
             if ($request->hasFile('document')) {
                 $file = $request->file('document');
                 $fileName = time().'_'.$file->getClientOriginalName();
@@ -87,9 +87,9 @@ class TaskController extends Controller
                 $file->move($destinationPath, $fileName);
                 $task->document = $fileName;
             }
-            
+
             $task->save();
-            
+
         return redirect('task/create')->with('success', 'Record has been submited');
     }
 
@@ -138,31 +138,31 @@ class TaskController extends Controller
             'status' => 'required',
         ]);
 
-            $task = Task::find($id);
+        $task = Task::find($id);
 
-            $task->project_id = $request->project_id;
-            $task->employee_id = $request->employee_id;
-            // $task->task_no = $request->task_no;
-            $task->priority = $request->priority;
-            $task->assign_date = $request->assign_date;
-            $task->status = $request->status;
-            $task->note = $request->note;
-            
-            if ($request->hasFile('document')) {
-                $file = $request->file('document');
-                $fileName = time().'_'.$file->getClientOriginalName();
-                $destinationPath = public_path('/file_storage/task_files');
-                $filePath = $destinationPath. "/".  $fileName;
-                $file->move($destinationPath, $fileName);
-                $old_image = $task->document;
-                $task->document = $fileName;
-    
-                Storage::disk('task-attachment')->delete($old_image);
-            }
+        $task->project_id = $request->project_id;
+        $task->employee_id = $request->employee_id;
+        // $task->task_no = $request->task_no;
+        $task->priority = $request->priority;
+        $task->assign_date = $request->assign_date;
+        $task->status = $request->status;
+        $task->note = $request->note;
 
-            $task->save();
-            
-            return redirect('task');
+        if ($request->hasFile('document')) {
+            $file = $request->file('document');
+            $fileName = time().'_'.$file->getClientOriginalName();
+            $destinationPath = public_path('/file_storage/task_files');
+            $filePath = $destinationPath. "/".  $fileName;
+            $file->move($destinationPath, $fileName);
+            $old_image = $task->document;
+            $task->document = $fileName;
+
+            Storage::disk('task-attachment')->delete($old_image);
+        }
+
+        $task->save();
+
+        return redirect('task');
     }
 
     /**

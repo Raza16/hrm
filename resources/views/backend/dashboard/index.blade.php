@@ -3,80 +3,79 @@
 @section('title', 'DATech | Dashboard')
 
 @section('main-content')
-           
+
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="mb-4">
-                    <h4>Welcome Peter Richards!</h4>
-                    <small>Measure How Fast You’re Growing Monthly Recurring Revenue. <a href="#">Learn More</a></small>
-                </div>                        
+                    <h4>Welcome!</h4>
+                </div>
             </div>
         </div>
         <div class="row clearfix row-deck">
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Active Cases</h3>
+                        <h3 class="card-title">Total Employees</h3>
                     </div>
                     <div class="card-body">
-                        <h5 class="number mb-0 font-32 counter">31</h5>
-                        <span class="font-12">Measure How Fast... <a href="#">More</a></span>
+                        <a href="#"><h5 class="number mb-0 font-32 counter">{{$totalEmployees}}</h5></a>
+                        {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
                     </div>
                 </div>
             </div>
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Pending Tasks</h3>
+                        <h3 class="card-title">Total Clients</h3>
                     </div>
                     <div class="card-body">
-                        <h5 class="number mb-0 font-32 counter">245</h5>
-                        <span class="font-12">Measure How Fast... <a href="#">More</a></span>
+                        <h5 class="number mb-0 font-32 counter">{{$totalClients}}</h5>
+                        {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
                     </div>
                 </div>
             </div>
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Upcoming Events</h3>
+                        <h3 class="card-title">Total Project</h3>
                     </div>
                     <div class="card-body">
-                        <h5 class="number mb-0 font-32 counter">17</h5>
-                        <span class="font-12">Measure How Fast... <a href="#">More</a></span>
+                        <h5 class="number mb-0 font-32 counter">{{$totalProjects}}</h5>
+                        {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
                     </div>
                 </div>
             </div>
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">New Message</h3>
+                        <h3 class="card-title">Total Tasks</h3>
                     </div>
                     <div class="card-body">
-                        <h5 class="number mb-0 font-32 counter">12</h5>
-                        <span class="font-12">Measure How Fast... <a href="#">More</a></span>
+                        <h5 class="number mb-0 font-32 counter">{{$totalTasks}}</h5>
+                        {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
                     </div>
                 </div>
             </div>
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Open Requests</h3>
+                        <h3 class="card-title">Leaves</h3>
                     </div>
                     <div class="card-body">
                         <h5 class="number mb-0 font-32 counter">19</h5>
-                        <span class="font-12">Measure How Fast... <a href="#">More</a></span>
+                        {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
                     </div>
                 </div>
             </div>
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Hours Spent</h3>
+                        <h3 class="card-title">User</h3>
                     </div>
                     <div class="card-body">
                         <h5 class="number mb-0 font-32 counter">284</h5>
-                        <span class="font-12">Measure How Fast... <a href="#">More</a></span>
+                        {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
                     </div>
                 </div>
             </div>
@@ -97,7 +96,7 @@
                     <div class="card-body">
                         <div id="apex-timeline-chart"></div>
                     </div>
-                </div>                
+                </div>
             </div>
             <div class="col-xl-8 col-lg-12">
                 <div class="card">
@@ -156,7 +155,7 @@
                                     <div class="progress-bar bg-gray" role="progressbar" style="width: 61%" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="text-uppercase font-10">Open Tickets</span>
-                            </div> 
+                            </div>
                             <div class="col-6 col-xl-3 col-md-6">
                                 <h5>06</h5>
                                 <div class="clearfix">
@@ -178,95 +177,57 @@
                                     <div class="progress-bar bg-gray" role="progressbar" style="width: 87%" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="text-uppercase font-10">Unresolved</span>
-                            </div>                                                                       
+                            </div>
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
             <div class="col-xl-4 col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Project Statistics</h3>
-                        <div class="card-options">
+                        {{-- <div class="card-options">
                             <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
                             <a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen"><i class="fe fe-maximize"></i></a>
                             <a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="card-body">
                         <div class="row text-center">
                             <div class="col-4 border-right pb-4 pt-4">
                                 <label class="mb-0 font-13">Total Project</label>
-                                <h4 class="font-30 font-weight-bold text-col-blue counter">42</h4>
+                                <h4 class="font-30 font-weight-bold text-col-blue">{{$totalProjects}}</h4>
                             </div>
                             <div class="col-4 border-right pb-4 pt-4">
                                 <label class="mb-0 font-13">On Going</label>
-                                <h4 class="font-30 font-weight-bold text-col-blue counter">23</h4>
+                                <h4 class="font-30 font-weight-bold text-col-blue">{{$processProjects}}</h4>
                             </div>
                             <div class="col-4 pb-4 pt-4">
                                 <label class="mb-0 font-13">Pending</label>
-                                <h4 class="font-30 font-weight-bold text-col-blue counter">8</h4>
+                                <h4 class="font-30 font-weight-bold text-col-blue">{{$pendingProjects}}</h4>
+                            </div>
+                            <div class="col-4 pb-4 pt-4">
+                                <label class="mb-0 font-13">Completed</label>
+                                <h4 class="font-30 font-weight-bold text-col-blue">{{$completedProjects}}</h4>
                             </div>
                         </div>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-vcenter mb-0">
                             <tbody>
+                                @foreach ($projectStatus as $ps)
                                 <tr>
                                     <td>
                                         <div class="clearfix">
-                                            <div class="float-left"><strong>35%</strong></div>
-                                            <div class="float-right"><small class="text-muted">Design Team</small></div>
+                                            <div class="float-left"><strong>{{$ps->count_status/100*100}} %</strong></div>
+                                            <div class="float-right"><small class="text-muted">{{$ps->title}}</small></div>
                                         </div>
                                         <div class="progress progress-xs">
-                                            <div class="progress-bar bg-azure" role="progressbar" style="width: 35%" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar bg-azure" role="progressbar" style="width:{{$ps->count_status/100*100}}%"></div>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <div class="clearfix">
-                                            <div class="float-left"><strong>25%</strong></div>
-                                            <div class="float-right"><small class="text-muted">Developer Team</small></div>
-                                        </div>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar bg-green" role="progressbar" style="width: 25%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="clearfix">
-                                            <div class="float-left"><strong>15%</strong></div>
-                                            <div class="float-right"><small class="text-muted">Marketing</small></div>
-                                        </div>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar bg-orange" role="progressbar" style="width: 15%" aria-valuenow="36" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="clearfix">
-                                            <div class="float-left"><strong>20%</strong></div>
-                                            <div class="float-right"><small class="text-muted">Management</small></div>
-                                        </div>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar bg-indigo" role="progressbar" style="width: 20%" aria-valuenow="6" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="clearfix">
-                                            <div class="float-left"><strong>11%</strong></div>
-                                            <div class="float-right"><small class="text-muted">Other</small></div>
-                                        </div>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar bg-pink" role="progressbar" style="width: 11%" aria-valuenow="6" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

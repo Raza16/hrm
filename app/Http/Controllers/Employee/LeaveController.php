@@ -54,11 +54,19 @@ class LeaveController extends Controller
             'leave_type' => $request->leave_type,
             'from_date' => $request->from_date,
             'to_date' => $request->to_date,
+            'days' => $request->days,
             'reason' => $request->reason,
             'status' => "pending",
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now()
         ];
+
+        // $fromDate = \Carbon\Carbon::parse($request->from_date);
+        // $toDate = \Carbon\Carbon::parse($request->to_date);
+        // $diffDays = $fromDate->diffInDays($toDate);
+        // dd($diffDays);
+
+
 
         Leave::insert([$data]);
         // DB::table('leaves')->create([$data]);
@@ -110,6 +118,7 @@ class LeaveController extends Controller
         $leave->leave_type = $request->leave_type;
         $leave->from_date = $request->from_date;
         $leave->to_date = $request->to_date;
+        $leave->days = $request->days;
         $leave->reason = $request->reason;
 
         $leave->save();

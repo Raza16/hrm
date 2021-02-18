@@ -251,16 +251,24 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>From Date</label>
-                                                    <input type="date" name="from_date" class="form-control" value="{{old('from_date')}}">
+                                                    <input type="date" name="from_date" id="from-date" class="form-control" value="{{old('from_date')}}">
                                                     @error('from_date')
                                                         <p><small class="text-danger">{{ $errors->first('from_date') }}</small></p>
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>To Date</label>
-                                                    <input type="date" name="to_date" class="form-control" value="{{old('to_date')}}">
+                                                    <label>To Date</label><br>
+                                                    <small class="text-blue">For 1 day leave To-Date same as From-Date</small>
+                                                    <input type="date" name="to_date" id="to-date" class="form-control" value="{{old('to_date')}}">
                                                     @error('to_date')
                                                         <p><small class="text-danger">{{ $errors->first('to_date') }}</small></p>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Days</label>
+                                                    <input type="text" name="days" id="days" class="form-control" readonly value="{{old('days')}}">
+                                                    @error('days')
+                                                        <p><small class="text-danger">{{ $errors->first('days') }}</small></p>
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">

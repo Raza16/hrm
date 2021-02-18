@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -320,7 +320,7 @@
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                                 <a href="{{url('task')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
-                                        </div> 
+                                        </div>
                                         {{-- /row --}}
                                     </form>
                                 </div>

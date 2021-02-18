@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -229,7 +229,7 @@
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Edit Task</h3>
+                                        <h3 class="card-title">View Task</h3>
                                         <div class="card-options">
                                             {{-- <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fa fa-chevron-up"></i></a>
                                             <a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fa fa-times"></i></a> --}}
@@ -238,6 +238,10 @@
                                     <div class="card-body">
                                     <div class="row">
                                             <div class="col-md-6 col-sm-12 first-column">
+                                                <div class="form-group">
+                                                    <label style="font-weight:600;">Project Name</label>
+                                                    <p>{{$task->project->title}}</p>
+                                                </div>
                                                 <div class="form-group">
                                                     <label style="font-weight:600;">Task No</label>
                                                     <p>{{$task->task_no}}</p>
@@ -250,9 +254,19 @@
                                                     <label style="font-weight:600;">Assign Date</label>
                                                     <p>{{$task->assign_date}}</p>
                                                 </div>
+                                                {{-- <div class="form-group">
+                                                    <label style="font-weight:600;">Documents</label>
+                                                    <p><a href="{{url('employee-task/'.$task->id)}}">{{$task->document}}</a></p>
+                                                </div> --}}
                                                 <div class="form-group">
                                                     <label style="font-weight:600;">Note</label>
                                                     <p>{{$task->note}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12 second-column">
+                                                <div class="form-group">
+                                                    <label style="font-weight:600;">Documents</label>
+                                                    <p><i class="fa fa-download" aria-hidden="true"></i>&nbsp;<a href="{{url('employee-task/'.$task->id)}}">{{$task->document}}</a></p>
                                                 </div>
                                             </div>
                                     </div>
@@ -283,7 +297,7 @@
                                                 <button type="submit" class="btn btn-primary">Save Changes</button>
                                                 <a href="{{url('/employee-task')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
-                                        </div> 
+                                        </div>
                                         {{-- /row --}}
                                     </form>
                                 </div>

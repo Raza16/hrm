@@ -2,8 +2,6 @@
 
 $(document).ready(function() {
 
-    // $('.datatable').DataTable();
-
         // Setup - add a text input to each footer cell
         $('.datatable tfoot th').each( function () {
             var title = $(this).text();
@@ -40,17 +38,6 @@ $(document).ready(function() {
                 } );
             }
         });
-
-        // $('.datatable thead').on( 'keyup', ".column_search",function () {
-
-        //     table
-        //     .column( $(this).parent().index() )
-        //     .search( this.value )
-        //     .draw();
-        // });
-
-
-
 
 //------------------------ image upload
 // $(document).ready(function() {
@@ -125,6 +112,27 @@ ClassicEditor
 } );
 
 
+//-------------------------Diff in days
+$("#to-date, #from-date").change(function(){
+
+    var edate = new Date($('#to-date').val());
+    var sdate = new Date($('#from-date').val());
+
+    days = (edate- sdate) / (1000 * 60 * 60 * 24);
+    days = days+1;
+    // alert (days);
+    if(days > 0){
+        $("#days").val(days);
+    }
+    else{
+        $("#days").val(0);
+    }
+ });
+
+
+
+
+
 //---------------------------Check in stop watch
 (function timer() {
 	'use strict';
@@ -157,26 +165,26 @@ ClassicEditor
 
 
 	// parse time in ms for output
-	var parseTime = function(elapsed) {
-		// array of time multiples [hours, min, sec, decimal]
-		var d = [3600000,60000,1000,10];
-		var time = [];
-		var i = 0;
+	// var parseTime = function(elapsed) {
+	// 	// array of time multiples [hours, min, sec, decimal]
+	// 	var d = [3600000,60000,1000,10];
+	// 	var time = [];
+	// 	var i = 0;
 
-		while (i < d.length) {
-			var t = Math.floor(elapsed/d[i]);
+	// 	while (i < d.length) {
+	// 		var t = Math.floor(elapsed/d[i]);
 
-			// remove parsed time for next iteration
-			elapsed -= t*d[i];
+	// 		// remove parsed time for next iteration
+	// 		elapsed -= t*d[i];
 
-			// add '0' prefix to m,s,d when needed
-			t = (i > 0 && t < 10) ? '0' + t : t;
-			time.push(t);
-			i++;
-		}
+	// 		// add '0' prefix to m,s,d when needed
+	// 		t = (i > 0 && t < 10) ? '0' + t : t;
+	// 		time.push(t);
+	// 		i++;
+	// 	}
 
-		return time;
-	};
+	// 	return time;
+	// };
 
 
 	// run

@@ -33,7 +33,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -249,7 +249,7 @@
                                             <tbody class="table-hover ">
                                                 @foreach ($users as $user)
                                                     <tr>
-                                                        <td>{{$user->first_name}}</td>
+                                                        <td>{{$user->first_name.' '.$user->middle_name.' '.$user->last_name}}</td>
                                                         {{-- <td>{{$user->employee_id}}</td> --}}
                                                         <td>{{$user->email}}</td>
                                                         <td>{{$user->role_type}}</td>

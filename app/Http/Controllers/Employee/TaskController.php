@@ -27,7 +27,7 @@ class TaskController extends Controller
         //         'tasks.task_no',
         //         'tasks.priority',
         //         'tasks.assign_date',
-        //         'tasks.status', 
+        //         'tasks.status',
         //         'tasks.note',
         //         'tasks.document',
         //         'projects.id as projectId')
@@ -37,7 +37,7 @@ class TaskController extends Controller
         // 'tasks.task_no',
         // 'tasks.priority',
         // 'tasks.assign_date',
-        // 'tasks.status', 
+        // 'tasks.status',
         // 'tasks.note',
         // 'tasks.document',
         // 'projects.id as projectId')
@@ -97,7 +97,7 @@ class TaskController extends Controller
     }
 
     public function taskProgressStore(Request $request, $id)
-    {   
+    {
         $this->validate($request, [
             'date' => 'required',
             'module' => 'required',
@@ -118,8 +118,6 @@ class TaskController extends Controller
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
-
-        // dd($data);
 
         DB::table('task_progress')->insert([$data]);
 

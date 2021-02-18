@@ -13,24 +13,25 @@ class UserDashboardController extends Controller
     {
         $employee = Auth::user()->employee;
 
-        $leave = DB::table('leaves')->select('from_date', 'to_date')->where('employee_id', $employee->id)->first();
-
-
         $leaveCount = DB::table('leaves')
-            ->where([
-            ['employee_id', $employee->id],
-            ['status', 'approved'],
-            ])
-            ->whereBetween('from_date', [$leave->from_date, $leave->to_date])
-            // ->whereDate('from_date', $leave->from_date)
-            // ->whereDate('to_date', $leave->to_date)
-            ->whereYear('created_at', date('Y'))
-            ->groupBy('employee_id')
-            ->count();
+        ->where('employee_id', $employee->id)
+        ->where('status', 'approved')
+        ->whereYear('created_at', date('Y'))
+        ->sum('days');
 
-            dd($leaveCount);
+        $completedTaskCount = DB::table('tasks')
+        ->where('employee_id', $employee->id)
+        ->where('status', 'completed')
+        ->count();
 
-        return view('backend.user_account.dashboard', compact('employee', 'leaveCount'));
+        $processTaskCount = DB::table('tasks')
+        ->where('employee_id', $employee->id)
+        ->where('status', 'process')
+        ->count();
+
+        // dd($processTaskCount.$taskCount);
+
+        return view('backend.user_account.dashboard', compact('employee', 'leaveCount', 'completedTaskCount', 'processTaskCount'));
     }
 
 

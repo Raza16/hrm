@@ -33,7 +33,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -243,7 +243,7 @@
                                                     <th>Priority</th>
                                                     <th>Assign Date</th>
                                                     <th>Status</th>
-                                                    <th>Document</th>
+                                                    {{-- <th>Document</th> --}}
                                                     <th>Options</th>
                                                 </tr>
                                             </thead>
@@ -264,16 +264,16 @@
                                                         <td>{{$task->priority}}</td>
                                                         <td>{{\Carbon\Carbon::parse($task->assign_date)->format('j F, Y')}}</td>
                                                         <td>{{$task->status}}</td>
-                                                        <td>
+                                                        {{-- <td>
                                                             <a href="{{url('employee-task/'.$task->id)}}">{{$task->document}}</a>
-                                                        </td>
+                                                        </td> --}}
                                                         <td>
                                                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                                            <div class="btn-group" role="group">
                                                                 <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options
                                                                 </button>
                                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                                <a class="dropdown-item" href="{{url('employee-task/'.$task->id.'/edit')}}">Edit</a>
+                                                                <a class="dropdown-item" href="{{url('employee-task/'.$task->id.'/edit')}}">View</a>
                                                                 <a class="dropdown-item" href="{{url('employee-task-progress/'.$task->id.'/task-progress')}}">Submit Task Progress</a>
                                                                 </div>
                                                             </div>
@@ -294,7 +294,7 @@
                                                     <th>Priority</th>
                                                     <th>Assign Date</th>
                                                     <th>Status</th>
-                                                    <th>Document</th>
+                                                    {{-- <th>Document</th> --}}
                                                     <th>Options</th>
                                                 </tr>
                                             </tfoot>

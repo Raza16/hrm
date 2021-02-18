@@ -15,9 +15,9 @@
 
                         <div class="card-body">
                             <h3 class="card-title" style="font-size:20px;"><b>{{$employee->first_name." ".$employee->middle_name." ".$employee->last_name}}</b>&nbsp;<p style="font-size:15px;">{{$employee->employee_no}}</p></h3>
-
+                            <p><b>Address</b></p>
                             <p class="card-text">{{$employee->address}}</p>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-4">
                                     <h6><strong>3265</strong></h6>
                                     <span>Post</span>
@@ -30,12 +30,12 @@
                                     <h6><strong>10K</strong></h6>
                                     <span>Likes</span>
                                 </div>
-                            </div>
+                            </div> --}}
                             </div>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">{{$employee->email}}</li>
-                                <li class="list-group-item">{{$employee->mobile_no}}</li>
-                                <li class="list-group-item">{{ \Carbon\Carbon::parse($employee->date_of_birth)->format('j F, Y') }}</li>
+                                <li class="list-group-item"><b>Email</b> {{$employee->email}}</li>
+                                <li class="list-group-item"><b>Mobile No</b> {{$employee->mobile_no}}</li>
+                                <li class="list-group-item"><b>Date of Birth</b> {{ \Carbon\Carbon::parse($employee->date_of_birth)->format('j F, Y') }}</li>
                             </ul>
                             {{-- <div class="card-body">
                                 <a href="javascript:void(0);" class="card-link">View More</a>
@@ -123,7 +123,7 @@
                                         </div>
                                         <div class="details">
                                             <h6 class="mb-0 font600">Total Attendance</h6>
-                                            <span class="mb-0">$96K +</span>
+                                            <span class="mb-0"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -151,17 +151,17 @@
 
                                         </div>
                                         <div class="details">
-                                            <h6 class="mb-0 font600">Project</h6>
-                                            <span class="mb-0">720 Delivered</span>
+                                            <h6 class="mb-0 font600">Tasks</h6>
+                                            <span class="mb-0">Ongoing {{$processTaskCount}}</span>
+                                            <span class="mb-0">Completed {{$completedTaskCount}}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-lg-4 col-sm-12">
+                            {{-- <div class="col-xl-4 col-lg-4 col-sm-12">
                                 <div class="card">
                                     <div class="card-body widgets1">
                                         <div class="icon">
-                                            {{-- <i class="icon-handbag text-danger font-30"></i> --}}
                                         </div>
                                         <div class="details">
                                             <h6 class="mb-0 font600">Check In</h6>
@@ -174,9 +174,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
-                        <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
+                        {{-- <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link" id="pills-blog-tab" data-toggle="pill" href="#pills-blog" role="tab" aria-controls="pills-blog" aria-selected="false">Blog</a>
                             </li>
@@ -186,30 +186,13 @@
                             <li class="nav-item">
                                 <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">Profile</a>
                             </li>
-                        </ul>
-                        <div class="tab-content" id="pills-tabContent">
+                        </ul> --}}
+
+                        {{-- <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade" id="pills-timeline" role="tabpanel" aria-labelledby="pills-timeline-tab">
                                 <div class="card">
                                     <div class="card-header">
                                         <h3 class="card-title">Activity</h3>
-                                        {{-- <div class="card-options">
-                                            <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fa fa-chevron-up"></i></a>
-                                            <a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen"><i class="fe fa-maximize"></i></a>
-                                            <a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fa fe-x"></i></a>
-                                            <div class="item-action dropdown ml-2">
-                                                <a href="javascript:void(0)" data-toggle="dropdown"><i class="fa fa-more-vertical"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-eye"></i> View Details </a>
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-share-alt"></i> Share </a>
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-cloud-download"></i> Download</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-copy"></i> Copy to</a>
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-folder"></i> Move to</a>
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-edit"></i> Rename</a>
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-trash"></i> Delete</a>
-                                        </div>
-                                            </div>
-                                        </div> --}}
                                     </div>
                                     <div class="card-body">
                                         <div class="timeline_item ">
@@ -314,23 +297,6 @@
                                 <div class="card">
                                     <div class="card-header">
                                         <h3 class="card-title">Edit Profile</h3>
-                                        {{-- <div class="card-options">
-                                            <a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen"><i class="fe fe-maximize"></i></a>
-                                            <a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>
-                                            <div class="item-action dropdown ml-2">
-                                                <a href="javascript:void(0)" data-toggle="dropdown"><i class="fe fe-more-vertical"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-eye"></i> View Details </a>
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-share-alt"></i> Share </a>
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-cloud-download"></i> Download</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-copy"></i> Copy to</a>
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-folder"></i> Move to</a>
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-edit"></i> Rename</a>
-                                            <a href="javascript:void(0)" class="dropdown-item"><i class="dropdown-icon fa fa-trash"></i> Delete</a>
-                                        </div>
-                                            </div>
-                                        </div> --}}
                                     </div>
                                     <div class="card-body">
                                         <div class="row clearfix">
@@ -527,7 +493,10 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
+
+
+
                     </div>
                 </div>
             </div>

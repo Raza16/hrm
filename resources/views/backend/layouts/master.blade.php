@@ -51,7 +51,7 @@
         <div class="container">
             <div class="hleft">
                 <a class="header-brand" href=""><i><img src="{{asset('img/favicon1.png')}}"/></i></a>
-                <div class="dropdown">
+                {{-- <div class="dropdown">
                     <a href="javascript:void(0)" class="nav-link user_btn"><img class="avatar" src="{{asset('assets/images/user.png')}}" alt="" data-toggle="tooltip" data-placement="right" title="User Menu"/></a>
                     <a href="page-search.html" class="nav-link icon xs-hide"><i class="fa fa-search"></i></a>
                     <a href="app-calendar.html"  class="nav-link icon app_inbox xs-hide"><i class="fa fa-calendar"></i></a>
@@ -59,18 +59,12 @@
                     <a href="app-chat.html"  class="nav-link icon xs-hide"><i class="fa fa-comments-o"></i></a>
                     <a href="app-filemanager.html"  class="nav-link icon app_file xs-hide"><i class="fa fa-folder-o"></i></a>
                     <a href="javascript:void(0)" class="nav-link icon theme_btn xs-hide"><i class="fa fa-paint-brush" data-toggle="tooltip" data-placement="right" title="Themes"></i></a>
-                </div>
-            </div>
-            <div class="hright">
-                <div class="dropdown">
-                    <a href="javascript:void(0)" class="nav-link icon settingbar"><i class="fa fa-gear fa-spin" data-toggle="tooltip" data-placement="right" title="Settings"></i></a>
-                    <a href="javascript:void(0)" class="nav-link icon menu_toggle"><i class="fa  fa-align-left"></i></a>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
 
-    <div id="rightsidebar" class="right_sidebar">
+    {{-- <div id="rightsidebar" class="right_sidebar">
         <a href="javascript:void(0)" class="p-3 settingbar float-right"><i class="fa fa-close"></i></a>
         <div class="p-4">
             <div class="mb-4">
@@ -208,9 +202,9 @@
                 <button type="button" class="btn btn-primary btn-block mt-3">Upgrade Storage</button>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="theme_div">
+    {{-- <div class="theme_div">
         <div class="card">
             <div class="card-body">
                 <ul class="list-group list-unstyled">
@@ -229,9 +223,9 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="user_div">
+    {{-- <div class="user_div">
         <h5 class="brand-name mb-4">DATech<a href="javascript:void(0)" class="user_btn"><i class="icon-logout"></i></a></h5>
         <div class="card-body">
             <a href="page-profile.html"><img class="card-profile-img" src="assets/images/sm/avatar1.jpg" alt=""></a>
@@ -307,7 +301,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> --}}
 
     <div id="left-sidebar" class="sidebar ">
         <h5 class="brand-name">DATech <a href="javascript:void(0)" class="menu_option float-right"><i class="fa fa-th" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
@@ -319,7 +313,7 @@
             <li class="active"><a href="{{url('admin/dashboard')}}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
 
             <li>
-                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Employee</span></a>
+                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-user"></i><span>Employee</span></a>
                 <ul>
                     <li><a href="{{url('employee')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>All Employees</a></li>
                     <li><a href="{{url('employee/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add Employee</a></li>
@@ -327,7 +321,7 @@
             </li>
 
             <li>
-                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Clients</span></a>
+                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-users"></i><span>Clients</span></a>
                 <ul>
                     <li><a href="{{url('client')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>All Clients</a></li>
                     <li><a href="{{url('client/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add Client</a></li>
@@ -335,14 +329,14 @@
             </li>
 
             <li>
-                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Projects</span></a>
+                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-suitcase"></i><span>Projects</span></a>
                 <ul>
                     <li><a href="{{url('project')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>All Projects</a></li>
                     <li><a href="{{url('project/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add Project</a></li>
                 </ul>
             </li>
             <li>
-                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Tasks Tracker</span></a>
+                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-tasks"></i><span>Tasks Tracker</span></a>
                 <ul>
                     <li><a href="{{url('task')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>All Task</a></li>
                     <li><a href="{{url('task/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add Task</a></li>
@@ -350,14 +344,14 @@
                 </ul>
             </li>
             <li>
-                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Attendance</span></a>
+                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-calendar"></i><span>Attendance</span></a>
                 <ul>
                     {{-- <li><a href="{{url('attendance')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>All Attendance</a></li> --}}
                     <li><a href="{{url('')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Time Tracker</a></li>
                 </ul>
             </li>
             <li>
-                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Leave</span></a>
+                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-file-text"></i><span>Leave</span></a>
                 <ul>
                     <li><a href="{{url('leave-list')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Leave List</a></li>
                     {{-- <li><a href="{{url('attendance')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>All Attendance</a></li> --}}
@@ -365,7 +359,7 @@
             </li>
 
             <li>
-                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>User</span></a>
+                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-user-plus"></i><span>User</span></a>
                 <ul>
                     <li><a href="{{url('user')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>All Users</a></li>
                     {{-- <li><a href="{{url('user/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add User</a></li> --}}
@@ -377,20 +371,20 @@
             @if(Auth::user()->role_id == 2)
 
                 <li>
-                    <a href="{{url('/user_account')}}"><i class="fa fa-lock"></i><span>Dashboard</span></a>
+                    <a href="{{url('/user_account')}}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
                     {{-- <ul>
                         <li><a href="{{url('employee-task')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Task List</a></li>
                     </ul> --}}
                 </li>
                 <li>
-                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Leaves</span></a>
+                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-file-text"></i><span>Leaves</span></a>
                     <ul>
                         <li><a href="{{url('leave')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Leave List</a></li>
                         <li><a href="{{url('leave/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Apply Leave</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Task</span></a>
+                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-tasks"></i><span>Task</span></a>
                     <ul>
                         <li><a href="{{url('employee-task')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Task List</a></li>
                     </ul>
@@ -411,22 +405,12 @@
                         <h1 class="page-title"></h1>
                     </div>
                     <div class="right">
-                        <div class="input-icon xs-hide mr-4">
+                        {{-- <div class="input-icon xs-hide mr-4">
                             <input type="text" class="form-control" placeholder="Search for...">
                             <span class="input-icon-addon"><i class="fa fa-search"></i></span>
-                        </div>
+                        </div> --}}
                         <div class="notification d-flex">
-                            <div class="dropdown d-flex">
-                                {{-- <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><i class="fa fa-language"></i></a> --}}
-                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="#"><img class="w20 mr-2" src="assets/images/flags/us.svg">English</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#"><img class="w20 mr-2" src="assets/images/flags/es.svg">Spanish</a>
-                                    <a class="dropdown-item" href="#"><img class="w20 mr-2" src="assets/images/flags/jp.svg">japanese</a>
-                                    <a class="dropdown-item" href="#"><img class="w20 mr-2" src="assets/images/flags/bl.svg">France</a>
-                                </div>
-                            </div>
-                            <div class="dropdown d-flex">
+                            {{-- <div class="dropdown d-flex">
                                 <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge badge-success nav-unread"></span></a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                     <ul class="right_chat list-unstyled w350 p-0">
@@ -493,23 +477,24 @@
                                         </li>
                                     </ul>
                                     <div class="dropdown-divider"></div>
-                                    {{-- <a href="javascript:void(0)" class="dropdown-item text-center text-muted-dark readall">Mark all as read</a> --}}
+                                    <a href="javascript:void(0)" class="dropdown-item text-center text-muted-dark readall">Mark all as read</a>
                                 </div>
-                            </div>
+                            </div> --}}
+
+
+
                             <div class="dropdown d-flex">
                                 <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><i class="fa fa-user"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="page-profile.html"><i class="dropdown-icon fa fa-user"></i> Profile</a>
-                                    <a class="dropdown-item" href="app-setting.html"><i class="dropdown-icon fa fa-cog"></i> Settings</a>
-                                    <a class="dropdown-item" href="javascript:void(0)"><span class="float-right"><span class="badge badge-primary">6</span></span><i class="dropdown-icon fa fa-mail"></i> Inbox</a>
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fa fa-send"></i> Message</a>
+                                    {{-- <a class="dropdown-item" href="page-profile.html"><i class="dropdown-icon fa fa-user"></i> Profile</a> --}}
+                                    {{-- <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fa fa-send"></i> Message</a> --}}
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fa fa-help-circle"></i> Need help?</a>
+                                    <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fa fa-lock"></i> Change Password</a>
 
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
 
-                                    <a class="dropdown-item" style="cursor:pointer;" :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();"><i class="dropdown-icon fa fa-log-out"></i> Sign out</a>
+                                    <a class="dropdown-item" style="cursor:pointer;" :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();"><i class="dropdown-icon fa fa-sign-out"></i> Sign out</a>
                                         {{-- <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
                                             {{ __('Logout') }}
                                         </x-dropdown-link> --}}
@@ -567,6 +552,10 @@
 
 @yield('scripts')
 
+{{-- Ck editor --}}
+<script src="https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js"></script>
+
+
 {{-- datatables --}}
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
@@ -578,10 +567,6 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.colVis.min.js"></script>
-
-{{-- Ck editor --}}
-<script src="https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js"></script>
-
 
 </body>
 </html>
