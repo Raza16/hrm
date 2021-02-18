@@ -61,12 +61,6 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function () {
 
     Route::get('/time-tracker', [App\Http\Controllers\TimeTrackerController::class, 'index']);
 
-    // Route::get('/leave-list', [App\Http\Controllers\LeaveController::class, 'adminLeaveList']);
-
-    // Route::resource('leave', App\Http\Controllers\LeaveController::class);
-
-    // Route::get('/attendance', [App\Http\Controllers\AttendanceController::class, 'index']);
-
 });
 
 //----------------------- User Routes
