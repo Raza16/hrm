@@ -98,6 +98,6 @@ Route::get('/', function () {
 Auth::routes();
 
 
-// Route::get('/loginmail', function () {
-//     return view('layouts/login_mail');
-// });
+Route::get('/loginmail', function () {
+    return view('layouts/login_mail');
+});
