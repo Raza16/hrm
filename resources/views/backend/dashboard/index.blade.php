@@ -53,7 +53,10 @@
                     </div>
                     <div class="card-body">
                         <h5 class="number mb-0 font-32">{{$totalTasks}}</h5>
-                        {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
+                        {{-- <p>Ongoing: {{$totalTasksProcess}}</p> --}}
+                        {{-- <p>Completed: {{$totalTasksCompleted}}</p> --}}
+                        <span class="font-12">Ongoing: {{$totalTasksProcess}}</span>
+                        <span class="font-12">Ongoing: {{$totalTasksCompleted}}</span>
                     </div>
                 </div>
             </div>
