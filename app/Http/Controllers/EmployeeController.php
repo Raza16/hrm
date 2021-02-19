@@ -165,7 +165,7 @@ class EmployeeController extends Controller
             'mobile_no' => 'required',
             // 'home_phone' => 'required',
             // 'emergency_contact' => 'required',
-            // 'email' => 'required',
+            // 'email' => 'required|unique:employees',
             // 'other_email' => 'required',
             // 'country' => 'required',
             // 'province_state' => 'required',
@@ -237,12 +237,12 @@ class EmployeeController extends Controller
     {
         $employee = Employee::find($id);
         $employee->delete();
-        
+
         // "profile-image" is a custom disk name in config/filesystems.php
         Storage::disk('profile-image')->delete($employee->profile_image);
 
         session()->flash('delete', 'Record has been deleted');
-        
+
         return redirect('/employee');
     }
 }
