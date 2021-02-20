@@ -8,7 +8,7 @@
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="mb-4">
-                    <h4>Welcome!</h4>
+                    <h4>Welcome DATech!</h4>
                 </div>
             </div>
         </div>
