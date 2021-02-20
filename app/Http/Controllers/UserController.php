@@ -68,33 +68,39 @@ class UserController extends Controller
         $loginPassword = $request->password;
         $user->password = Hash::make($loginPassword);
         $user->status = $request->status;
-        $user->save();
 
-        // $roleId = $request->role_id;
+        if($user->save()){
 
-        // $user_role = [
-        //     'user_id' => $user->id,
-        //     'role_id' => $roleId,
-        // ];
 
-        // DB::table('role_user')->insert([$user_role]);
 
-        $employeeData = DB::table('employees')
-        ->select('first_name', 'middle_name', 'last_name', 'email')
-        ->where('id', $request->employee_id)
-        ->first();
 
-        $loginData = [
-            'first_name' => $employeeData->first_name,
-            'middle_name' => $employeeData->middle_name,
-            'last_name' => $employeeData->last_name,
-            'loginEmail' => $request->email,
-            'loginPassword' => $loginPassword
-        ];
+            // $roleId = $request->role_id;
 
-        Mail::to($employeeData->email)->send(new LoginMail($loginData));
+            // $user_role = [
+            //     'user_id' => $user->id,
+            //     'role_id' => $roleId,
+            // ];
 
-        return redirect('user/create')->with('success', 'Record has been saved');
+            // DB::table('role_user')->insert([$user_role]);
+
+            $employeeData = DB::table('employees')
+            ->select('first_name', 'middle_name', 'last_name', 'email')
+            ->where('id', $request->employee_id)
+            ->first();
+
+            $loginData = [
+                'first_name' => $employeeData->first_name,
+                'middle_name' => $employeeData->middle_name,
+                'last_name' => $employeeData->last_name,
+                'loginEmail' => $request->email,
+                'loginPassword' => $loginPassword
+            ];
+
+            Mail::to($employeeData->email)->send(new LoginMail($loginData));
+
+            return redirect('user/create')->with('success', 'Record has been saved');
+        }
+
     }
 
     /**
