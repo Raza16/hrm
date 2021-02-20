@@ -489,7 +489,7 @@
                                     {{-- <a class="dropdown-item" href="page-profile.html"><i class="dropdown-icon fa fa-user"></i> Profile</a> --}}
                                     {{-- <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fa fa-send"></i> Message</a> --}}
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fa fa-lock"></i> Change Password</a>
+                                    {{-- <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fa fa-lock"></i> Change Password</a> --}}
 
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
