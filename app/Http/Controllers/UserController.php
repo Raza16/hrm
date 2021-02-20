@@ -92,7 +92,7 @@ class UserController extends Controller
             'loginPassword' => $loginPassword
         ];
 
-        Mail::to($employeeData->email)->subject("Account Credentials")->send(new LoginMail($loginData));
+        Mail::to($employeeData->email)->send(new LoginMail($loginData));
 
         return redirect('user/create')->with('success', 'Record has been saved');
     }

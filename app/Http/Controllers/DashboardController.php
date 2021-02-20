@@ -12,6 +12,8 @@ class DashboardController extends Controller
         $totalEmployees = DB::table('employees')->count();
         $totalClients = DB::table('clients')->count();
         $totalTasks = DB::table('tasks')->count();
+        $totalTasksProcess = DB::table('tasks')->where('status', 'process')->count();
+        $totalTasksCompleted = DB::table('tasks')->where('status', 'completed')->count();
         $totalProjects = DB::table('projects')->count();
         $processProjects = DB::table('projects')->where('status', 'process')->count();
         $pendingProjects = DB::table('projects')->where('status', 'pending')->count();
@@ -50,6 +52,8 @@ class DashboardController extends Controller
             'totalClients',
             'totalProjects',
             'totalTasks',
+            'totalTasksProcess',
+            'totalTasksCompleted',
             'processProjects',
             'pendingProjects',
             'completedProjects',
