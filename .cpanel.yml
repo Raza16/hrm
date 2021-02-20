@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/thedatec/devhrm.thedatech.com/
-    - /bin/cp -R images $DEPLOYPATH
+    - /bin/cp -R devhrm.thedatech.com $DEPLOYPATH
