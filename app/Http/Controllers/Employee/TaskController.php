@@ -17,7 +17,6 @@ class TaskController extends Controller
     public function index()
     {
         $employee_id = Auth::user()->employee_id;
-        // dd($employee_id);
 
         $tasks = Task::where('employee_id', $employee_id)->get();
 
@@ -106,8 +105,6 @@ class TaskController extends Controller
         ]);
 
         $task = Task::find($id);
-
-        // $task->id;
 
         $data = [
             'task_id' => $task->id,

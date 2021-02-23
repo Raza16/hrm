@@ -254,6 +254,10 @@
                                                     <label style="font-weight:600;">Assign Date</label>
                                                     <p>{{$task->assign_date}}</p>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label style="font-weight:600;">Deadline Date</label>
+                                                    <p>{{$task->deadline_date}}</p>
+                                                </div>
                                                 {{-- <div class="form-group">
                                                     <label style="font-weight:600;">Documents</label>
                                                     <p><a href="{{url('employee-task/'.$task->id)}}">{{$task->document}}</a></p>
@@ -282,7 +286,7 @@
                                                     <select name="status" class="form-control">
                                                         {{-- @foreach ($taskStatus as $ts)
                                                         @endforeach --}}
-                                                            <option value="process" {{$taskStatus->status == "process" ? 'selected' : ''}}>Process</option>
+                                                            <option value="ongoing" {{$taskStatus->status == "ongoing" ? 'selected' : ''}}>Ongoing</option>
                                                             <option value="completed" {{$taskStatus->status == "completed" ? 'selected' : ''}}>Completed</option>
                                                     </select>
                                                     @error('status')

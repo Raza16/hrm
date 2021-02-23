@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use Leave;
+use App\Models\Leave;
+use App\Models\Task;
 use DB;
 
 class UserDashboardController extends Controller
@@ -29,9 +30,15 @@ class UserDashboardController extends Controller
         ->where('status', 'process')
         ->count();
 
-        // dd($processTaskCount.$taskCount);
+        $todayTasks = Task::where(['employee_id' => $employee->id, 'assign_date' => date("Y-m-d")])->get();
 
-        return view('backend.user_account.dashboard', compact('employee', 'leaveCount', 'completedTaskCount', 'processTaskCount'));
+        return view('backend.user_account.dashboard', compact(
+            'employee',
+            'leaveCount',
+            'completedTaskCount',
+            'processTaskCount',
+            'todayTasks'
+        ));
     }
 
 

@@ -14,7 +14,7 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         // with() function with client model
         // $projects = Project::with('client')->get();
         $projects = Project::all();
@@ -46,6 +46,7 @@ class ProjectController extends Controller
             'title' => 'required',
             'start_date' => 'required',
             'status' => 'required',
+            'service' => 'required',
         ]);
 
         $project = new Project;
@@ -57,6 +58,7 @@ class ProjectController extends Controller
         $project->end_date = $request->end_date;
         $project->technology = $request->technology;
         $project->website = $request->website;
+        $project->service = $request->service;
         $project->note = $request->note;
 
         $project->save();
@@ -102,6 +104,7 @@ class ProjectController extends Controller
             'title' => 'required',
             'start_date' => 'required',
             'status' => 'required',
+            'service' => 'required',
         ]);
 
         $project = Project::find($id);
@@ -113,6 +116,7 @@ class ProjectController extends Controller
         $project->end_date = $request->end_date;
         $project->technology = $request->technology;
         $project->website = $request->website;
+        $project->service = $request->service;
         $project->note = $request->note;
 
         $project->save();

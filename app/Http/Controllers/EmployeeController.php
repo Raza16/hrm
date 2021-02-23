@@ -165,7 +165,7 @@ class EmployeeController extends Controller
             'mobile_no' => 'required',
             // 'home_phone' => 'required',
             // 'emergency_contact' => 'required',
-            // 'email' => 'required|unique:employees',
+            'email' => 'required',
             // 'other_email' => 'required',
             // 'country' => 'required',
             // 'province_state' => 'required',

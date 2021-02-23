@@ -24,7 +24,13 @@ class UserController extends Controller
         $users = DB::table('users')
         ->join('employees', 'employees.id', '=', 'users.employee_id')
         ->join('roles', 'roles.id', '=', 'users.role_id')
-        ->select('employees.first_name', 'employees.middle_name','employees.last_name', 'users.id as id','users.email', 'users.status', 'roles.role_type')
+        ->select('employees.first_name',
+                 'employees.middle_name',
+                 'employees.last_name',
+                 'users.id as id',
+                 'users.email',
+                 'users.status',
+                 'roles.role_type')
         ->get();
 
         return view('backend.user.list', compact('users'));

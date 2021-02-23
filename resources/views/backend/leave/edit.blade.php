@@ -283,7 +283,7 @@
                                         <div class="row mt-5">
                                             <div class="col-sm-12">
                                                 <button type="submit" class="btn btn-primary">Save Changes</button>
-                                                <a href="{{url('leave')}}" class="btn btn-secondary">Cancel</a>
+                                                <a href="{{url('leave-list')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
                                         </div>
                                         {{-- /row --}}

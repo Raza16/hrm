@@ -33,7 +33,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -244,6 +244,7 @@
                                                     <th>Task No</th>
                                                     <th>Priority</th>
                                                     <th>Assign Date</th>
+                                                    <th>Deadline Date</th>
                                                     <th>Status</th>
                                                     <th>Options</th>
                                                 </tr>
@@ -271,9 +272,14 @@
                                                                 <span class="tag tag-success ml-0 mr-0">{{$task->priority}}</span>
                                                             @endif
                                                         </td>
-                                                        <td>{{\Carbon\Carbon::parse($task->assign_date)->format('j F, Y')}}</td>
                                                         <td>
-                                                            @if ($task->status == 'process')
+                                                            {{$task->assign_date ? \Carbon\Carbon::parse($task->assign_date)->format('j F, Y') : null}}
+                                                        </td>
+                                                        <td>
+                                                            {{$task->deadline_date ? \Carbon\Carbon::parse($task->deadline_date)->format('j F, Y') : null}}
+                                                        </td>
+                                                        <td>
+                                                            @if ($task->status == 'ongoing')
                                                                 <span class="tag tag-primary ml-0 mr-0">{{$task->status}}</span>
                                                             @elseif($task->status == 'completed')
                                                                 <span class="tag tag-success ml-0 mr-0" style="background-color:#21ba45">{{$task->status}}</span>
@@ -302,6 +308,7 @@
                                                     <th>Task No</th>
                                                     <th>Priority</th>
                                                     <th>Assign Date</th>
+                                                    <th>Deadline Date</th>
                                                     <th>Status</th>
                                                     <th>Options</th>
                                                 </tr>

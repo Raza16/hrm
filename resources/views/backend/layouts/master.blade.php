@@ -309,6 +309,7 @@
             <ul class="metismenu">
             <li class="g_heading">Main Navigation</li>
 
+            {{-- --------------- Role Admin------------- --}}
             @if(Auth::user()->role_id == 1)
             <li class="active"><a href="{{url('admin/dashboard')}}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
 
@@ -343,13 +344,14 @@
                     <li><a href="{{url('task-report')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Task Report</a></li>
                 </ul>
             </li>
-            <li>
+
+            {{-- <li>
                 <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-calendar"></i><span>Attendance</span></a>
                 <ul>
-                    {{-- <li><a href="{{url('attendance')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>All Attendance</a></li> --}}
                     <li><a href="{{url('')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Time Tracker</a></li>
                 </ul>
-            </li>
+            </li> --}}
+
             <li>
                 <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-file-text"></i><span>Leave</span></a>
                 <ul>
@@ -363,11 +365,13 @@
                 <ul>
                     <li><a href="{{url('user')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>All Users</a></li>
                     {{-- <li><a href="{{url('user/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add User</a></li> --}}
-                    <li><a href="{{url('role')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Role</a></li>
+                    {{-- <li><a href="{{url('role')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Role</a></li> --}}
                 </ul>
             </li>
             @endif
 
+
+            {{-- --------------- Role Employee------------- --}}
             @if(Auth::user()->role_id == 2)
 
                 <li>
@@ -389,6 +393,11 @@
                         <li><a href="{{url('employee-task')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Task List</a></li>
                     </ul>
                 </li>
+            @endif
+
+            {{-- --------------- Role Manager------------- --}}
+            @if(Auth::user()->role_id == 3)
+
             @endif
 
 
@@ -493,11 +502,7 @@
 
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-
-                                    <a class="dropdown-item" style="cursor:pointer;" :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();"><i class="dropdown-icon fa fa-sign-out"></i> Sign out</a>
-                                        {{-- <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-                                            {{ __('Logout') }}
-                                        </x-dropdown-link> --}}
+                                        <a class="dropdown-item" style="cursor:pointer;" :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();"><i class="dropdown-icon fa fa-sign-out"></i> Sign out</a>
                                     </form>
                                 </div>
                             </div>

@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -285,7 +285,7 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>state_province</label>
+                                                    <label>State/Province</label>
                                                     <input type="text" name="state_province" class="form-control" value="{{old('state_province')}}">
                                                     @error('state_province')
                                                         <p><small class="text-danger">{{ $errors->first('state_province') }}</small></p>
@@ -306,7 +306,7 @@
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                                 <a href="{{url('client')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
-                                        </div> 
+                                        </div>
                                         {{-- /row --}}
                                     </form>
                                 </div>

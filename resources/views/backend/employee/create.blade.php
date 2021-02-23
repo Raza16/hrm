@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -296,8 +296,8 @@
                                                 <div class="form-group">
                                                     <label>Marital Status</label>
                                                     <select name="marital_status" class="form-control">
-                                                        <option value="married">married</option>
                                                         <option value="unmarried">unmarried</option>
+                                                        <option value="married">married</option>
                                                     </select>
                                                     @error('marital_status')
                                                         <p><small class="text-danger">{{ $errors->first('marital_status') }}</small></p>
@@ -420,7 +420,7 @@
                                                     </div>
                                                     @error('profile_image')
                                                         <p><small class="text-danger">{{ $errors->first('profile_image') }}</small></p>
-                                                    @enderror 
+                                                    @enderror
                                                 </div>
 
                                                 {{-- <h6>Employee Credentials</h6>
@@ -460,7 +460,7 @@
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                                 <a href="{{url('employee')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
-                                        </div> 
+                                        </div>
                                         {{-- /row --}}
                                     </form>
                                 </div>

@@ -39,14 +39,18 @@ class LoginController extends Controller
             if (!Auth::check()) {
                 return $this->redirectTo = '/login';
             }
-    
+
             if (Auth::user()->role_id == 1) {
                 return $this->redirectTo = '/admin/dashboard';
             }
-            
+
             if (Auth::user()->role_id == 2) {
                 return $this->redirectTo = '/user_account';
             }
+
+            // if (Auth::user()->role_id == 3) {
+            //     return $this->redirectTo = '/user_account';
+            // }
 
         }
     /**

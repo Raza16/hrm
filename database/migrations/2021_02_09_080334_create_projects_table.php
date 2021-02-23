@@ -22,6 +22,7 @@ class CreateProjectsTable extends Migration
             $table->string('status');
             $table->string('technology')->nullable();
             $table->string('website')->nullable();
+            $table->string('service')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();

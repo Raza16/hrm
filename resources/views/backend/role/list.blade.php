@@ -5,7 +5,7 @@
 @section('main-content')
     <div class="container-fluid">
                 <div class="tab-content">
-                    <div class="tab-pane fade" id="list" role="tabpanel">
+                    {{-- <div class="tab-pane fade" id="list" role="tabpanel">
                         <div class="row clearfix">
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
@@ -33,7 +33,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -222,7 +222,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="tab-pane fade active show">
                         <div class="row">
                             <div class="col-sm-12">
@@ -243,13 +243,12 @@
                                                     <th>Options</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="table-hover ">
+                                            <tbody class="table-hover">
                                                 @foreach ($roles as $role)
                                                     <tr>
                                                         <td>{{$role->role_type}}</td>
                                                         <td>
                                                             <div style="margin-bottom:-9px;display:flex;" class="option-btn">
-                                                                {{-- <a href="{{url('/cms/blog/'.$blog->id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye" aria-hidden="true"></i></a> --}}
                                                                 <a href="{{url('role/'.$role->id.'/edit')}}" class="btn btn-sm btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;
                                                                 </a>
                                                                 <form action="{{ url('role/'.$role->id) }}" method="POST">

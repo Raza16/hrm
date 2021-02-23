@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -236,7 +236,7 @@
                                         </div>
                                     </div>
                                     <form class="card-body" action="{{url('employee/'.$employee->id)}}" method="post" enctype="multipart/form-data">
-                                        @method('PUT')                                        
+                                        @method('PUT')
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12 first-column">
@@ -286,7 +286,11 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Marital Status</label>
-                                                    <input type="text" name="marital_status" class="form-control" value="{{ $employee->marital_status }}"/>
+                                                    {{-- <input type="text" name="marital_status" class="form-control" value="{{ $employee->marital_status }}"/> --}}
+                                                    <select name="marital_status" class="form-control">
+                                                        <option value="unmarried" {{$employee->marital_status == 'unmarried' ? 'selected' : ''}}>unmarried</option>
+                                                        <option value="married" {{$employee->marital_status == 'married' ? 'selected' : ''}}>married</option>
+                                                    </select>
                                                     @error('marital_status')
                                                         <p><small class="text-danger">{{ $errors->first('marital_status') }}</small></p>
                                                     @enderror
@@ -408,7 +412,7 @@
                                                     </div>
                                                     @error('profile_image')
                                                         <p><small class="text-danger">{{ $errors->first('profile_image') }}</small></p>
-                                                    @enderror 
+                                                    @enderror
                                                 </div>
                                             </div>
 
@@ -420,7 +424,7 @@
                                                 <button type="submit" class="btn btn-primary">Save Changes</button>
                                                 <a href="{{url('employee')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
-                                        </div> 
+                                        </div>
                                         {{-- /row --}}
                                     </form>
                                 </div>

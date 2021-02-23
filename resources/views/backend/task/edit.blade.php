@@ -289,13 +289,10 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Status</label>
-                                                    <select name="status" class="form-control">
-                                                        <option value="process" {{$task->status == "process" ? 'selected' : ''}}>Process</option>
-                                                        <option value="completed" {{$task->status == "completed" ? 'selected' : ''}}>Completed</option>
-                                                    </select>
-                                                    @error('status')
-                                                        <p><small class="text-danger">{{ $errors->first('status') }}</small></p>
+                                                    <label>Deadline Date</label>
+                                                    <input type="date" name="deadline_date" class="form-control" value="{{$task->deadline_date}}">
+                                                    @error('deadline_date')
+                                                        <p><small class="text-danger">{{ $errors->first('deadline_date') }}</small></p>
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
@@ -307,7 +304,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Document Attachment</label>
-                                                    <input type="file" name="document" class="form-control" value="{{asset('/file_storage/task_files'.$task->document)}}">
+                                                    <input type="file" name="document" class="form-control" value="{{$task->document}}">
                                                     @error('document')
                                                         <p><small class="text-danger">{{ $errors->first('document') }}</small></p>
                                                     @enderror

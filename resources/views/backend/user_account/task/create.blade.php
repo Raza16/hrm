@@ -239,6 +239,7 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12 first-column">
+                                                <p><b>Task No: <span style="color:red;">{{$task->task_no}}</span></b></p>
                                                 <div class="form-group">
                                                     <label>Date</label>
                                                     <input type="date" name="date" class="form-control" value="{{$todayDate}}">
