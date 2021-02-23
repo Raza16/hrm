@@ -396,9 +396,9 @@
             @endif
 
             {{-- --------------- Role Manager------------- --}}
-            @if(Auth::user()->role_id == 3)
+            {{-- @if(Auth::user()->role_id == 3)
 
-            @endif
+            @endif --}}
 
 
             </ul>
