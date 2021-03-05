@@ -80,17 +80,17 @@ class LoginController extends Controller
         //     })
         //     ->first();
 
-        $checkinDone = TimeTracker::whereNull('checkout')
-        ->where('employee_id', Auth::user()->employee->id)
-        ->where('date', date('Y-m-d'))
-        ->first();
+        // $checkinDone = TimeTracker::whereNull('checkout')
+        // ->where('employee_id', Auth::user()->employee->id)
+        // ->where('date', date('Y-m-d'))
+        // ->first();
 
-        if(!$checkinDone || $checkinDone != Auth::user()->employee->id){
+        // if(!$checkinDone || $checkinDone != Auth::user()->employee->id){
             Auth::logout();
             return redirect('/login');
-        }
-        else{
+        // }
+        // else{
             return redirect('/user_account')->with('logout', 'First Checkout your current time then logout');
-        }
+        // }
     }
 }
