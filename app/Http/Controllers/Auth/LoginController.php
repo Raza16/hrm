@@ -85,7 +85,7 @@ class LoginController extends Controller
         ->where('date', date('Y-m-d'))
         ->first();
 
-        if(!$checkinDone){
+        if(!$checkinDone || $checkinDone != Auth::user()->employee->id){
             Auth::logout();
             return redirect('/login');
         }
