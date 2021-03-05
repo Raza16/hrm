@@ -243,7 +243,7 @@
                                                     <th>First Name</th>
                                                     <th>Middle Name</th>
                                                     <th>Last Name</th>
-                                                    <th>Status</th>
+                                                    {{-- <th>Status</th> --}}
                                                     <th>Options</th>
                                                 </tr>
                                             </thead>
@@ -255,7 +255,7 @@
                                                         <td>{{$employee->middle_name}}</td>
                                                         <td>{{$employee->last_name}}</td>
                                                         {{-- <td>{{$employee->user->employee_id == null ? $employee->user->status : null}}</td> --}}
-                                                        <td></td>
+                                                        {{-- <td></td> --}}
                                                         <td>
                                                             <div style="margin-bottom:-9px;display:flex;" class="option-btn">
                                                                 {{-- <a href="{{url('/cms/blog/'.$blog->id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye" aria-hidden="true"></i></a> --}}
