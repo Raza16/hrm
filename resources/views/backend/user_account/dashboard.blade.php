@@ -3,15 +3,36 @@
 @section('title', 'Employee | Dashboard')
 
 @section('main-content')
+
+
    <div class="container-fluid">
+
+    @if (session('success'))
+        <div id="alert" class="alert alert-success alert-dismissible fade in mb-1" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Done!</strong> {{session('success')}}
+        </div>
+    @endif
+    @if (session('logout'))
+        <div class="alert alert-danger alert-dismissible in mb-1" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Logout!</strong> {{session('logout')}}
+        </div>
+    @endif
                 <div class="row clearfix">
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
-                        @if($employee->profile_image)
-                            <img class="card-img-top" src="{{asset('img/profile-images/'.Auth::user()->employee->profile_image)}}" alt="Profile image">
-                        @elseif(!$employee->profile_image)
+                        <div style="width:260px; height:260px; margin:24px auto 15px auto;">
+                            @if($employee->profile_image)
+                            <img style="max-width:100%; max-height:100%; border-radius:200px;" class="card-img-top" src="{{asset('img/profile-images/'.Auth::user()->employee->profile_image)}}" alt="Profile image">
+                            @elseif(!$employee->profile_image)
                             <img class="card-img-top" src="{{asset('img/no_image.png')}}" alt="Profile image">
-                        @endif
+                            @endif
+                        </div>
 
                         <div class="card-body">
                             <h3 class="card-title" style="font-size:20px;"><b>{{$employee->first_name." ".$employee->middle_name." ".$employee->last_name}}</b>&nbsp;<p style="font-size:15px;">{{$employee->employee_no}}</p></h3>
@@ -139,6 +160,54 @@
                                             <h6 class="mb-0 font600">Tasks</h6>
                                             <span class="mb-0">Ongoing {{$processTaskCount}}</span>
                                             <span class="mb-0">Completed {{$completedTaskCount}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-12 col-lg-4 col-sm-12">
+                                <div class="card">
+                                    <div class="card-body widgets1">
+                                        {{-- <div class="icon">
+                                            <i class="icon-handbag text-danger font-30"></i>
+                                            <i class="fa fa-briefcase text-danger font-30" aria-hidden="true"></i>
+                                        </div> --}}
+                                        <div class="details">
+                                            <h6 class="mb-2 font600">Time Tracker</h6>
+                                            <span class="mb-2">Current Date Time: <span style="color:red;">{{$currentDateTime->format('j F, Y | g:i a')}}</span></span><br>
+                                            <span class="mb-2">
+                                                @if($checkinPrevious)
+                                                <div class="form-group">
+                                                    <form action="{{url('checkout')}}" method="POST">
+                                                        @csrf
+                                                        <label style="color:red;"><b>Previous checkout is missing</b></label><br>
+                                                        <label>Enter you correct previous <span style="color: red;">checkout time</span> first</label>
+                                                        {{-- <p>{{$checkinPrevious->checkin->format('Y-m-d g:i a')}}</p> --}}
+                                                        <p>Your previous Last Checkin <span style="color: red;"> {{date('j F, Y | g:i a' ,strtotime($checkinPrevious->checkin))}}</span></p>
+                                                        <input type="time" name="checkout" class="form-control" value="{{old('checkout')}}">
+                                                        @error('checkout')
+                                                        <p><small class="text-danger">{{ $errors->first('checkout') }}</small></p>
+                                                        @enderror
+                                                        <button type="submit" class="mt-2 btn btn-sm btn-primary">Submit Previous Check Out</button>
+                                                    </form>
+
+                                                    </div>
+                                                @else
+                                                    @if (!$checkinDone)
+                                                        <form action="{{url('checkin')}}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-primary">Check In</button>
+                                                        </form>
+                                                    @else
+                                                        <form action="{{url('checkout')}}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-primary">Check Out</button>
+                                                        </form>
+                                                    @endif
+
+                                                @endif
+
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

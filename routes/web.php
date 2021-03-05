@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Frontend\BlogController as FrontendBlogController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RoleController;
@@ -74,22 +73,25 @@ Route::group(['middleware' => ['employee', 'logout']], function () {
 
     Route::get('/employee-task/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
 
-
     Route::get('/employee-task-progress/{id}/task-progress', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressForm']);
 
     Route::post('/employee-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressStore']);
 
     Route::resource('leave', App\Http\Controllers\Employee\LeaveController::class);
 
+    Route::post('/checkin', [App\Http\Controllers\UserDashboardController::class, 'checkInTimeStore']);
+    Route::post('/checkout', [App\Http\Controllers\UserDashboardController::class, 'checkOutTimeUpdate']);
+
 });
-
-
 
 Route::get('/', function () {
     return redirect(route('login'));
 });
 
 Auth::routes();
+
+
+
 
 
 // Route::get('/loginmail', function () {

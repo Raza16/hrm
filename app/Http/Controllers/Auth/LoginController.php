@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 use App\Models\User;
+use App\Models\TimeTracker;
 use Auth;
 
 class LoginController extends Controller
@@ -73,7 +74,23 @@ class LoginController extends Controller
 
     public function logout()
     {
-        Auth::logout();
-        return redirect('/login');
+        // $checkinDone = TimeTracker::whereNull('checkout')
+        //     ->whereHas('employee', function ($query) {
+        //         $query->where('id', Auth::user()->employee->id);
+        //     })
+        //     ->first();
+
+        $checkinDone = TimeTracker::whereNull('checkout')
+        ->where('employee_id', Auth::user()->employee->id)
+        ->where('date', date('Y-m-d'))
+        ->first();
+
+        if(!$checkinDone){
+            Auth::logout();
+            return redirect('/login');
+        }
+        else{
+            return redirect('/user_account')->with('logout', 'First Checkout your current time then logout');
+        }
     }
 }

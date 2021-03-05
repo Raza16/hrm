@@ -1,6 +1,6 @@
 @extends('backend/layouts/master')
 
-@section('title', 'Attendance | List')
+@section('title', 'Time Tracker | List')
 
 @section('main-content')
     <div class="container-fluid">
@@ -33,7 +33,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -244,10 +244,8 @@
                                                     <th>Options</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="table-hover ">
-                                               <tr>asdf</tr>
-                                               <tr>adf</tr>
-                                               <tr>adsf</tr>
+                                            <tbody class="table-hover">
+                                               <tr><td>asdf</td></tr>
                                             </tbody>
                                             <tfoot>
                                                 <tr>

@@ -19,6 +19,7 @@ class CreateLeavesTable extends Migration
             $table->string('leave_type');
             $table->date('from_date');
             $table->date('to_date');
+            $table->integer('days');
             $table->string('reason')->nullable();
             $table->string('status');
             $table->timestamps();

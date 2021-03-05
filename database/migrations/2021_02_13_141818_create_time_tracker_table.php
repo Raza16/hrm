@@ -16,8 +16,9 @@ class CreateTimeTrackerTable extends Migration
         Schema::create('time_tracker', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->references('id')->on('employees');
-            $table->timestamp('checkin')->nullable();
+            $table->timestamp('checkin');
             $table->timestamp('checkout')->nullable();
+            $table->integer('total_hours')->nullable();
             $table->timestamps();
         });
     }

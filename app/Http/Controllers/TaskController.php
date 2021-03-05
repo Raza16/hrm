@@ -42,9 +42,9 @@ class TaskController extends Controller
         $newTaskNo = sprintf('%07d', $task_no+1);
 
         // $todayDate = today();
-        $todayDate = date("Y-m-d");
+        // $todayDate = date("Y-m-d");
 
-        return view('backend.task.create', compact('employees', 'projects', 'newTaskNo', 'todayDate'));
+        return view('backend.task.create', compact('employees', 'projects', 'newTaskNo'));
     }
 
     /**

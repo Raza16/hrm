@@ -20,6 +20,7 @@ class CreateTasksTable extends Migration
             $table->string('task_no');
             $table->string('priority');
             $table->date('assign_date');
+            $table->date('deadline_date')->nullable();
             $table->string('status');
             $table->string('note')->nullable();
             $table->string('document')->nullable();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Employee;
+use App\Models\EmployeeDocuments;
 use DB;
 
 class EmployeeController extends Controller
@@ -71,14 +72,15 @@ class EmployeeController extends Controller
             // 'postal_code' => 'required',
             // 'address' => 'required',
             // 'notes' => 'required',
-            'profile_image' => 'image|mimes:jpeg,png,jpg|dimensions:width=200,height=200',
+            'profile_image' => 'image|mimes:jpeg,png,jpg',
             // 'login_email' => 'unique:users',
             // 'password' => ''
             // 'role_id' => ''
         ],
         [
-            'profile_image.dimensions'=> 'Image must be in 200x200 dimension',
-        ]);
+            'profile_image.mimes'=> 'Image must be in jpeg, png, jpg',
+        ]
+        );
 
 
         $employee = new Employee;
@@ -114,7 +116,29 @@ class EmployeeController extends Controller
             $employee->profile_image = $name;
         }
 
-        $employee->save();
+        if($employee->save())
+        {
+            $employee_id = $employee->id;
+
+            if ($request->hasFile('file[]')) {
+
+                // $employee->profile_image = $file_name;
+                foreach($request->file as $key=>$value){
+                    $file = $request->file('file[]');
+                    $file_name = time().'_'.$file->getClientOriginalName();
+                    $destinationPath = public_path('/file_storage/employee-documents');
+                    $imagePath = $destinationPath. "/".  $file_name;
+                    $file->move($destinationPath, $file_name);
+
+                    $data = array(
+                        'employee_id' => $employee_id,
+                        'file'  => $file_name[$key],
+                    );
+                    EmployeeDocuments::insert($data);
+                }
+            }
+
+        }
 
         return redirect('employee/create')->with('success', 'Record has been saved');
     }
@@ -174,13 +198,13 @@ class EmployeeController extends Controller
             // 'postal_code' => 'required',
             // 'address' => 'required',
             // 'notes' => 'required',
-            'profile_image' => 'image|mimes:jpeg,png,jpg|dimensions:width=200,height=200',
+            'profile_image' => 'image|mimes:jpeg,png,jpg',
             'login_email' => 'unique:users',
             // 'password' => ''
             // 'role_id' => ''
         ],
         [
-            'profile_image.dimensions'=> 'Image must be in 200x200 dimension',
+            'profile_image.mimes'=> 'Image must be in jpeg, png, jpg',
         ]);
 
 

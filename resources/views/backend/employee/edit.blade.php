@@ -404,9 +404,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Profile Image</label>
-                                                    <div style="width:200px; border:1px solid #d9dee4;">
-                                                        <img style="max-width:200px;max-height:200px;
-                                                        display:block;" class="for-image" src="{{asset('img/profile-images/'.$employee->profile_image)}}"/>
+                                                    <div style="width:200px; height:200px;">
+                                                        <img style="max-width:100%; max-height:100%; display:block;" class="for-image" src="{{$employee->profile_image ? asset('img/profile-images/'.$employee->profile_image) : "https://via.placeholder.com/200x200?text=200+x+200"}}"/>
                                                         <button type="button" style="background:#d9dee4; border-radius:0px;width:200px;cursor:pointer;font-size:12px;font-weight:600;" class="upload-button btn btn-default"><i style="font-size:14px;" class="fa fa-upload" aria-hidden="true"></i> &nbsp;Upload Image</button>
                                                         <input style="display:none;" class="file-upload" type="file" name="profile_image" accept="image/*"/>
                                                     </div>

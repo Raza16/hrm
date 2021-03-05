@@ -284,7 +284,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Assign Date</label>
-                                                    <input type="date" name="assign_date" class="form-control" value="{{$todayDate}}">
+                                                    <input type="date" name="assign_date" class="form-control" value="{{date('Y-m-d')}}">
                                                     @error('assign_date')
                                                         <p><small class="text-danger">{{ $errors->first('assign_date') }}</small></p>
                                                     @enderror

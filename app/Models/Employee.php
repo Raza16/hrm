@@ -10,18 +10,18 @@ class Employee extends Model
     use HasFactory;
 
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
-    // }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     // public function employee()
     // {
     //     return $this->belongsTo(Employee::class);
     // }
 
-    public function user(){
-        return $this->hasOne(User::Class);
-   }
+    // public function user(){
+    //     return $this->hasOne(User::Class);
+    // }
 
 }

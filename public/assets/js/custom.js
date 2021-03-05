@@ -272,6 +272,4 @@ $("#to-date, #from-date").change(function(){
 
 })();
 
-
-
 } );
