@@ -80,7 +80,11 @@
                         <h3 class="card-title">User</h3>
                     </div>
                     <div class="card-body">
-                        <h5 class="number mb-0 font-32">{{$totalUser}}</h5>
+                        <h5 class="number mb-0 font-32">
+                            @foreach ($totalUser as $users)
+                                {{$user->$employee_id}}
+                            @endforeach
+                        </h5>
                         <span class="font-12">Active User: {{$totalUserActive}}</span>
                         <span class="font-12">Inactive User: {{$totalUserInactive}}</span>
                     </div>

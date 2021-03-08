@@ -118,25 +118,34 @@ class EmployeeController extends Controller
 
         if($employee->save())
         {
-            $employee_id = $employee->id;
-
-            if ($request->hasFile('file[]')) {
-
-                // $employee->profile_image = $file_name;
-                foreach($request->file as $key=>$value){
-                    $file = $request->file('file[]');
-                    $file_name = time().'_'.$file->getClientOriginalName();
-                    $destinationPath = public_path('/file_storage/employee-documents');
-                    $imagePath = $destinationPath. "/".  $file_name;
-                    $file->move($destinationPath, $file_name);
-
-                    $data = array(
-                        'employee_id' => $employee_id,
-                        'file'  => $file_name[$key],
-                    );
-                    EmployeeDocuments::insert($data);
-                }
+            foreach ($request->file as $file) {
+                $filename =  time().'_'.$file->getClientOriginalName();
+                $destinationPath = public_path('storage/employee_documents');
+                $filePath = $destinationPath. "/".  $filename;
+                $file->move($destinationPath, $filename);
+                EmployeeDocuments::insert([
+                    'employee_id' => $employee->id,
+                    'file' => $filename
+                ]);
             }
+
+            // if ($request->hasFile('file[]')) {
+
+            //     // $employee->profile_image = $file_name;
+            //     foreach($request->file as $key=>$value){
+            //         $file = $request->file('file[]');
+            //         $file_name = time().'_'.$file->getClientOriginalName();
+            //         $destinationPath = public_path('/file_storage/employee-documents');
+            //         $imagePath = $destinationPath. "/".  $file_name;
+            //         $file->move($destinationPath, $file_name);
+
+            //         $data = array(
+            //             'employee_id' => $employee_id,
+            //             'file'  => $file_name[$key],
+            //         );
+            //         EmployeeDocuments::insert($data);
+            //     }
+            // }
 
         }
 

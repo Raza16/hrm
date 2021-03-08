@@ -11,6 +11,7 @@ use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use App\Models\TimeTracker;
 use Auth;
+use DB;
 
 class LoginController extends Controller
 {
@@ -46,6 +47,7 @@ class LoginController extends Controller
             }
 
             if (Auth::user()->role_id == 2) {
+
                 return $this->redirectTo = '/user_account';
             }
 
@@ -90,7 +92,9 @@ class LoginController extends Controller
             return redirect('/login');
         // }
         // else{
-            return redirect('/user_account')->with('logout', 'First Checkout your current time then logout');
+            // return redirect('/user_account')->with('logout', 'First Checkout your current time then logout');
         // }
     }
+
+
 }

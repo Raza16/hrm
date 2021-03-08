@@ -429,11 +429,11 @@
                                                         <tbody class="new-row">
                                                         <tr>
                                                             <td><input type="file" multiple name="file[]" class="form-control"/></td>
-                                                            <td><button type="button" class="delete-row btn btn-danger">X</button></td>
+                                                            {{-- <td><button type="button" class="delete-row btn btn-danger">X</button></td> --}}
                                                         </tr>
                                                         </tbody>
                                                     </table>
-                                                    <button type="button" id="add-doc" class="mt-3 btn btn-sm btn-primary">+Add Document</button>
+                                                    {{-- <button type="button" id="add-doc" class="mt-3 btn btn-sm btn-primary">+Add Document</button> --}}
                                                 </div>
 
                                                 {{-- <h6>Employee Credentials</h6>
@@ -485,7 +485,7 @@
 @endsection
 
 @push('scripts')
-    <script>
+    {{-- <script>
     $('#add-doc').on('click', function(){
         var tr = '<tr>'+
                 '<td><input type="file" name="file[]" class="form-control"/></td>'+
@@ -498,5 +498,5 @@
          $(this).parent().parent().remove();
     });
 
-    </script>
+    </script> --}}
 @endpush

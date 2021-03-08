@@ -1,6 +1,6 @@
 @extends('backend/layouts/master')
 
-@section('title', 'Attendance | List')
+@section('title', 'Time Tracker | List')
 
 @section('main-content')
     <div class="container-fluid">
@@ -228,7 +228,7 @@
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Attendance</h3>
+                                        <h3 class="card-title">Time Tracker</h3>
                                         <div class="card-options">
                                             {{-- <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fa fa-chevron-up"></i></a>
                                             <a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fa fa-times"></i></a> --}}
@@ -248,15 +248,15 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="table-hover">
-                                                {{-- @foreach ($attendances as $attendance)
+                                                @foreach ($time_trackers as $time_tracker)
                                                 <tr>
-                                                    <td>{{$attendance->employee->first_name}}</td>
-                                                    <td>{{$attendance->date}}</td>
-                                                    <td>{{$attendance->checkin}}</td>
-                                                    <td>{{$attendance->checkout}}</td>
-                                                    <td>{{$attendance->total_hours}}</td>
+                                                    <td>{{$time_tracker->employee->first_name.' '.$time_tracker->employee->middle_name.' '.$time_tracker->employee->last_name}}</td>
+                                                    <td>{{date('j F, Y', strtotime($time_tracker->date))}}</td>
+                                                    <td>{{date('j F, Y | g:i a', strtotime($time_tracker->checkin))}}</td>
+                                                    <td>{{$time_tracker->checkout}}</td>
+                                                    <td>{{$time_tracker->total_hours}}</td>
                                                 </tr>
-                                                @endforeach --}}
+                                                @endforeach
                                             </tbody>
                                             <tfoot>
                                                 <tr>

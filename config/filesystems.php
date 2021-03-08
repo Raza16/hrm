@@ -30,11 +30,6 @@ return [
 
     'disks' => [
 
-        'blog-featuredImage' => [
-            'driver' => 'local',
-            'root' => public_path('img/blogs'),
-        ],
-
         'profile-image' => [
             'driver' => 'local',
             'root' => public_path('img/profile-images'),

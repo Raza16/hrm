@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Models\Task;
 use DateTime;
+use Auth;
 
 class DashboardController extends Controller
 {
@@ -30,11 +31,19 @@ class DashboardController extends Controller
 
         $todayLeaves = DB::table('leaves')->whereDate('created_at', date('Y-m-d'))->count();
 
-        $totalUser = DB::table('users')->count();
+        $totalUser = DB::table('users')->where('employee_id', Auth::user()->employee_id)->select('employee_id')->get();
+        // dd($totalUser);
+        // $totalUser = DB::table('users')->count();
         $totalUserActive = DB::table('users')->where('status', 1)->count();
         $totalUserInactive = DB::table('users')->where('status', 0)->count();
 
+
+        // $totalLoggedInUser = Auth::user()->;
+        // dd($totalLoggedInUser);
+
         $todayTasks = Task::where(['assign_date' => date("Y-m-d")])->get();
+
+
 
         return view('backend/dashboard/index', compact(
             'totalEmployees',

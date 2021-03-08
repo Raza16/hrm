@@ -73,7 +73,7 @@ class UserDashboardController extends Controller
 
         // $sum_total_hours = TimeTracker::where(['employee_id' => $employee->id, 'date' => date('Y-m-d')])
         // ->sum(DB::raw("TIME_TO_SEC(total_hours)"));
-        // $sumTime =gmdate("H:i", $sum_total_hours);
+        // $sumTime = gmdate("H:i", $sum_total_hours);
         // dd($sumTime);
 
 
