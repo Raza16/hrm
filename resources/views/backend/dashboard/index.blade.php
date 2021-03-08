@@ -82,7 +82,7 @@
                     <div class="card-body">
                         <h5 class="number mb-0 font-32">
                             @foreach ($totalUser as $users)
-                                {{$user->$employee_id}}
+                                {{$users->employee_id}}
                             @endforeach
                         </h5>
                         <span class="font-12">Active User: {{$totalUserActive}}</span>
