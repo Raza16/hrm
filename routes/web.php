@@ -106,7 +106,8 @@ Auth::routes();
 
 
 // Artisan commands
-Route::get('/migrate', function() {
-    \Artisan::call('migrate');
-    return Artisan::output();
+Route::get('/migrate', function () {
+    Artisan::call('migrate', [
+       '--force' => true
+    ]);
 });
