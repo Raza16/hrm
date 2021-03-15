@@ -107,7 +107,7 @@ Auth::routes();
 
 // Artisan commands
 Route::get('/migrate', function() {
-    $output = new \Symfony\Component\Console\Output\BufferedOutput;
+    $output = [];
     \Artisan::call('migrate', $output);
-    dd($output->fetch());
+    dd($output);
 });
