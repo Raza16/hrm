@@ -103,3 +103,11 @@ Auth::routes();
 // Route::get('/loginmail', function () {
 //     return view('layouts/login_mail');
 // });
+
+
+// Artisan commands
+
+Route::get('/migrate', function () {
+    $clearcache = Artisan::call('migrate');
+    echo "Database Migrate";
+});
