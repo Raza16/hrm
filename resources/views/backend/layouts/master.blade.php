@@ -119,7 +119,7 @@
             <li class="{{request()->is('leave-list') ? 'active' : null}}">
                 <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-file-text"></i><span>Payroll</span></a>
                 <ul>
-                    <li class="{{request()->is('leave-list') ? 'active' : null}}"><a href="{{url('leave-list')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Payslip</a></li>
+                    {{-- <li class="{{request()->is('leave-list') ? 'active' : null}}"><a href="{{url('leave-list')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Payslip</a></li> --}}
                 </ul>
             </li>
 
