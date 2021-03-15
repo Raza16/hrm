@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTimeTrackerTable extends Migration
+class CreateEmployeeDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,11 @@ class CreateTimeTrackerTable extends Migration
      */
     public function up()
     {
-        Schema::create('time_tracker', function (Blueprint $table) {
+        Schema::create('employee_documents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->references('id')->on('employees')->onDelete('cascade');
-            $table->date('date')->nullable();
-            $table->dateTime('checkin');
-            $table->dateTime('checkout')->nullable();
-            $table->time('total_hours')->nullable();
-            $table->time('break_hours')->nullable();
-            $table->time('working_hours')->nullable();
+            $table->string('file');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -34,6 +28,6 @@ class CreateTimeTrackerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('time_tracker');
+        Schema::dropIfExists('employee_documents');
     }
 }
