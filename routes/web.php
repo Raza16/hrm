@@ -107,7 +107,6 @@ Auth::routes();
 
 // Artisan commands
 Route::get('/migrate', function() {
-    $output = [];
-    \Artisan::call('migrate', $output);
-    dd($output);
+    \Artisan::call('migrate');
+    return Artisan::output();
 });
