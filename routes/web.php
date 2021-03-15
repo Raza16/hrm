@@ -111,3 +111,9 @@ Route::get('/migrate', function () {
        '--force' => true
     ]);
 });
+
+Route::get('/dbseed', function () {
+    Artisan::call('db:seed', [
+       '--force' => true
+    ]);
+});
