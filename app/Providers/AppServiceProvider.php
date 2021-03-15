@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-       Paginator::useBootstrap();
+        Builder::defaultStringLength(191);
+        Paginator::useBootstrap();
     }
 }
