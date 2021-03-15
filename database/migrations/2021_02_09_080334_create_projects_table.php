@@ -15,13 +15,14 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained();
+            $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->string('status');
             $table->string('technology')->nullable();
             $table->string('website')->nullable();
+            $table->string('service')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();

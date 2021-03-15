@@ -2,14 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\Frontend\BlogController as FrontendBlogController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserDashboardController;
-
+// use App\Http\Controllers\Frontend\BlogController as FrontendBlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,9 +23,9 @@ use App\Http\Controllers\UserDashboardController;
 // });
 
 //----------------------- Admin Routes
-Route::middleware(['auth', 'admin', 'logout'])->group(function () {
+Route::middleware(['auth', 'admin', 'logout'])->group(function() {
 
-    Route::get('admin/dashboard', [DashboardController::class, 'dashboard']);
+    Route::get('admin/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard']);
 
     Route::get('client/list', function () {
         return view('backend/clients/list');
@@ -41,7 +34,7 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function () {
         return view('backend/clients/create');
     });
 
-    Route::resource('employee', EmployeeController::class);
+    Route::resource('employee', App\Http\Controllers\EmployeeController::class);
 
     Route::resource('client', App\Http\Controllers\ClientController::class);
 
@@ -49,24 +42,30 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function () {
 
     Route::resource('task', App\Http\Controllers\TaskController::class);
 
-    Route::get('/task-report', [App\Http\Controllers\TaskController::class, 'taskReport']);
+    Route::get('task-report', [App\Http\Controllers\TaskController::class, 'taskReport']);
 
-    Route::resource('cms/blog', BlogController::class);
+    Route::get('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
+    Route::post('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
 
-    Route::resource('role', RoleController::class);
+    // Route::resource('cms/blog', BlogController::class);
 
-    Route::resource('user', UserController::class);
+    Route::resource('role', App\Http\Controllers\RoleController::class);
+
+    Route::resource('user', App\Http\Controllers\UserController::class);
 
     Route::resource('leave-list', App\Http\Controllers\LeaveController::class);
 
-    Route::get('/time-tracker', [App\Http\Controllers\TimeTrackerController::class, 'index']);
+    Route::get('time-tracker', [App\Http\Controllers\TimeTrackerController::class, 'index']);
 
+    Route::delete('employee-doc/{id}', [App\Http\Controllers\EmployeeController::class, 'deleteDocs']);
+
+    Route::get('employee-doc/{id}/view', [App\Http\Controllers\EmployeeController::class, 'viewDocs']);
 });
 
 //----------------------- User Routes
-Route::group(['middleware' => ['employee', 'logout']], function () {
+Route::group(['middleware' => ['employee', 'logout']], function() {
 
-    Route::get('/user_account', [UserDashboardController::class, 'dashboard']);
+    Route::get('/user_account', [App\Http\Controllers\UserDashboardController::class, 'dashboard']);
 
     Route::get('/employee-task', [App\Http\Controllers\Employee\TaskController::class, 'index']);
     Route::get('/employee-task/{id}/edit', [App\Http\Controllers\Employee\TaskController::class, 'edit']);
@@ -74,16 +73,19 @@ Route::group(['middleware' => ['employee', 'logout']], function () {
 
     Route::get('/employee-task/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
 
-
     Route::get('/employee-task-progress/{id}/task-progress', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressForm']);
 
     Route::post('/employee-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressStore']);
 
     Route::resource('leave', App\Http\Controllers\Employee\LeaveController::class);
 
+    Route::post('/checkin', [App\Http\Controllers\UserDashboardController::class, 'checkInTimeStore']);
+    Route::post('/checkout', [App\Http\Controllers\UserDashboardController::class, 'checkOutTimeUpdate']);
+
+    Route::post('/breakin', [App\Http\Controllers\UserDashboardController::class, 'breakInTimeStore']);
+    Route::post('/breakout', [App\Http\Controllers\UserDashboardController::class, 'breakOutTimeUpdate']);
+
 });
-
-
 
 Route::get('/', function () {
     return redirect(route('login'));
@@ -92,6 +94,25 @@ Route::get('/', function () {
 Auth::routes();
 
 
-Route::get('/loginmail', function () {
-    return view('layouts/login_mail');
-});
+// Route::get('/loginmail', function () {
+//     return view('layouts/login_mail');
+// });
+
+
+//-------------------------- Artisan commands
+
+// Route::get('/migrate', function () {
+//     Artisan::call('migrate', [
+//        '--force' => true
+//     ]);
+
+//     return 'Migrate Database Successfully!';
+// });
+
+// Route::get('/dbseed', function () {
+//     Artisan::call('db:seed', [
+//        '--force' => true
+//     ]);
+
+//     return 'DB Seed completed!';
+// });

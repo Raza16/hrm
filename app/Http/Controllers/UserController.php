@@ -24,7 +24,13 @@ class UserController extends Controller
         $users = DB::table('users')
         ->join('employees', 'employees.id', '=', 'users.employee_id')
         ->join('roles', 'roles.id', '=', 'users.role_id')
-        ->select('employees.first_name', 'employees.middle_name','employees.last_name', 'users.id as id','users.email', 'users.status', 'roles.role_type')
+        ->select('employees.first_name',
+                 'employees.middle_name',
+                 'employees.last_name',
+                 'users.id as id',
+                 'users.email',
+                 'users.status',
+                 'roles.role_type')
         ->get();
 
         return view('backend.user.list', compact('users'));
@@ -51,7 +57,6 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-
         $this->validate($request, [
             'employee_id' => 'required|unique:users',
             'email' => 'required|unique:users',
@@ -60,29 +65,22 @@ class UserController extends Controller
             'status' => 'required',
         ]);
 
+        $loginPassword = $request->password;
+
         $user = new User;
 
         $user->employee_id = $request->employee_id;
         $user->role_id = $request->role_id;
         $user->email = $request->email;
-        $loginPassword = $request->password;
         $user->password = Hash::make($loginPassword);
         $user->status = $request->status;
         $user->save();
-
-        // $roleId = $request->role_id;
-
-        // $user_role = [
-        //     'user_id' => $user->id,
-        //     'role_id' => $roleId,
-        // ];
-
-        // DB::table('role_user')->insert([$user_role]);
 
         $employeeData = DB::table('employees')
         ->select('first_name', 'middle_name', 'last_name', 'email')
         ->where('id', $request->employee_id)
         ->first();
+
 
         $loginData = [
             'first_name' => $employeeData->first_name,
@@ -94,7 +92,17 @@ class UserController extends Controller
 
         Mail::to($employeeData->email)->send(new LoginMail($loginData));
 
-        return redirect('user/create')->with('success', 'Record has been saved');
+        return redirect('user/create')->with('success', 'Record has been saved. Login mail has been sent');
+
+
+            // $roleId = $request->role_id;
+
+            // $user_role = [
+            //     'user_id' => $user->id,
+            //     'role_id' => $roleId,
+            // ];
+
+            // DB::table('role_user')->insert([$user_role]);
     }
 
     /**

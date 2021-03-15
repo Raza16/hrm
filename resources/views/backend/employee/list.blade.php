@@ -33,7 +33,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -243,6 +243,7 @@
                                                     <th>First Name</th>
                                                     <th>Middle Name</th>
                                                     <th>Last Name</th>
+                                                    {{-- <th>Status</th> --}}
                                                     <th>Options</th>
                                                 </tr>
                                             </thead>
@@ -253,6 +254,8 @@
                                                         <td>{{$employee->first_name}}</td>
                                                         <td>{{$employee->middle_name}}</td>
                                                         <td>{{$employee->last_name}}</td>
+                                                        {{-- <td>{{$employee->user->employee_id == null ? $employee->user->status : null}}</td> --}}
+                                                        {{-- <td></td> --}}
                                                         <td>
                                                             <div style="margin-bottom:-9px;display:flex;" class="option-btn">
                                                                 {{-- <a href="{{url('/cms/blog/'.$blog->id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye" aria-hidden="true"></i></a> --}}

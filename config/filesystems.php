@@ -29,11 +29,6 @@ return [
     */
 
     'disks' => [
-        
-        'blog-featuredImage' => [
-            'driver' => 'local',
-            'root' => public_path('img/blogs'),
-        ],
 
         'profile-image' => [
             'driver' => 'local',
@@ -43,6 +38,11 @@ return [
         'task-attachment' => [
             'driver' => 'local',
             'root' => public_path('file_storage/task_files'),
+        ],
+
+        'employee-documents' => [
+            'driver' => 'local',
+            'root' => public_path('storage/employee_documents'),
         ],
 
         'local' => [

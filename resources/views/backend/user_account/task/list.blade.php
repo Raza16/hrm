@@ -242,19 +242,14 @@
                                                     <th>Task No</th>
                                                     <th>Priority</th>
                                                     <th>Assign Date</th>
+                                                    <th>Dateline Date</th>
                                                     <th>Status</th>
-                                                    {{-- <th>Document</th> --}}
                                                     <th>Options</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="table-hover ">
                                                 @foreach ($tasks as $task)
                                                     <tr>
-                                                        {{-- <td>
-                                                            @if ($task->employee->first_name)
-                                                                {{$task->employee->first_name.' '.$task->employee->middle_name.' '.$task->employee->last_name}}
-                                                            @endif
-                                                        </td> --}}
                                                         <td>
                                                             @if ($task->project->title)
                                                             {{$task->project->title}}
@@ -262,11 +257,15 @@
                                                         </td>
                                                         <td>{{$task->task_no}}</td>
                                                         <td>{{$task->priority}}</td>
-                                                        <td>{{\Carbon\Carbon::parse($task->assign_date)->format('j F, Y')}}</td>
-                                                        <td>{{$task->status}}</td>
-                                                        {{-- <td>
-                                                            <a href="{{url('employee-task/'.$task->id)}}">{{$task->document}}</a>
-                                                        </td> --}}
+                                                        <td>{{$task->assign_date ? \Carbon\Carbon::parse($task->assign_date)->format('j F, Y') : null}}</td>
+                                                        <td>{{$task->deadline_date ? \Carbon\Carbon::parse($task->deadline_date)->format('j F, Y') : null}}</td>
+                                                        <td>
+                                                            @if ($task->status == 'ongoing')
+                                                                <span class="tag tag-primary ml-0 mr-0">{{$task->status}}</span>
+                                                            @elseif($task->status == 'completed')
+                                                                <span class="tag tag-success ml-0 mr-0" style="background-color:#21ba45">{{$task->status}}</span>
+                                                            @endif
+                                                        </td>
                                                         <td>
                                                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                                            <div class="btn-group" role="group">
@@ -277,12 +276,7 @@
                                                                 <a class="dropdown-item" href="{{url('employee-task-progress/'.$task->id.'/task-progress')}}">Submit Task Progress</a>
                                                                 </div>
                                                             </div>
-                                                            </div>
-                                                            {{-- <div style="margin-bottom:-9px;display:flex;" class="option-btn">
-                                                                <a href="{{url('employee-task/'.$task->id.'/edit')}}" class="btn btn-sm btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;
-                                                                </a>
-                                                                <a href="{{url('employee-task-progress/'.$task->id.'/task-progress')}}" class="btn btn-sm btn-primary">Submit Task Progress</a>
-                                                            </div> --}}
+                                                        </div>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -293,8 +287,8 @@
                                                     <th>Task No</th>
                                                     <th>Priority</th>
                                                     <th>Assign Date</th>
+                                                    <th>Deadline Date</th>
                                                     <th>Status</th>
-                                                    {{-- <th>Document</th> --}}
                                                     <th>Options</th>
                                                 </tr>
                                             </tfoot>

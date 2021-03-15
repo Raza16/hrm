@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\Models\Task;
+use DateTime;
+use Auth;
 
 class DashboardController extends Controller
 {
@@ -12,7 +15,7 @@ class DashboardController extends Controller
         $totalEmployees = DB::table('employees')->count();
         $totalClients = DB::table('clients')->count();
         $totalTasks = DB::table('tasks')->count();
-        $totalTasksProcess = DB::table('tasks')->where('status', 'process')->count();
+        $totalTasksOngoing = DB::table('tasks')->where('status', 'ongoing')->count();
         $totalTasksCompleted = DB::table('tasks')->where('status', 'completed')->count();
         $totalProjects = DB::table('projects')->count();
         $processProjects = DB::table('projects')->where('status', 'process')->count();
@@ -26,39 +29,38 @@ class DashboardController extends Controller
         ->groupBy('projects.id','projects.title')
         ->get();
 
-        // $countProjectTask = DB::table('tasks')
-        // ->join('projects', 'projects.id', '=', 'tasks.project_id')
-        // ->select('projects.id','projects.title', DB::raw('COUNT(tasks.project_id) as count_project_task'))
-        // // ->where('tasks.status', 'completed')
-        // ->groupBy('projects.id','projects.title')
-        // ->get();
+        $todayLeaves = DB::table('leaves')->whereDate('created_at', date('Y-m-d'))->count();
+
+        $totalUser = DB::table('users')->select('employee_id')->where('employee_id', Auth::user()->employee_id)->get();
+        // dd($totalUser);
+        // $totalUser = DB::table('users')->count();
+        $totalUserActive = DB::table('users')->where('status', 1)->count();
+        $totalUserInactive = DB::table('users')->where('status', 0)->count();
 
 
+        // $totalLoggedInUser = Auth::user()->;
+        // dd($totalLoggedInUser);
 
-        // $totalProjectTask = DB::table('tasks')->where('project_id', 2)->count();
-        // dd($totalProjectTask);
+        $todayTasks = Task::where(['assign_date' => date("Y-m-d")])->get();
 
-        // $projectStatus = DB::table('tasks')
-        // ->join('projects', 'projects.id', '=', 'tasks.project_id')
-        // ->select('projects.title', DB::raw('COUNT(tasks.status) as count_status'))
-        // ->where('projects.id', )
-        // ->groupBy('projects.title')
-        // ->get();
 
-        // dd($projectStatus);
 
         return view('backend/dashboard/index', compact(
             'totalEmployees',
             'totalClients',
             'totalProjects',
             'totalTasks',
-            'totalTasksProcess',
+            'totalTasksOngoing',
             'totalTasksCompleted',
             'processProjects',
             'pendingProjects',
             'completedProjects',
             'projectStatus',
-            // 'countProjectTask'
+            'todayTasks',
+            'todayLeaves',
+            'totalUser',
+            'totalUserActive',
+            'totalUserInactive'
         ));
     }
 }

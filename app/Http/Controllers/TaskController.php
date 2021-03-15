@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Task;
@@ -43,9 +42,9 @@ class TaskController extends Controller
         $newTaskNo = sprintf('%07d', $task_no+1);
 
         // $todayDate = today();
-        $todayDate = date("Y-m-d");
+        // $todayDate = date("Y-m-d");
 
-        return view('backend.task.create', compact('employees', 'projects', 'newTaskNo', 'todayDate'));
+        return view('backend.task.create', compact('employees', 'projects', 'newTaskNo'));
     }
 
     /**
@@ -63,32 +62,29 @@ class TaskController extends Controller
             'task_no' => 'required|unique:tasks',
             'priority' => 'required',
             'assign_date' => 'required',
-            'status' => 'required',
-            // 'note' => 'required',
-            // 'note' => '',
         ]);
 
-            $task = new Task;
+        $task = new Task;
 
-            $task->project_id = $request->project_id;
-            $task->employee_id = $request->employee_id;
-            $task->task_no = $request->task_no;
-            $task->priority = $request->priority;
-            $task->assign_date = $request->assign_date;
-            // $task->assign_date = date("Y-m-d");
-            $task->status = $request->status;
-            $task->note = $request->note;
+        $task->project_id = $request->project_id;
+        $task->employee_id = $request->employee_id;
+        $task->task_no = $request->task_no;
+        $task->priority = $request->priority;
+        $task->assign_date = $request->assign_date;
+        $task->deadline_date = $request->deadline_date;
+        $task->status = 'ongoing';
+        $task->note = $request->note;
 
-            if ($request->hasFile('document')) {
-                $file = $request->file('document');
-                $fileName = time().'_'.$file->getClientOriginalName();
-                $destinationPath = public_path('/file_storage/task_files');
-                $filePath = $destinationPath. "/".  $fileName;
-                $file->move($destinationPath, $fileName);
-                $task->document = $fileName;
-            }
+        if ($request->hasFile('document')) {
+            $file = $request->file('document');
+            $fileName = time().'_'.$file->getClientOriginalName();
+            $destinationPath = public_path('/file_storage/task_files');
+            $filePath = $destinationPath. "/".  $fileName;
+            $file->move($destinationPath, $fileName);
+            $task->document = $fileName;
+        }
 
-            $task->save();
+        $task->save();
 
         return redirect('task/create')->with('success', 'Record has been submited');
     }
@@ -134,7 +130,6 @@ class TaskController extends Controller
             'employee_id' => 'required',
             'priority' => 'required',
             'assign_date' => 'required',
-            'status' => 'required',
         ]);
 
         $task = Task::find($id);
@@ -143,7 +138,7 @@ class TaskController extends Controller
         $task->employee_id = $request->employee_id;
         $task->priority = $request->priority;
         $task->assign_date = $request->assign_date;
-        $task->status = $request->status;
+        $task->deadline_date = $request->deadline_date;
         $task->note = $request->note;
 
         if ($request->hasFile('document')) {
@@ -180,11 +175,13 @@ class TaskController extends Controller
         $taskReport = DB::table('task_progress')
         ->join('tasks', 'tasks.id', '=', 'task_progress.task_id')
         ->join('projects', 'projects.id', '=', 'tasks.project_id')
+        ->join('clients', 'clients.id', '=', 'projects.client_id')
         ->join('employees', 'employees.id', '=', 'tasks.employee_id')
         ->select('employees.first_name',
                 'employees.middle_name',
                 'employees.last_name',
                 'projects.title',
+                'clients.full_name',
                 'task_progress.date',
                 'task_progress.module',
                 'task_progress.hours',
@@ -193,6 +190,26 @@ class TaskController extends Controller
 
 
         return view('backend.task.report', compact('taskReport'));
+    }
+
+    public function taskModuleForm()
+    {
+        return view('backend.task.create_task_module');
+    }
+
+    public function taskModuleStore(Request $request)
+    {
+        $this->validate($request, [
+            'module' => 'required',
+        ]);
+
+        DB::table('task_modules')->insert([
+            'module' => $request->module,
+            'created_at' => \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Record has been submited');
     }
 
 

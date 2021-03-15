@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -296,8 +296,8 @@
                                                 <div class="form-group">
                                                     <label>Marital Status</label>
                                                     <select name="marital_status" class="form-control">
-                                                        <option value="married">married</option>
                                                         <option value="unmarried">unmarried</option>
+                                                        <option value="married">married</option>
                                                     </select>
                                                     @error('marital_status')
                                                         <p><small class="text-danger">{{ $errors->first('marital_status') }}</small></p>
@@ -412,15 +412,36 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Profile Image</label>
-                                                    <div style="width:200px; border:1px solid #d9dee4;">
-                                                        <img style="max-width:200px;max-height:200px;
-                                                        display:block;" class="for-image" src="https://via.placeholder.com/200x200?text=200+x+200"/>
+                                                    <div style="width:200px; height:200px;">
+                                                        <img style="max-width:100%; max-height:100%; display:block;" class="for-image" src="https://via.placeholder.com/200x200?text=200+x+200"/>
                                                         <button type="button" style="background:#d9dee4; border-radius:0px;width:200px;cursor:pointer;font-size:12px;font-weight:600;" class="upload-button btn btn-default"><i style="font-size:14px;" class="fa fa-upload" aria-hidden="true"></i> &nbsp;Upload Image</button>
                                                         <input style="display:none;" class="file-upload" type="file" name="profile_image" accept="image/*"/>
                                                     </div>
                                                     @error('profile_image')
                                                         <p><small class="text-danger">{{ $errors->first('profile_image') }}</small></p>
-                                                    @enderror 
+                                                    @enderror
+                                                </div>
+                                                <h6 style="margin:55px 0px 0px 0px;">Employee Documents</h6>
+                                                <hr>
+                                                <div class="form-group">
+                                                    <label>Documents Attachment</label>
+                                                    <table>
+                                                        <tbody class="new-row">
+                                                        <tr>
+                                                            <td>
+                                                                <input type="file" multiple name="file[]" class="form-control" accept="image/jpeg, image/jpg, image/png, .pdf, .doc, .docx"/>
+                                                                @if ($errors->has('file'))
+                                                                    @foreach ($errors->get('file') as $error)
+                                                                    <p><small class="text-danger">{{ $error->first('file') }}</small></p>
+                                                                    @endforeach
+                                                                @endif
+                                                                <br>
+                                                            </td>
+                                                            {{-- <td><button type="button" class="delete-row btn btn-danger">X</button></td> --}}
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    {{-- <button type="button" id="add-doc" class="mt-3 btn btn-sm btn-primary">+Add Document</button> --}}
                                                 </div>
 
                                                 {{-- <h6>Employee Credentials</h6>
@@ -460,7 +481,7 @@
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                                 <a href="{{url('employee')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
-                                        </div> 
+                                        </div>
                                         {{-- /row --}}
                                     </form>
                                 </div>
@@ -470,3 +491,20 @@
                 </div>
             </div>
 @endsection
+
+@push('scripts')
+    {{-- <script>
+    $('#add-doc').on('click', function(){
+        var tr = '<tr>'+
+                '<td><input type="file" name="file[]" class="form-control"/></td>'+
+                '<td><button type="button" class="delete-row btn btn-danger">X</button></td>'+
+                '</tr>';
+            $('.new-row').append(tr);
+    });
+
+    $('.new-row').on('click', '.delete-row', function(){
+         $(this).parent().parent().remove();
+    });
+
+    </script> --}}
+@endpush

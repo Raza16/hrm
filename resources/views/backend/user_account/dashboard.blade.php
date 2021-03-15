@@ -3,39 +3,46 @@
 @section('title', 'Employee | Dashboard')
 
 @section('main-content')
+
+
    <div class="container-fluid">
+
+    @if (session('success'))
+        <div id="alert" class="alert alert-success alert-dismissible fade in mb-1" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Done!</strong> {{session('success')}}
+        </div>
+    @endif
+    @if (session('logout'))
+        <div class="alert alert-danger alert-dismissible in mb-1" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Logout!</strong> {{session('logout')}}
+        </div>
+    @endif
                 <div class="row clearfix">
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
-                        @if($employee->profile_image)
-                            <img class="card-img-top" src="{{asset('img/profile-images/'.Auth::user()->employee->profile_image)}}" alt="Profile image">
-                        @elseif(!$employee->profile_image)
+                        <div style="width:260px; height:260px; margin:24px auto 15px auto;">
+                            @if($employee->profile_image)
+                            <img style="max-width:100%; max-height:100%; border-radius:200px;" class="card-img-top" src="{{asset('img/profile-images/'.Auth::user()->employee->profile_image)}}" alt="Profile image">
+                            @elseif(!$employee->profile_image)
                             <img class="card-img-top" src="{{asset('img/no_image.png')}}" alt="Profile image">
-                        @endif
+                            @endif
+                        </div>
 
                         <div class="card-body">
                             <h3 class="card-title" style="font-size:20px;"><b>{{$employee->first_name." ".$employee->middle_name." ".$employee->last_name}}</b>&nbsp;<p style="font-size:15px;">{{$employee->employee_no}}</p></h3>
                             <p><b>Address</b></p>
                             <p class="card-text">{{$employee->address}}</p>
-                            {{-- <div class="row">
-                                <div class="col-4">
-                                    <h6><strong>3265</strong></h6>
-                                    <span>Post</span>
-                                </div>
-                                <div class="col-4">
-                                    <h6><strong>1358</strong></h6>
-                                    <span>Followers</span>
-                                </div>
-                                <div class="col-4">
-                                    <h6><strong>10K</strong></h6>
-                                    <span>Likes</span>
-                                </div>
-                            </div> --}}
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item"><b>Email</b> {{$employee->email}}</li>
                                 <li class="list-group-item"><b>Mobile No</b> {{$employee->mobile_no}}</li>
-                                <li class="list-group-item"><b>Date of Birth</b> {{ \Carbon\Carbon::parse($employee->date_of_birth)->format('j F, Y') }}</li>
+                                <li class="list-group-item"><b>Date of Birth</b> {{ $employee->date_of_birth ? \Carbon\Carbon::parse($employee->date_of_birth)->format('j F, Y') : null }}</li>
                             </ul>
                             {{-- <div class="card-body">
                                 <a href="javascript:void(0);" class="card-link">View More</a>
@@ -148,7 +155,6 @@
                                         <div class="icon">
                                             {{-- <i class="icon-handbag text-danger font-30"></i> --}}
                                             <i class="fa fa-briefcase text-danger font-30" aria-hidden="true"></i>
-
                                         </div>
                                         <div class="details">
                                             <h6 class="mb-0 font600">Tasks</h6>
@@ -158,24 +164,140 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="col-xl-4 col-lg-4 col-sm-12">
+
+                            <div class="col-xl-12 col-lg-4 col-sm-12">
                                 <div class="card">
                                     <div class="card-body widgets1">
-                                        <div class="icon">
-                                        </div>
+                                        {{-- <div class="icon">
+                                            <i class="icon-handbag text-danger font-30"></i>
+                                            <i class="fa fa-briefcase text-danger font-30" aria-hidden="true"></i>
+                                        </div> --}}
                                         <div class="details">
-                                            <h6 class="mb-0 font600">Check In</h6>
-                                            <span class="mb-0">
-                                                <time id="clock-timer"></time>
-                                                <input id="showin" value="" />
-                                                <button class="clock-button" id="clock-toggle">start</button>
-                                                <button class="clock-button" id="clock-clear">clear</button>
+                                            <h6 class="mb-2 font600">Time Tracker</h6>
+                                            {{-- <span class="mb-2">Current Date Time: <span style="color:red;">{{$currentDateTime->format('j F, Y | g:i a')}}</span></span> --}}
+                                            <span class="mb-2">Current Date Time: <span style="color:red;" id="ct6"></span></span>
+                                            <br>
+                                            <span class="mb-2">
+                                                @if($checkinPrevious)
+                                                <div class="form-group">
+                                                    <form action="{{url('checkout')}}" method="POST">
+                                                        @csrf
+                                                        <label style="color:red;"><b>Previous checkout is missing</b></label><br>
+                                                        <label>Enter you correct previous <span style="color: red;">checkout time</span> first</label>
+                                                        {{-- <p>{{$checkinPrevious->checkin->format('Y-m-d g:i a')}}</p> --}}
+                                                        <p>Your previous Last Checkin <span style="color: red;"> {{date('j F, Y | g:i a' ,strtotime($checkinPrevious->checkin))}}</span></p>
+                                                        <input type="time" name="checkout" class="form-control" value="{{old('checkout')}}">
+                                                        @error('checkout')
+                                                        <p><small class="text-danger">{{ $errors->first('checkout') }}</small></p>
+                                                        @enderror
+                                                        <button type="submit" class="mt-2 btn btn-sm btn-primary">Submit Previous Check Out</button>
+                                                    </form>
+
+                                                    </div>
+                                                @else
+                                                <div style="display:flex;">
+                                                    @if (!$checkinDone)
+                                                        <form action="{{url('checkin')}}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-primary">Check In</button>
+                                                        </form>&nbsp;
+
+                                                    @elseif($checkinDone && !$breakinDone)
+                                                        <form action="{{url('breakin')}}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-primary">Break In</button>
+                                                        </form>&nbsp;
+
+                                                        <form action="{{url('checkout')}}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-primary">Check Out</button>
+                                                        </form>&nbsp;
+
+                                                    @elseif($breakinDone && $checkinDone)
+                                                        <form action="{{url('breakout')}}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-primary">Break Out</button>
+                                                        </form>
+                                                    @endif
+                                                </div>
+
+                                                @endif
+
                                             </span>
                                         </div>
                                     </div>
                                 </div>
-                            </div> --}}
+                            </div>
                         </div>
+
+                        <div class="tab-pane fade active show">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Today Tasks</h3>
+                                            <div class="card-options">
+                                                {{-- <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fa fa-times"></i></a> --}}
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive" style="padding:30px 30px;">
+                                            <table id="datatableTodaytask" class="table table-striped table-bordered" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Project Title</th>
+                                                        <th>Task No</th>
+                                                        <th>Priority</th>
+                                                        <th>Assign Date</th>
+                                                        <th>Deadline Date</th>
+                                                        <th>Options</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-hover ">
+                                                    @foreach ($todayTasks as $todayTask)
+                                                        <tr>
+                                                            <td>
+                                                                @if ($todayTask->project->title)
+                                                                {{$todayTask->project->title}}
+                                                                @endif
+                                                            </td>
+                                                            <td>{{$todayTask->task_no}}</td>
+                                                            <td>{{$todayTask->priority}}</td>
+                                                            <td>{{$todayTask->assign_date ? \Carbon\Carbon::parse($todayTask->assign_date)->format('j F, Y') : null}}</td>
+                                                            <td>{{$todayTask->deadline_date ? \Carbon\Carbon::parse($todayTask->deadline_date)->format('j F, Y') : null}}</td>
+                                                            <td>
+                                                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                                                   <div class="btn-group  btn-group-sm" role="group">
+                                                                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options
+                                                                        </button>
+                                                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                                        <a class="dropdown-item" href="{{url('employee-task/'.$todayTask->id.'/edit')}}">View</a>
+                                                                        <a class="dropdown-item" href="{{url('employee-task-progress/'.$todayTask->id.'/task-progress')}}">Submit Task Progress</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Project Title</th>
+                                                        <th>Task No</th>
+                                                        <th>Priority</th>
+                                                        <th>Assign Date</th>
+                                                        <th>Deadline Date</th>
+                                                        <th>Options</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         {{-- <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link" id="pills-blog-tab" data-toggle="pill" href="#pills-blog" role="tab" aria-controls="pills-blog" aria-selected="false">Blog</a>
@@ -495,9 +617,28 @@
                             </div>
                         </div> --}}
 
-
-
                     </div>
                 </div>
             </div>
 @endsection
+
+@push('scripts')
+<script>
+    function display_ct6() {
+        var x = new Date()
+        var ampm = x.getHours( ) >= 12 ? ' PM' : ' AM';
+        hours = x.getHours( ) % 12;
+        hours = hours ? hours : 12;
+        var x1 = x.getMonth() + 1+ "/" + x.getDate() + "/" + x.getFullYear();
+        x1 = x1 + " - " +  hours + ":" +  x.getMinutes() + ":" +  x.getSeconds() + ":" + ampm;
+        document.getElementById('ct6').innerHTML = x1;
+        display_c6();
+        }
+        function display_c6(){
+        var refresh=1000; // Refresh rate in milli seconds
+        mytime=setTimeout('display_ct6()',refresh)
+        }
+    display_c6()
+</script>
+
+@endpush

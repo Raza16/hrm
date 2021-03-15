@@ -33,7 +33,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -235,13 +235,14 @@
                                         </div>
                                     </div>
                                     {{-- <div style="width:100%;"> --}}
-                                    
+
                                     <div class="table-responsive" style="padding:30px 30px;">
                                         <table id="myTable" class="datatable table table table-striped table-bordered" cellspacing="0" width="100%">
                                             <thead>
                                                 <tr>
                                                     <th>Employee</th>
                                                     <th>Project</th>
+                                                    <th>Client</th>
                                                     <th>Date</th>
                                                     <th>Module</th>
                                                     <th>Hours</th>
@@ -258,14 +259,15 @@
                                                         </td>
                                                         <td>
                                                             @if ($tr->title)
-                                                            {{$tr->title}}
+                                                                {{$tr->title}}
                                                             @endif
                                                         </td>
-                                                        <td>{{\Carbon\Carbon::parse($tr->date)->format('j F, Y')}}</td>
+                                                        <td>{{$tr->full_name}}</td>
+                                                        <td>{{$tr->date ? \Carbon\Carbon::parse($tr->date)->format('j F, Y') : null}}</td>
                                                         <td>{{$tr->module}}</td>
                                                         <td>{{$tr->hours}}</td>
                                                         <td>{{$tr->work_detail}}</td>
-                                                        
+
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -273,6 +275,7 @@
                                                 <tr>
                                                     <th>Employee</th>
                                                     <th>Project</th>
+                                                    <th>Client</th>
                                                     <th>Date</th>
                                                     <th>Module</th>
                                                     <th>Hours</th>

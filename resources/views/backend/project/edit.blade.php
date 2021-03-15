@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -300,6 +300,29 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>Service</label>
+                                                    <select name="service" class="form-control">
+                                                        <option value="Web Design and Development" {{$project->service == 'Web Design and Development' ? 'selected' : ''}}>Web Design and Development</option>
+
+                                                        <option value="Mobile App Design and Development" {{$project->service == 'Mobile App Design and Development' ? 'selected' : ''}}>Mobile App Design and Development</option>
+
+                                                        <option value="CMS Development" {{$project->service == 'CMS Development' ? 'selected' : ''}}>CMS Development</option>
+
+                                                        <option value="Search Engine Optimization" {{$project->service == 'Search Engine Optimization' ? 'selected' : ''}}>Search Engine Optimization</option>
+
+                                                        <option value="Social Media Marketing" {{$project->service == 'Social Media Marketing' ? 'selected' : ''}}>Social Media Marketing</option>
+
+                                                        <option value="Content Writing" {{$project->service == 'Content Writing' ? 'selected' : ''}}>Content Writing</option>
+
+                                                        <option value="Business Development" {{$project->service == 'Business Development' ? 'selected' : ''}}>Business Development</option>
+
+                                                        <option value="Graphics Design and Branding" {{$project->service == 'Graphics Design and Branding' ? 'selected' : ''}}>Graphics Design and Branding</option>
+                                                    </select>
+                                                    @error('website')
+                                                        <p><small class="text-danger">{{ $errors->first('website') }}</small></p>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group">
                                                     <label>Note</label>
                                                     <textarea rows="6" name="note" class="form-control">{{$project->note}}</textarea>
                                                     @error('note')
@@ -314,7 +337,7 @@
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                                 <a href="{{url('project')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
-                                        </div> 
+                                        </div>
                                         {{-- /row --}}
                                     </form>
                                 </div>

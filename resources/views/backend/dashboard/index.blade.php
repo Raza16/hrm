@@ -8,7 +8,7 @@
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="mb-4">
-                    <h4>Welcome!</h4>
+                    <h4>Welcome DATech!</h4>
                 </div>
             </div>
         </div>
@@ -42,7 +42,10 @@
                     </div>
                     <div class="card-body">
                         <h5 class="number mb-0 font-32">{{$totalProjects}}</h5>
-                        {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
+                        <span class="font-12">Ongoing: {{$processProjects}}</span>
+                        <span class="font-12">Pending: {{$pendingProjects}}</span>
+                        <span class="font-12">Completed: {{$completedProjects}}</span>
+
                     </div>
                 </div>
             </div>
@@ -55,8 +58,8 @@
                         <h5 class="number mb-0 font-32">{{$totalTasks}}</h5>
                         {{-- <p>Ongoing: {{$totalTasksProcess}}</p> --}}
                         {{-- <p>Completed: {{$totalTasksCompleted}}</p> --}}
-                        <span class="font-12">Ongoing: {{$totalTasksProcess}}</span>
-                        <span class="font-12">Ongoing: {{$totalTasksCompleted}}</span>
+                        <span class="font-12">Ongoing: {{$totalTasksOngoing}}</span>
+                        <span class="font-12">Completed: {{$totalTasksCompleted}}</span>
                     </div>
                 </div>
             </div>
@@ -66,8 +69,8 @@
                         <h3 class="card-title">Leaves</h3>
                     </div>
                     <div class="card-body">
-                        <h5 class="number mb-0 font-32">19</h5>
-                        {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
+                        {{-- <h5 class="number mb-0 font-32"></h5> --}}
+                        <span class="font-12">Today's Leaves: {{$todayLeaves}}</span>
                     </div>
                 </div>
             </div>
@@ -77,14 +80,19 @@
                         <h3 class="card-title">User</h3>
                     </div>
                     <div class="card-body">
-                        <h5 class="number mb-0 font-32">284</h5>
-                        {{-- <span class="font-12">Measure How Fast... <a href="#">More</a></span> --}}
+                        <h5 class="number mb-0 font-32">
+                            @foreach ($totalUser as $users)
+                                {{$users->employee_id}}
+                            @endforeach
+                        </h5>
+                        {{-- <span class="font-12">Active User: {{$totalUserActive}}</span> --}}
+                        {{-- <span class="font-12">Inactive User: {{$totalUserInactive}}</span> --}}
                     </div>
                 </div>
             </div>
         </div>
         <div class="row clearfix row-deck">
-            <div class="col-xl-12 col-lg-12">
+            {{-- <div class="col-xl-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Sales Analytics</h3>
@@ -100,8 +108,8 @@
                         <div id="apex-timeline-chart"></div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-8 col-lg-12">
+            </div> --}}
+            {{-- <div class="col-xl-8 col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Current Ticket Status</h3>
@@ -184,8 +192,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-4 col-lg-12">
+            </div> --}}
+            {{-- <div class="col-xl-4 col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Project Statistics</h3>
@@ -228,6 +236,89 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div> --}}
+            <div class="col-xl-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Today's Task</h3>
+                        {{-- <div class="card-options">
+                            <button class="btn btn-sm btn-outline-secondary mr-1" id="one_month">1M</button>
+                            <button class="btn btn-sm btn-outline-secondary mr-1" id="six_months">6M</button>
+                            <button class="btn btn-sm btn-outline-secondary mr-1" id="one_year" class="active">1Y</button>
+                            <button class="btn btn-sm btn-outline-secondary mr-1" id="ytd">YTD</button>
+                            <button class="btn btn-sm btn-outline-secondary" id="all">ALL</button>
+                        </div> --}}
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive" style="padding:30px 30px;">
+                            <table id="datatableTodaytask" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Project Title</th>
+                                        <th>Task No</th>
+                                        <th>Priority</th>
+                                        <th>Assign Date</th>
+                                        <th>Deadline Date</th>
+                                        <th>Status</th>
+                                        {{-- <th>Options</th> --}}
+                                    </tr>
+                                </thead>
+                                <tbody class="table-hover ">
+                                    @foreach ($todayTasks as $todayTask)
+                                        <tr>
+                                            <td>
+                                                @if ($todayTask->employee->first_name)
+                                                    {{$todayTask->employee->first_name}}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($todayTask->project->title)
+                                                    {{$todayTask->project->title}}
+                                                @endif
+                                            </td>
+                                            <td>{{$todayTask->task_no}}</td>
+                                            <td>{{$todayTask->priority}}</td>
+                                            <td>{{$todayTask->assign_date ? \Carbon\Carbon::parse($todayTask->assign_date)->format('j F, Y') : null}}</td>
+                                            <td>{{$todayTask->deadline_date ? \Carbon\Carbon::parse($todayTask->deadline_date)->format('j F, Y') : null}}</td>
+                                            <td>
+                                                @if ($todayTask->status == 'ongoing')
+                                                    <span class="tag tag-primary ml-0 mr-0">{{$todayTask->status}}</span>
+                                                @elseif($todayTask->status == 'completed')
+                                                    <span class="tag tag-success ml-0 mr-0" style="background-color:#21ba45">{{$todayTask->status}}</span>
+                                                @endif
+                                            </td>
+                                            {{-- <td>
+                                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                                   <div class="btn-group  btn-group-sm" role="group">
+                                                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                        <a class="dropdown-item" href="{{url('employee-task/'.$todayTask->id.'/edit')}}">View</a>
+                                                        <a class="dropdown-item" href="{{url('employee-task-progress/'.$todayTask->id.'/task-progress')}}">Submit Task Progress</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td> --}}
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Project Title</th>
+                                        <th>Task No</th>
+                                        <th>Priority</th>
+                                        <th>Assign Date</th>
+                                        <th>Deadline Date</th>
+                                        <th>Status</th>
+                                        {{-- <th>Options</th> --}}
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

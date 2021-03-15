@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -284,19 +284,16 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Assign Date</label>
-                                                    <input type="date" name="assign_date" class="form-control" value="{{$todayDate}}">
+                                                    <input type="date" name="assign_date" class="form-control" value="{{date('Y-m-d')}}">
                                                     @error('assign_date')
                                                         <p><small class="text-danger">{{ $errors->first('assign_date') }}</small></p>
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Status</label>
-                                                    <select name="status" class="form-control">
-                                                        <option value="process">Process</option>
-                                                        <option value="completed">Completed</option>
-                                                    </select>
-                                                    @error('status')
-                                                        <p><small class="text-danger">{{ $errors->first('status') }}</small></p>
+                                                    <label>Deadline Date</label>
+                                                    <input type="date" name="deadline_date" class="form-control" value="{{old('deadline_date')}}">
+                                                    @error('deadline_date')
+                                                        <p><small class="text-danger">{{ $errors->first('deadline_date') }}</small></p>
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
@@ -308,7 +305,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Document Attachment</label>
-                                                    <input type="file" name="document" class="form-control">
+                                                    <input type="file" name="document" class="form-control" {{old('document')}}>
                                                     @error('document')
                                                         <p><small class="text-danger">{{ $errors->first('document') }}</small></p>
                                                     @enderror
@@ -321,7 +318,7 @@
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                                 <a href="{{url('task')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
-                                        </div> 
+                                        </div>
                                         {{-- /row --}}
                                     </form>
                                 </div>

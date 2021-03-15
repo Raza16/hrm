@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Employee;
+use App\Models\EmployeeDocuments;
 use DB;
 
 class EmployeeController extends Controller
@@ -52,33 +53,19 @@ class EmployeeController extends Controller
         $this->validate($request, [
             'employee_no' => 'required|unique:employees',
             'first_name' => 'required',
-            // 'middle_name' => 'required|max:255',
             'last_name' => 'required',
-            // 'date_of_birth' => 'required|max:255',
             'gender' => 'required',
-            // 'marital_status' => 'required',
-            // 'qualification' => 'required',
             'cnic' => 'unique:employees',
             'mobile_no' => 'required|unique:employees',
-            // 'home_phone' => 'required',
-            // 'emergency_contact' => 'required',
             'email' => 'required|unique:employees',
-            // 'other_email' => 'required',
-            // 'country' => 'required',
-            // 'province_state' => 'required',
-            // 'city' => 'required',
-            // 'nationality' => 'required',
-            // 'postal_code' => 'required',
-            // 'address' => 'required',
-            // 'notes' => 'required',
-            'profile_image' => 'image|mimes:jpeg,png,jpg|dimensions:width=200,height=200',
-            // 'login_email' => 'unique:users',
-            // 'password' => ''
-            // 'role_id' => ''
+            'profile_image' => 'image|mimes:jpeg,png,jpg',
+            // 'file.*' => 'mimes:jpeg, png, jpg, pdf, docx, doc'
         ],
         [
-            'profile_image.dimensions'=> 'Image must be in 200x200 dimension',
-        ]);
+            'profile_image.mimes'=> 'Image must be in jpeg, png, jpg',
+            // 'file.mimes' => 'File must be jpeg, png, jpg, pdf, docx, doc'
+        ]
+        );
 
 
         $employee = new Employee;
@@ -114,7 +101,19 @@ class EmployeeController extends Controller
             $employee->profile_image = $name;
         }
 
-        $employee->save();
+        if($employee->save())
+        {
+            foreach ($request->file as $file) {
+                $filename =  time().'_'.$file->getClientOriginalName();
+                $destinationPath = public_path('storage/employee_documents');
+                $filePath = $destinationPath. "/".  $filename;
+                $file->move($destinationPath, $filename);
+                EmployeeDocuments::create([
+                    'employee_id' => $employee->id,
+                    'file' => $filename
+                ]);
+            }
+        }
 
         return redirect('employee/create')->with('success', 'Record has been saved');
     }
@@ -140,7 +139,8 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::find($id);
-        return view('backend.employee.edit', compact('employee'));
+        $employeeDocuments = Employee::find($id)->documents;
+        return view('backend.employee.edit', compact('employee', 'employeeDocuments'));
     }
 
     /**
@@ -153,40 +153,21 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            // 'employee_no' => 'required|unique:employees',
             'first_name' => 'required',
-            // 'middle_name' => 'required|max:255',
             'last_name' => 'required',
-            // 'date_of_birth' => 'required|max:255',
             'gender' => 'required',
-            // 'marital_status' => 'required',
-            // 'qualification' => 'required',
-            // 'cnic' => 'required',
             'mobile_no' => 'required',
-            // 'home_phone' => 'required',
-            // 'emergency_contact' => 'required',
-            // 'email' => 'required|unique:employees',
-            // 'other_email' => 'required',
-            // 'country' => 'required',
-            // 'province_state' => 'required',
-            // 'city' => 'required',
-            // 'nationality' => 'required',
-            // 'postal_code' => 'required',
-            // 'address' => 'required',
-            // 'notes' => 'required',
-            'profile_image' => 'image|mimes:jpeg,png,jpg|dimensions:width=200,height=200',
-            'login_email' => 'unique:users',
-            // 'password' => ''
-            // 'role_id' => ''
+            'email' => 'required',
+            'profile_image' => 'image|mimes:jpeg,png,jpg',
+            'file.*' => 'mimes:jpeg, png, jpg, pdf, docx, doc'
         ],
         [
-            'profile_image.dimensions'=> 'Image must be in 200x200 dimension',
+            'profile_image.mimes'=> 'Image must be in jpeg, png, jpg',
         ]);
 
 
         $employee = Employee::find($id);
 
-        // $employee->employee_no = $request->employee_no;
         $employee->first_name = $request->first_name;
         $employee->middle_name = $request->middle_name;
         $employee->last_name = $request->last_name;
@@ -220,11 +201,23 @@ class EmployeeController extends Controller
             Storage::disk('profile-image')->delete($old_image);
         }
 
-        $employee->save();
+        if($employee->save())
+        {
+            foreach ($request->file ? : [] as $file) {
+                $filename =  time().'_'.$file->getClientOriginalName();
+                $destinationPath = public_path('storage/employee_documents');
+                $filePath = $destinationPath. "/".  $filename;
+                $file->move($destinationPath, $filename);
+                EmployeeDocuments::create([
+                    'employee_id' => $employee->id,
+                    'file' => $filename
+                ]);
+            }
+        }
 
         $request->session()->flash('update', 'Record has been updated');
 
-        return redirect('employee');
+        return redirect()->back();
     }
 
     /**
@@ -244,5 +237,24 @@ class EmployeeController extends Controller
         session()->flash('delete', 'Record has been deleted');
 
         return redirect('/employee');
+    }
+
+    public function viewDocs($id)
+    {
+        $employeeDoc = EmployeeDocuments::find($id);
+
+        return view('backend.employee.file_view', compact('employeeDoc'));
+    }
+
+    public function deleteDocs($id)
+    {
+        $employeeDoc = EmployeeDocuments::find($id);
+        $employeeDoc->delete();
+
+        Storage::disk('employee-documents')->delete($employeeDoc->file);
+
+        return response()->json([
+            'message' => 'Record delete successfully!'
+          ]);
     }
 }

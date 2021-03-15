@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -268,7 +268,7 @@
                                                     <select class="form-control" name="role_id">
                                                         <option value="none" selected disabled>-- Select Role --</option>
                                                         @foreach ($roles as $role)
-                                                            <option value="{{$role->id}}">{{$role->role_type}}</option>
+                                                            <option value="{{$role->id}}" {{Auth::user()->role_id == 3 ? 'disabled' : ''}}>{{$role->role_type}}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('role_id')
@@ -298,7 +298,7 @@
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                                 <a href="{{url('user')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
-                                        </div> 
+                                        </div>
                                         {{-- /row --}}
                                     </form>
                                 </div>

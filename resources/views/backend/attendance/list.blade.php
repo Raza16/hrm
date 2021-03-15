@@ -33,7 +33,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center ribbon">
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -239,20 +239,32 @@
                                         <table class="datatable table table-striped table-bordered" style="width:100%">
                                             <thead>
                                                 <tr>
-                                                    <th>Client</th>
-                                                    <th>Title</th>
+                                                    <th>Employee</th>
+                                                    <th>Date</th>
+                                                    <th>Checkin</th>
+                                                    <th>Checkout</th>
+                                                    <th>Total Hours</th>
                                                     <th>Options</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="table-hover ">
-                                               <tr>asdf</tr>
-                                               <tr>adf</tr>
-                                               <tr>adsf</tr>
+                                            <tbody class="table-hover">
+                                                {{-- @foreach ($attendances as $attendance)
+                                                <tr>
+                                                    <td>{{$attendance->employee->first_name}}</td>
+                                                    <td>{{$attendance->date}}</td>
+                                                    <td>{{$attendance->checkin}}</td>
+                                                    <td>{{$attendance->checkout}}</td>
+                                                    <td>{{$attendance->total_hours}}</td>
+                                                </tr>
+                                                @endforeach --}}
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>Client</th>
-                                                    <th>Title</th>
+                                                    <th>Employee</th>
+                                                    <th>Date</th>
+                                                    <th>Checkin</th>
+                                                    <th>Checkout</th>
+                                                    <th>Total Hours</th>
                                                     <th>Options</th>
                                                 </tr>
                                             </tfoot>

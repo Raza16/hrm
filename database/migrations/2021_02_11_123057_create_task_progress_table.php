@@ -15,12 +15,13 @@ class CreateTaskProgressTable extends Migration
     {
         Schema::create('task_progress', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('task_id')->reference('id')->on('tasks');
+            $table->foreignId('task_id')->reference('id')->on('tasks')->onDelete('cascade');
             $table->date('date');
             $table->string('module');
             $table->string('hours');
             $table->text('work_detail');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
