@@ -193,6 +193,26 @@ class TaskController extends Controller
         return view('backend.task.report', compact('taskReport'));
     }
 
+    public function taskModuleForm()
+    {
+        return view('backend.task.create_task_module');
+    }
+
+    public function taskModuleStore(Request $request)
+    {
+        $this->validate($request, [
+            'module' => 'required',
+        ]);
+
+        DB::table('task_modules')->insert([
+            'module' => $request->module,
+            'created_at' => \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Record has been submited');
+    }
+
 
 
 }

@@ -1,13 +1,12 @@
 <!doctype html>
 <html lang="en" dir="ltr">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="icon" href="{{asset('img/datech.ico')}}" type="image/x-icon"/>
 
 <title>@yield('title')</title>
 
@@ -17,6 +16,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css"/>
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.css"/>
 
+<link rel="stylesheet" href="{{asset('css/aksFileUpload.min.css')}}"/>
 <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
 
 <!-- Plugins css -->
@@ -25,6 +25,7 @@
 <!-- Core css -->
 <link rel="stylesheet" href="{{asset('assets/css/main.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/css/theme1.css')}}"/>
+
 
 {{-- custom css for whole project --}}
 <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}"/>
@@ -90,12 +91,13 @@
                     <li class="{{request()->is('project/create') ? 'active' : null}}"><a href="{{url('project/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add Project</a></li>
                 </ul>
             </li>
-            <li class="{{request()->is('task') || request()->is('task/create') || request()->is('task-report')  ? 'active' : null}}">
+            <li class="{{request()->is('task') || request()->is('task/create') || request()->is('task-report') || request()->is('task-module')  ? 'active' : null}}">
                 <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-tasks"></i><span>Tasks Tracker</span></a>
                 <ul>
                     <li class="{{request()->is('task') ? 'active' : null}}"><a href="{{url('task')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>All Task</a></li>
                     <li class="{{request()->is('task/create') ? 'active' : null}}"><a href="{{url('task/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add Task</a></li>
                     <li class="{{request()->is('task-report') ? 'active' : null}}"><a href="{{url('task-report')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Task Report</a></li>
+                    <li class="{{request()->is('task-module') ? 'active' : null}}"><a href="{{url('task-module')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Task Module</a></li>
                 </ul>
             </li>
 
@@ -111,6 +113,13 @@
                 <ul>
                     <li class="{{request()->is('leave-list') ? 'active' : null}}"><a href="{{url('leave-list')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Leave List</a></li>
                     {{-- <li><a href="{{url('attendance')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>All Attendance</a></li> --}}
+                </ul>
+            </li>
+
+            <li class="{{request()->is('leave-list') ? 'active' : null}}">
+                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-file-text"></i><span>Payroll</span></a>
+                <ul>
+                    <li class="{{request()->is('leave-list') ? 'active' : null}}"><a href="{{url('leave-list')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Payslip</a></li>
                 </ul>
             </li>
 
@@ -278,6 +287,8 @@
 </div>
 
 {{------------------ theme js files -----------------}}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
 <script src="{{asset('assets/bundles/lib.vendor.bundle.js')}}"></script>
 <script src="{{asset('assets/bundles/apexcharts.bundle.js')}}"></script>
 <script src="{{asset('assets/bundles/counterup.bundle.js')}}"></script>
@@ -288,6 +299,7 @@
 
 {{--------------- js files use within project -----------------}}
 
+<script src="{{asset('js/aksFileUpload.min.js')}}"></script>
 
 {{-- blog featured image --}}
 <script src="https://unpkg.com/file-upload-with-preview@4.1.0/dist/file-upload-with-preview.min.js"></script>

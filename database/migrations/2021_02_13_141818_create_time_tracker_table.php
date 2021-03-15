@@ -15,11 +15,13 @@ class CreateTimeTrackerTable extends Migration
     {
         Schema::create('time_tracker', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->references('id')->on('employees');
-            $table->timestamp('checkin');
-            $table->timestamp('checkout')->nullable();
-            $table->integer('total_hours')->nullable();
+            $table->foreignId('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->date('date')->nullable();
+            $table->dateTime('checkin');
+            $table->dateTime('checkout')->nullable();
+            $table->time('total_hours')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -15,7 +15,7 @@ class CreateProjectDocumentTable extends Migration
     {
         Schema::create('project_document', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->constrained();
+            $table->foreignId('project_id')->constrained()->onDelete('cascade');
             $table->string('document');
             $table->timestamps();
             $table->softDeletes();

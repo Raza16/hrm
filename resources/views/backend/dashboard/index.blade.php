@@ -85,8 +85,8 @@
                                 {{$users->employee_id}}
                             @endforeach
                         </h5>
-                        <span class="font-12">Active User: {{$totalUserActive}}</span>
-                        <span class="font-12">Inactive User: {{$totalUserInactive}}</span>
+                        {{-- <span class="font-12">Active User: {{$totalUserActive}}</span> --}}
+                        {{-- <span class="font-12">Inactive User: {{$totalUserInactive}}</span> --}}
                     </div>
                 </div>
             </div>

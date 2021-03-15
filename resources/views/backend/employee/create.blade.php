@@ -428,7 +428,15 @@
                                                     <table>
                                                         <tbody class="new-row">
                                                         <tr>
-                                                            <td><input type="file" multiple name="file[]" class="form-control"/></td>
+                                                            <td>
+                                                                <input type="file" multiple name="file[]" class="form-control" accept="image/jpeg, image/jpg, image/png, .pdf, .doc, .docx"/>
+                                                                @if ($errors->has('file'))
+                                                                    @foreach ($errors->get('file') as $error)
+                                                                    <p><small class="text-danger">{{ $error->first('file') }}</small></p>
+                                                                    @endforeach
+                                                                @endif
+                                                                <br>
+                                                            </td>
                                                             {{-- <td><button type="button" class="delete-row btn btn-danger">X</button></td> --}}
                                                         </tr>
                                                         </tbody>

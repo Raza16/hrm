@@ -31,7 +31,7 @@ class DashboardController extends Controller
 
         $todayLeaves = DB::table('leaves')->whereDate('created_at', date('Y-m-d'))->count();
 
-        $totalUser = DB::table('users')->where('employee_id', Auth::user()->employee_id)->select('employee_id')->get();
+        $totalUser = DB::table('users')->select('employee_id')->where('employee_id', Auth::user()->employee_id)->get();
         // dd($totalUser);
         // $totalUser = DB::table('users')->count();
         $totalUserActive = DB::table('users')->where('status', 1)->count();

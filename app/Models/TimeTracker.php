@@ -16,6 +16,8 @@ class TimeTracker extends Model
         'checkin',
         'checkout',
         'total_hours',
+        'break_hours',
+        'working_hours',
         'created_at',
         'updated_at',
     ];

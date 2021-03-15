@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Frontend\BlogController as FrontendBlogController;
+// use App\Http\Controllers\Frontend\BlogController as FrontendBlogController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -48,9 +48,12 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function () {
 
     Route::resource('task', App\Http\Controllers\TaskController::class);
 
-    Route::get('/task-report', [App\Http\Controllers\TaskController::class, 'taskReport']);
+    Route::get('task-report', [App\Http\Controllers\TaskController::class, 'taskReport']);
 
-    Route::resource('cms/blog', BlogController::class);
+    Route::get('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
+    Route::post('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
+
+    // Route::resource('cms/blog', BlogController::class);
 
     Route::resource('role', RoleController::class);
 
@@ -58,8 +61,11 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function () {
 
     Route::resource('leave-list', App\Http\Controllers\LeaveController::class);
 
-    Route::get('/time-tracker', [App\Http\Controllers\TimeTrackerController::class, 'index']);
+    Route::get('time-tracker', [App\Http\Controllers\TimeTrackerController::class, 'index']);
 
+    Route::delete('employee-doc/{id}', [App\Http\Controllers\EmployeeController::class, 'deleteDocs']);
+
+    Route::get('employee-doc/{id}/view', [App\Http\Controllers\EmployeeController::class, 'viewDocs']);
 });
 
 //----------------------- User Routes
@@ -82,6 +88,9 @@ Route::group(['middleware' => ['employee', 'logout']], function () {
     Route::post('/checkin', [App\Http\Controllers\UserDashboardController::class, 'checkInTimeStore']);
     Route::post('/checkout', [App\Http\Controllers\UserDashboardController::class, 'checkOutTimeUpdate']);
 
+    Route::post('/breakin', [App\Http\Controllers\UserDashboardController::class, 'breakInTimeStore']);
+    Route::post('/breakout', [App\Http\Controllers\UserDashboardController::class, 'breakOutTimeUpdate']);
+
 });
 
 Route::get('/', function () {
@@ -89,9 +98,6 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-
-
 
 
 // Route::get('/loginmail', function () {

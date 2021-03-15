@@ -42,7 +42,7 @@ return [
 
         'employee-documents' => [
             'driver' => 'local',
-            'root' => public_path('file_storage/employee-documents'),
+            'root' => public_path('storage/employee_documents'),
         ],
 
         'local' => [

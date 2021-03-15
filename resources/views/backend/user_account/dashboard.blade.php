@@ -174,7 +174,9 @@
                                         </div> --}}
                                         <div class="details">
                                             <h6 class="mb-2 font600">Time Tracker</h6>
-                                            <span class="mb-2">Current Date Time: <span style="color:red;">{{$currentDateTime->format('j F, Y | g:i a')}}</span></span><br>
+                                            {{-- <span class="mb-2">Current Date Time: <span style="color:red;">{{$currentDateTime->format('j F, Y | g:i a')}}</span></span> --}}
+                                            <span class="mb-2">Current Date Time: <span style="color:red;" id="ct6"></span></span>
+                                            <br>
                                             <span class="mb-2">
                                                 @if($checkinPrevious)
                                                 <div class="form-group">
@@ -193,17 +195,31 @@
 
                                                     </div>
                                                 @else
+                                                <div style="display:flex;">
                                                     @if (!$checkinDone)
                                                         <form action="{{url('checkin')}}" method="POST">
                                                             @csrf
                                                             <button type="submit" class="btn btn-sm btn-primary">Check In</button>
-                                                        </form>
-                                                    @else
+                                                        </form>&nbsp;
+
+                                                    @elseif($checkinDone && !$breakinDone)
+                                                        <form action="{{url('breakin')}}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-primary">Break In</button>
+                                                        </form>&nbsp;
+
                                                         <form action="{{url('checkout')}}" method="POST">
                                                             @csrf
                                                             <button type="submit" class="btn btn-sm btn-primary">Check Out</button>
+                                                        </form>&nbsp;
+
+                                                    @elseif($breakinDone && $checkinDone)
+                                                        <form action="{{url('breakout')}}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-primary">Break Out</button>
                                                         </form>
                                                     @endif
+                                                </div>
 
                                                 @endif
 
@@ -605,3 +621,24 @@
                 </div>
             </div>
 @endsection
+
+@push('scripts')
+<script>
+    function display_ct6() {
+        var x = new Date()
+        var ampm = x.getHours( ) >= 12 ? ' PM' : ' AM';
+        hours = x.getHours( ) % 12;
+        hours = hours ? hours : 12;
+        var x1 = x.getMonth() + 1+ "/" + x.getDate() + "/" + x.getFullYear();
+        x1 = x1 + " - " +  hours + ":" +  x.getMinutes() + ":" +  x.getSeconds() + ":" + ampm;
+        document.getElementById('ct6').innerHTML = x1;
+        display_c6();
+        }
+        function display_c6(){
+        var refresh=1000; // Refresh rate in milli seconds
+        mytime=setTimeout('display_ct6()',refresh)
+        }
+    display_c6()
+</script>
+
+@endpush
