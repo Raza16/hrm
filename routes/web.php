@@ -106,8 +106,8 @@ Auth::routes();
 
 
 // Artisan commands
-
-Route::get('/migrate', function () {
-    $clearcache = Artisan::call('migrate');
-    echo "Database Migrate";
+Route::get('/migrate', function() {
+    $output = new \Symfony\Component\Console\Output\BufferedOutput;
+    \Artisan::call('migrate', $output);
+    dd($output->fetch());
 });
