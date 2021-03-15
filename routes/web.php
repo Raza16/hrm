@@ -3,12 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 // use App\Http\Controllers\Frontend\BlogController as FrontendBlogController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserDashboardController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -29,9 +23,9 @@ use App\Http\Controllers\UserDashboardController;
 // });
 
 //----------------------- Admin Routes
-Route::middleware(['auth', 'admin', 'logout'])->group(function () {
+Route::middleware(['auth', 'admin', 'logout'])->group(function() {
 
-    Route::get('admin/dashboard', [DashboardController::class, 'dashboard']);
+    Route::get('admin/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard']);
 
     Route::get('client/list', function () {
         return view('backend/clients/list');
@@ -40,7 +34,7 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function () {
         return view('backend/clients/create');
     });
 
-    Route::resource('employee', EmployeeController::class);
+    Route::resource('employee', App\Http\Controllers\EmployeeController::class);
 
     Route::resource('client', App\Http\Controllers\ClientController::class);
 
@@ -55,9 +49,9 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function () {
 
     // Route::resource('cms/blog', BlogController::class);
 
-    Route::resource('role', RoleController::class);
+    Route::resource('role', App\Http\Controllers\RoleController::class);
 
-    Route::resource('user', UserController::class);
+    Route::resource('user', App\Http\Controllers\UserController::class);
 
     Route::resource('leave-list', App\Http\Controllers\LeaveController::class);
 
@@ -69,9 +63,9 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function () {
 });
 
 //----------------------- User Routes
-Route::group(['middleware' => ['employee', 'logout']], function () {
+Route::group(['middleware' => ['employee', 'logout']], function() {
 
-    Route::get('/user_account', [UserDashboardController::class, 'dashboard']);
+    Route::get('/user_account', [App\Http\Controllers\UserDashboardController::class, 'dashboard']);
 
     Route::get('/employee-task', [App\Http\Controllers\Employee\TaskController::class, 'index']);
     Route::get('/employee-task/{id}/edit', [App\Http\Controllers\Employee\TaskController::class, 'edit']);
@@ -105,15 +99,20 @@ Auth::routes();
 // });
 
 
-// Artisan commands
-Route::get('/migrate', function () {
-    Artisan::call('migrate', [
-       '--force' => true
-    ]);
-});
+//-------------------------- Artisan commands
 
-Route::get('/dbseed', function () {
-    Artisan::call('db:seed', [
-       '--force' => true
-    ]);
-});
+// Route::get('/migrate', function () {
+//     Artisan::call('migrate', [
+//        '--force' => true
+//     ]);
+
+//     return 'Migrate Database Successfully!';
+// });
+
+// Route::get('/dbseed', function () {
+//     Artisan::call('db:seed', [
+//        '--force' => true
+//     ]);
+
+//     return 'DB Seed completed!';
+// });

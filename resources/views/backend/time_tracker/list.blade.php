@@ -41,6 +41,18 @@
                                                     <td>{{$time_tracker->total_hours}}</td>
                                                     <td>{{$time_tracker->break_hours}}</td>
                                                     <td>{{$time_tracker->working_hours}}</td>
+                                                    <td>
+                                                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                                            <div class="btn-group" role="group">
+                                                                 <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options
+                                                                 </button>
+                                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                                 <a class="dropdown-item" href="{{url('time-tracker/'.$time_tracker->id.'/edit')}}">View</a>
+                                                                 {{-- <a class="dropdown-item" href="{{url('employee-task-progress/'.$time_tracker->id.'/task-progress')}}">Submit Task Progress</a> --}}
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
