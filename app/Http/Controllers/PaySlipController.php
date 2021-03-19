@@ -140,11 +140,11 @@ class PayslipController extends Controller
 
         // dd($data);
 
-        $pdf = PDF::loadView('backend/payslip/generate_pdf', $data);
+        $pdf = PDF::loadView('backend.payslip.generate_pdf', $data);
 
         return $pdf->download('payslip.pdf');
 
-        // return view('backend.payslip.show', compact('payslip'));
+        // return view('backend.payslip.generate_pdf', $data);
     }
 
 

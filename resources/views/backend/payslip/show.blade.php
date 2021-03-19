@@ -29,7 +29,7 @@
 
                                         <div class="row">
                                             <div class="col-12">
-                                                <div style="text-align:center;border-top:2px solid #000;border-bottom:2px solid #000;">
+                                                <div class="border-style" style="text-align:center;">
                                                     <p style="padding-top:8px;margin-bottom:8px;font-weight:600;">Pay Slip for {{date('F - Y', strtotime($payslip->date))}}</p>
                                                 </div>
                                             </div>
@@ -58,18 +58,18 @@
                                             </div>
                                         </div>
 
-                                        <div class="row" style="border-top:2px solid #000;border-bottom:2px solid #000;">
+                                        <div class="row border-style">
                                             <div class="col-3">
-                                                <p class="mt-1 mb-1" style="font-weight:600;">Earnings</p>
+                                                <p class="mt-1 mb-1"><b>Earnings</b></p>
                                             </div>
                                             <div class="col-3">
-                                                <p class="mt-1 mb-1" style="font-weight:600;">Rs.</p>
+                                                <p class="mt-1 mb-1"><b>Rs.</b></p>
                                             </div>
                                             <div class="col-3">
-                                                <p class="mt-1 mb-1" style="font-weight:600;">Deduction</p>
+                                                <p class="mt-1 mb-1"><b>Deduction</b></p>
                                             </div>
                                             <div class="col-3">
-                                                <p class="mt-1 mb-1" style="font-weight:600;">Rs.</p>
+                                                <p class="mt-1 mb-1"><b>Rs.</b></p>
                                             </div>
                                         </div>
 
@@ -91,7 +91,7 @@
                                                 <p>{{$payslip->bonus}}</p>
 
                                                 {{-- total earning --}}
-                                                <p style="border-top:2px solid #000;border-bottom:2px solid #000;"><b>{{$payslip->payable_amount}}</b></p>
+                                                <p class="border-style"><b>{{$payslip->payable_amount}}</b></p>
                                             </div>
                                             <div class="col-3">
                                                 <p>Hours Deduction</p>
@@ -102,10 +102,10 @@
                                                 <p>{{$payslip->hours_deduction}}</p>
 
                                                 {{-- total deduction --}}
-                                                <p style="border-top:2px solid #000;border-bottom:2px solid #000;"><b>{{$payslip->total}}</b></p>
+                                                <p class="border-style"><b>{{$payslip->total}}</b></p>
                                             </div>
                                         </div>
-                                        <div class="row" style="border-top:2px solid #000;border-bottom:2px solid #000;">
+                                        <div class="row border-style">
                                             <div class="col-6">
                                                 <p class="mt-1 mb-1"><b>Net Pay</b></p>
                                             </div>
