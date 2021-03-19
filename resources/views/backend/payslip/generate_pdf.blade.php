@@ -1,8 +1,8 @@
-@extends('backend/layouts/master')
+{{-- @extends('backend/layouts/master') --}}
 
-@section('title', 'Payslip | List')
+{{-- @section('title', 'Payslip | List') --}}
 
-@section('main-content')
+{{-- @section('main-content') --}}
     <div class="container-fluid">
                 <div class="tab-content">
                     <div class="tab-pane fade active show">
@@ -11,9 +11,6 @@
                                 <div class="card">
                                     <div class="card-header">
                                         <h3 class="card-title">Payslips</h3>
-                                        <div class="card-options">
-                                            <a href="{{url('generate-pdf/'.$payslip->id)}}" class="btn btn-sm btn-primary" style="background-color:red;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Download PDF</a>
-                                        </div>
                                     </div>
                                     <div class="card-body" style="margin-left:90px !important;margin-right:90px !important;">
                                         <div class="row">
@@ -30,7 +27,7 @@
                                         <div class="row">
                                             <div class="col-12">
                                                 <div style="text-align:center;border-top:2px solid #000;border-bottom:2px solid #000;">
-                                                    <p style="padding-top:8px;margin-bottom:8px;font-weight:600;">Pay Slip for {{date('F - Y', strtotime($payslip->date))}}</p>
+                                                    <p style="padding-top:8px;margin-bottom:8px;font-weight:600;">Pay Slip for {{date('F - Y', strtotime($date))}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -44,11 +41,11 @@
                                                 <p class="mt-1 mb-1" style="font-weight:600;">Email</p>
                                             </div>
                                             <div class="col-6">
-                                                <p class="mt-1 mb-1" style="font-weight:600;">{{$payslip->employee->employee_no}}</p>
-                                                <p class="mt-1 mb-1" style="font-weight:600;">{{$payslip->employee->first_name.' '.$payslip->employee->middle_name.' '.$payslip->employee->last_name}}</p>
-                                                <p class="mt-1 mb-1" style="font-weight:600;">{{$payslip->employee->mobile_no}}</p>
-                                                <p class="mt-1 mb-1" style="font-weight:600;">{{$payslip->employee->cnic}}</p>
-                                                <p class="mt-1 mb-1" style="font-weight:600;">{{$payslip->employee->email}}</p>
+                                                <p class="mt-1 mb-1" style="font-weight:600;">{{$employee_no}}</p>
+                                                <p class="mt-1 mb-1" style="font-weight:600;">{{$first_name.' '.$middle_name.' '.$last_name}}</p>
+                                                <p class="mt-1 mb-1" style="font-weight:600;">{{$mobile_no}}</p>
+                                                <p class="mt-1 mb-1" style="font-weight:600;">{{$cnic}}</p>
+                                                <p class="mt-1 mb-1" style="font-weight:600;">{{$email}}</p>
                                             </div>
                                         </div>
 
@@ -76,22 +73,22 @@
                                         <div class="row" style="margin-top:10px;">
                                             <div class="col-3">
                                                 <p>Basic Monthly Pay</p>
+                                                {{-- <p>Payable Amount</p> --}}
                                                 <p>Bonus</p>
-                                                <p><b>Payable Amount</b></p>
-                                                {{-- <p><b>Total Earning</b></p> --}}
+                                                <p><b>Total Earning</b></p>
                                             </div>
                                             <div class="col-3">
                                                 {{-- basic montyly pay --}}
-                                                <p>{{$payslip->basic_monthly_pay}}</p>
+                                                <p>{{$basic_monthly_pay}}</p>
 
                                                 {{-- payable amount --}}
                                                 {{-- <p>{{$payslip->payable_amount}}</p> --}}
 
                                                 {{-- bonus --}}
-                                                <p>{{$payslip->bonus}}</p>
+                                                <p>{{$bonus}}</p>
 
                                                 {{-- total earning --}}
-                                                <p style="border-top:2px solid #000;border-bottom:2px solid #000;"><b>{{$payslip->payable_amount}}</b></p>
+                                                <p style="border-top:2px solid #000;border-bottom:2px solid #000;"><b>{{$payable_amount}}</b></p>
                                             </div>
                                             <div class="col-3">
                                                 <p>Hours Deduction</p>
@@ -99,10 +96,10 @@
                                             </div>
                                             <div class="col-3">
                                                 {{-- hours deduction --}}
-                                                <p>{{$payslip->hours_deduction}}</p>
+                                                <p>{{$hours_deduction}}</p>
 
                                                 {{-- total deduction --}}
-                                                <p style="border-top:2px solid #000;border-bottom:2px solid #000;"><b>{{$payslip->total}}</b></p>
+                                                <p style="border-top:2px solid #000;border-bottom:2px solid #000;"><b>{{$total}}</b></p>
                                             </div>
                                         </div>
                                         <div class="row" style="border-top:2px solid #000;border-bottom:2px solid #000;">
@@ -111,21 +108,20 @@
                                             </div>
                                             <div class="col-6">
                                                 {{-- net pay --}}
-                                                <p class="mt-1 mb-1" style="float: right"><b>{{$payslip->total}}</b></p>
+                                                <p class="mt-1 mb-1" style="float: right"><b>{{$total}}</b></p>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-12">
-                                                <p><b>Payment Method: {{ucfirst($payslip->payment_method)}}</b></p>
+                                                <p><b>Payment Method: {{strtoupper($payment_method)}}</b></p>
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-12 mt-3 mb-5">
+                                            <div class="col-12 mt-5">
                                                 <p>It is system generated and does not need signature.</p>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -133,4 +129,4 @@
                     </div>
                 </div>
             </div>
-@endsection
+{{-- @endsection --}}

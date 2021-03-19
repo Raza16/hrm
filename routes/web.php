@@ -65,6 +65,8 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function() {
 
     Route::resource('payslip', App\Http\Controllers\PaySlipController::class);
 
+    Route::get('generate-pdf/{id}', [App\Http\Controllers\PaySlipController::class, 'generatePDF']);
+
 });
 
 //----------------------- User Routes

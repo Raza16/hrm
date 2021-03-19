@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\Payslip;
+use PDF;
 
 class PayslipController extends Controller
 {
@@ -114,4 +115,38 @@ class PayslipController extends Controller
 
         return redirect('payslip');
     }
+
+
+    public function generatePDF($id)
+    {
+        $payslip = Payslip::find($id);
+
+        $data = [
+            'date' => $payslip->date,
+            'employee_no' => $payslip->employee->employee_no,
+            'first_name' => $payslip->employee->first_name,
+            'middle_name' => $payslip->employee->middle_name,
+            'last_name' => $payslip->employee->last_name,
+            'mobile_no' => $payslip->employee->mobile_no,
+            'cnic' => $payslip->employee->cnic,
+            'email' => $payslip->employee->email,
+            'basic_monthly_pay' => $payslip->basic_monthly_pay,
+            'bonus' => $payslip->bonus,
+            'payable_amount' => $payslip->payable_amount,
+            'hours_deduction' => $payslip->hours_deduction,
+            'total' => $payslip->total,
+            'payment_method' => $payslip->payment_method,
+        ];
+
+        // dd($data);
+
+        $pdf = PDF::loadView('backend/payslip/generate_pdf', $data);
+
+        return $pdf->download('payslip.pdf');
+
+        // return view('backend.payslip.show', compact('payslip'));
+    }
+
+
+
 }
