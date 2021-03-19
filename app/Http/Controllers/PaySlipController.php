@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
+use App\Models\Payslip;
 
-class PaySlipController extends Controller
+class PayslipController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,9 @@ class PaySlipController extends Controller
      */
     public function index()
     {
-        //
+        $payslips = Payslip::all();
+
+        return view('backend.payslip.list', compact('payslips'));
     }
 
     /**
@@ -23,7 +27,9 @@ class PaySlipController extends Controller
      */
     public function create()
     {
-        //
+        $employees = DB::table('employees')->select('id', 'first_name', 'middle_name', 'last_name')->get();
+
+        return view('backend.payslip.create', compact('employees'));
     }
 
     /**
@@ -34,7 +40,30 @@ class PaySlipController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'date' => 'required',
+            'employee_id' => 'required',
+            'basic_monthly_pay' => 'required',
+            'hours_deduction' => 'required',
+            'payable_amount' => 'required',
+            'bonus' => 'required',
+            'total' => 'required',
+        ]);
+
+
+        Payslip::create([
+            'date' => $request->date,
+            'employee_id' => $request->employee_id,
+            'basic_monthly_pay' => $request->basic_monthly_pay,
+            'hours_deduction' => $request->hours_deduction,
+            'payable_amount' => $request->payable_amount,
+            'bonus' => $request->bonus,
+            'total' => $request->total,
+            'payment_method' => 'bank transfer'
+        ]);
+
+        return redirect()->back()->with('success', 'Record has been saved');
+
     }
 
     /**
@@ -45,7 +74,9 @@ class PaySlipController extends Controller
      */
     public function show($id)
     {
-        //
+        $payslip = Payslip::find($id);
+
+        return view('backend.payslip.show', compact('payslip'));
     }
 
     /**
@@ -79,6 +110,8 @@ class PaySlipController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $payslip = Payslip::find($id)->delete();
+
+        return redirect('payslip');
     }
 }

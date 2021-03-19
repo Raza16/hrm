@@ -38,13 +38,17 @@ class UserDashboardController extends Controller
 
         $todayTasks = Task::where(['employee_id' => $employee->id, 'assign_date' => date("Y-m-d")])->get();
 
+        $employeeTimes = TimeTracker::where('employee_id', $employee->id)
+        ->orderBy('date', 'DESC')
+        ->get();
+        // dd($employeeTimes);
+
+        // dd($EmployeeTime);
+
         // // total hours between two dates
         // $start_date = new DateTime($timeEntry->checkin);
         // $since_start = $start_date->diff(new DateTime($timeEntry->checkout));
         // dd($since_start->h);
-
-        $currentDateTime = new DateTime("now", new DateTimeZone('Asia/Karachi'));
-        // dd($dataTime);
 
         // $timezoneDate = date('g:i a', strtotime(now()));
         // dd($timezoneDate);
@@ -67,7 +71,7 @@ class UserDashboardController extends Controller
 
         $checkinDone = TimeTracker::whereNull('checkout')
         ->where('employee_id', $employee->id)
-        ->where('date', date('Y-m-d'))
+        ->where('date', Carbon::today())
         ->first();
         // dd($checkinDone);
 
@@ -82,18 +86,16 @@ class UserDashboardController extends Controller
         ->first();
         // dd($breakinDone);
 
-
-
         return view('backend.user_account.dashboard', compact(
             'employee',
             'leaveCount',
             'completedTaskCount',
             'processTaskCount',
             'todayTasks',
-            'currentDateTime',
             'checkinDone',
             'breakinDone',
-            'checkinPrevious'
+            'checkinPrevious',
+            'employeeTimes',
         ));
     }
 
@@ -106,7 +108,7 @@ class UserDashboardController extends Controller
 
         $timeTracker->employee_id = $employee->id;
         $timeTracker->checkin = new DateTime("now", new DateTimeZone('Asia/Karachi'));
-        $timeTracker->date = date('Y-m-d');
+        $timeTracker->date = Carbon::today();
 
         $timeTracker->save();
 
@@ -134,7 +136,7 @@ class UserDashboardController extends Controller
             'updated_at' => Carbon::now(),
         ]);
 
-        return redirect()->back()->with('success', 'BreakIn time has been submited');
+        return redirect()->back()->with('success', 'Break time has been submited');
     }
 
     public function breakOutTimeUpdate(Request $request)
@@ -169,7 +171,7 @@ class UserDashboardController extends Controller
                     'total_hours' =>  $total_time,
                 ]);
 
-                return redirect('/user_account')->with('success', 'BreakOut time has been submited');
+                return redirect('/user_account')->with('success', 'Break Off time has been submited');
             }
     }
 
@@ -207,7 +209,6 @@ class UserDashboardController extends Controller
             $sum_total_hours = TimeBreaker::where(['time_tracker_id' => $timeTrackerId->id, 'employee_id' => Auth::user()->employee->id, 'date' => date('Y-m-d')])
             ->sum(DB::raw("TIME_TO_SEC(total_hours)"));
             $sumTime = gmdate("H:i:s", $sum_total_hours);
-            // dd($sumTime);
 
             $timeEntry->update([
                 'total_hours' =>  $total_time,
@@ -232,6 +233,9 @@ class UserDashboardController extends Controller
             ]);
 
             return redirect('/user_account')->with('success', 'CheckOut time has been submited');
+        }
+        else{
+            return redirect('/user_account')->with('success', 'CheckOut time is missing');
         }
 
         // $checkinPrevious = TimeTracker::whereNull('checkout')
@@ -303,5 +307,17 @@ class UserDashboardController extends Controller
         //     }
         // }
 
+
     }
+
+    public function updateTime(Request $request, $id)
+    {
+        $updateTime = TimeTracker::where('employee_id', Auth::user()->employee->id)
+        ->where('id', $id)
+        ->first();
+
+
+    }
+
+
 }

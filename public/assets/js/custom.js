@@ -13,6 +13,7 @@ $(document).ready(function() {
             // responsive: true,
             // orderCellsTop: true,
             fixedHeader: true,
+            "scrollX": true,
             // pageLength: 100,
             dom: 'lBfrtip',
             buttons: [
@@ -153,6 +154,10 @@ $("#to-date, #from-date").change(function(){
     }
  });
 
+//  --------------------------------Select2 Option
+$('.select2').select2({
+    placeholder: '-- Select --'
+  });
 
 
 

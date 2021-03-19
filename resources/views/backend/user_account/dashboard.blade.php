@@ -188,14 +188,13 @@
                                                         <p>Your previous Last Checkin <span style="color: red;"> {{date('j F, Y | g:i a' ,strtotime($checkinPrevious->checkin))}}</span></p>
                                                         <input type="time" name="checkout" class="form-control" value="{{old('checkout')}}">
                                                         @error('checkout')
-                                                        <p><small class="text-danger">{{ $errors->first('checkout') }}</small></p>
+                                                            <p><small class="text-danger">{{ $errors->first('checkout') }}</small></p>
                                                         @enderror
                                                         <button type="submit" class="mt-2 btn btn-sm btn-primary">Submit Previous Check Out</button>
                                                     </form>
-
-                                                    </div>
+                                                </div>
                                                 @else
-                                                <div style="display:flex;">
+                                                <div style="display:flex;" class="mt-3">
                                                     @if (!$checkinDone)
                                                         <form action="{{url('checkin')}}" method="POST">
                                                             @csrf
@@ -205,7 +204,7 @@
                                                     @elseif($checkinDone && !$breakinDone)
                                                         <form action="{{url('breakin')}}" method="POST">
                                                             @csrf
-                                                            <button type="submit" class="btn btn-sm btn-primary">Break In</button>
+                                                            <button type="submit" class="btn btn-sm btn-primary">Break</button>
                                                         </form>&nbsp;
 
                                                         <form action="{{url('checkout')}}" method="POST">
@@ -216,15 +215,118 @@
                                                     @elseif($breakinDone && $checkinDone)
                                                         <form action="{{url('breakout')}}" method="POST">
                                                             @csrf
-                                                            <button type="submit" class="btn btn-sm btn-primary">Break Out</button>
+                                                            <button type="submit" class="btn btn-sm btn-primary">Break Off</button>
                                                         </form>
                                                     @endif
                                                 </div>
 
                                                 @endif
-
                                             </span>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade active show">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Time Tracker</h3>
+                                            <div class="card-options">
+                                                {{-- <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fa fa-times"></i></a> --}}
+                                            </div>
+                                        </div>
+
+                                        <div class="table-responsive" style="padding:30px 30px;">
+                                            <table class="datatable table table-striped table-bordered" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Check In</th>
+                                                        <th>Check Out</th>
+                                                        <th>Total Hours</th>
+                                                        <th>Break Hours</th>
+                                                        <th>Working Hours</th>
+                                                        <th>Options</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($employeeTimes as $employeeTime)
+                                                        <tr>
+                                                            <td>{{$employeeTime->date ? date('j F, Y', strtotime($employeeTime->date)):null}}</td>
+                                                            <td>{{$employeeTime->checkin ? date('j F, Y | g:i a', strtotime($employeeTime->checkin)):null}}</td>
+                                                            <td>{{$employeeTime->checkout ? date('j F, Y | g:i a', strtotime($employeeTime->checkout)):null}}</td>
+                                                            <td>{{$employeeTime->total_hours}}</td>
+                                                            <td>{{$employeeTime->break_hours}}</td>
+                                                            <td>{{$employeeTime->working_hours}}</td>
+                                                            <td>
+                                                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                                                    <div class="btn-group" role="group">
+                                                                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options
+                                                                        </button>
+                                                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                                        @if($employeeTime->checkout == null)
+                                                                         {{-- <a class="dropdown-item" href="{{url('time-tracker/'.$employeeTime->id.'/edit')}}">Edit</a> --}}
+                                                                         <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#editModal">Edit</a>
+                                                                         @endif
+                                                                        <a class="dropdown-item" href="{{url('employee-task-progress/'.$employeeTime->id)}}">View Break Time</a>
+                                                                        </div>
+                                                                     </div>
+                                                                     <!-- Modal -->
+                                                                    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div class="form-group">
+                                                                                    <label>Check In</label>
+                                                                                    <input type="text" name="checkin" class="form-control" value="{{$employeeTime->checkin}}">
+                                                                                    @error('checkin')
+                                                                                        <p><small class="text-danger">{{ $errors->first('checkin') }}</small></p>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label>Check Out</label>
+                                                                                    <input type="text" name="checkout" class="form-control" value="{{$employeeTime->checkout}}">
+                                                                                    @error('checkout')
+                                                                                        <p><small class="text-danger">{{ $errors->first('checkout') }}</small></p>
+                                                                                    @enderror
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /Modal -->
+                                                                 </div>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Check In</th>
+                                                        <th>Check Out</th>
+                                                        <th>Total Hours</th>
+                                                        <th>Break Hours</th>
+                                                        <th>Working Hours</th>
+                                                        <th>Options</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -297,6 +399,8 @@
                                 </div>
                             </div>
                         </div>
+
+
 
                         {{-- <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item">

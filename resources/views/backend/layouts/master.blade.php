@@ -26,6 +26,8 @@
 <link rel="stylesheet" href="{{asset('assets/css/main.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/css/theme1.css')}}"/>
 
+<!-- Select2 css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" />
 
 {{-- custom css for whole project --}}
 <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}"/>
@@ -76,11 +78,13 @@
                 </ul>
             </li>
 
-            <li class="{{request()->is('client') || request()->is('client/create')  ? 'active' : null}}">
+            <li class="{{request()->is('client') || request()->is('client/create') || request()->is('client-invoice/create')  ? 'active' : null}}">
                 <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-users"></i><span>Clients</span></a>
                 <ul>
                     <li class="{{request()->is('client') ? 'active' : null}}"><a href="{{url('client')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>All Clients</a></li>
                     <li class="{{request()->is('client/create') ? 'active' : null}}"><a href="{{url('client/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add Client</a></li>
+                    <li class="{{request()->is('client-invoice') ? 'active' : null}}"><a href="{{url('client-invoice')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Invoices List</a></li>
+                    <li class="{{request()->is('client-invoice/create') ? 'active' : null}}"><a href="{{url('client-invoice/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add Invoice</a></li>
                 </ul>
             </li>
 
@@ -116,10 +120,11 @@
                 </ul>
             </li>
 
-            <li class="{{request()->is('leave-list') ? 'active' : null}}">
+            <li class="{{request()->is('payslip') || request()->is('payslip/create') ? 'active' : null}}">
                 <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-file-text"></i><span>Payroll</span></a>
                 <ul>
-                    {{-- <li class="{{request()->is('leave-list') ? 'active' : null}}"><a href="{{url('leave-list')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Payslip</a></li> --}}
+                    <li class="{{request()->is('payslip') ? 'active' : null}}"><a href="{{url('payslip')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Payslip List</a></li>
+                    <li class="{{request()->is('payslip/create') ? 'active' : null}}"><a href="{{url('payslip/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add Payslip</a></li>
                 </ul>
             </li>
 
@@ -303,6 +308,10 @@
 
 {{-- blog featured image --}}
 <script src="https://unpkg.com/file-upload-with-preview@4.1.0/dist/file-upload-with-preview.min.js"></script>
+
+{{-- Select 2 --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
 
 {{-- Custom.js for whole project --}}
 <script src="{{asset('assets/js/custom.js')}}"></script>
