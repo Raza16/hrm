@@ -103,9 +103,10 @@ class EmployeeController extends Controller
 
         if($employee->save())
         {
-            foreach ($request->file ? : [] as $file) {
-                $filename =  time().'_'.$file->getClientOriginalName();
-                $destinationPath = public_path('storage/employee_documents');
+            foreach ($request->file as $file) {
+le) {
+                $filename =  time().'_'.$file->get            foreach ($request->file as $file) {
+ public_path('storage/employee_documents');
                 $filePath = $destinationPath. "/".  $filename;
                 $file->move($destinationPath, $filename);
                 EmployeeDocuments::create([
