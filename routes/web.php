@@ -63,7 +63,9 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function() {
 
     Route::get('employee-doc/{id}/view', [App\Http\Controllers\EmployeeController::class, 'viewDocs']);
 
-    Route::resource('payslip', App\Http\Controllers\PaySlipController::class);
+    Route::resource('payslip', App\Http\Controllers\PayslipController::class);
+
+    Route::get('generate-pdf/{id}', [App\Http\Controllers\PayslipController::class, 'generatePDF']);
 
 });
 

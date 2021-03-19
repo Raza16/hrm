@@ -51,10 +51,10 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Hours Deduction</label>
-                                                    <input type="text" name="hours_deduction" class="form-control" value="{{old('hours_deduction')}}">
-                                                    @error('hours_deduction')
-                                                        <p><small class="text-danger">{{ $errors->first('hours_deduction') }}</small></p>
+                                                    <label>Bonus</label>
+                                                    <input type="text" name="bonus" class="form-control" value="{{old('bonus')}}">
+                                                    @error('bonus')
+                                                        <p><small class="text-danger">{{ $errors->first('bonus') }}</small></p>
                                                     @enderror
                                                 </div>
 
@@ -67,10 +67,10 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>Bonus</label>
-                                                    <input type="text" name="bonus" class="form-control" value="{{old('bonus')}}">
-                                                    @error('bonus')
-                                                        <p><small class="text-danger">{{ $errors->first('bonus') }}</small></p>
+                                                    <label>Hours Deduction</label>
+                                                    <input type="text" name="hours_deduction" class="form-control" value="{{old('hours_deduction')}}">
+                                                    @error('hours_deduction')
+                                                        <p><small class="text-danger">{{ $errors->first('hours_deduction') }}</small></p>
                                                     @enderror
                                                 </div>
 

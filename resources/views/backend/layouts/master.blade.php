@@ -42,7 +42,7 @@
 
 </head>
 
-<body class="font-montserrat">
+<body class="font-opensans">
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
