@@ -1,6 +1,6 @@
 @extends('backend/layouts/master')
 
-@section('title', 'Time Tracker | List')
+@section('title', 'Payslip | List')
 
 @section('main-content')
     <div class="container-fluid">
@@ -10,11 +10,9 @@
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Time Tracker</h3>
+                                        <h3 class="card-title">Payslips</h3>
                                         <div class="card-options">
-                                            {{-- <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fa fa-chevron-up"></i></a>
-                                            <a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fa fa-times"></i></a> --}}
-                                            {{-- <a class="btn btn-sm btn-secondary mr-1" href="{{url('attendance/create')}}">Add Attendance</a> --}}
+                                            <a class="btn btn-sm btn-secondary mr-1" href="{{url('payslip/create')}}">Add Payslip</a>
                                         </div>
                                     </div>
                                     <div style="padding:30px 30px;">
@@ -23,32 +21,21 @@
                                                 <tr>
                                                     <th>Employee</th>
                                                     <th>Date</th>
-                                                    <th>Checkin</th>
-                                                    <th>Checkout</th>
-                                                    <th>Total Hours</th>
-                                                    <th>Break Hours</th>
-                                                    <th>Working Hours</th>
                                                     <th>Options</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="table-hover">
-                                                @foreach ($time_trackers as $time_tracker)
+                                                @foreach ($payslips as $payslip)
                                                 <tr>
-                                                    <td>{{$time_tracker->employee->first_name.' '.$time_tracker->employee->middle_name.' '.$time_tracker->employee->last_name}}</td>
-                                                    <td>{{$time_tracker->date ? date('j F, Y', strtotime($time_tracker->date)):null}}</td>
-                                                    <td>{{$time_tracker->checkin ? date('j F, Y | g:i a', strtotime($time_tracker->checkin)):null}}</td>
-                                                    <td>{{$time_tracker->checkout ? date('j F, Y | g:i a', strtotime($time_tracker->checkout)) : null}}</td>
-                                                    <td>{{$time_tracker->total_hours}}</td>
-                                                    <td>{{$time_tracker->break_hours}}</td>
-                                                    <td>{{$time_tracker->working_hours}}</td>
+                                                    <td>{{$payslip->employee->first_name.' '.$payslip->employee->middle_name.' '.$payslip->employee->last_name}}</td>
+                                                    <td>{{$payslip->date}}</td>
                                                     <td>
                                                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                                             <div class="btn-group" role="group">
                                                                  <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options
                                                                  </button>
                                                                  <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                                 <a class="dropdown-item" href="{{url('time-tracker/'.$time_tracker->id.'/edit')}}">Edit</a>
-                                                                 <a class="dropdown-item" href="{{url('employee-task-progress/'.$time_tracker->id)}}">View Break Time</a>
+                                                                 <a class="dropdown-item" href="{{url('payslip/'.$payslip->id)}}">View</a>
                                                                  </div>
                                                              </div>
                                                          </div>
@@ -60,11 +47,6 @@
                                                 <tr>
                                                     <th>Employee</th>
                                                     <th>Date</th>
-                                                    <th>Checkin</th>
-                                                    <th>Checkout</th>
-                                                    <th>Total Hours</th>
-                                                    <th>Break Hours</th>
-                                                    <th>Working Hours</th>
                                                     <th>Options</th>
                                                 </tr>
                                             </tfoot>

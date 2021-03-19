@@ -27,16 +27,18 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function() {
 
     Route::get('admin/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard']);
 
-    Route::get('client/list', function () {
-        return view('backend/clients/list');
-    });
-    Route::get('client/create', function () {
-        return view('backend/clients/create');
-    });
+    // Route::get('client/list', function () {
+    //     return view('backend/clients/list');
+    // });
+    // Route::get('client/create', function () {
+    //     return view('backend/clients/create');
+    // });
 
     Route::resource('employee', App\Http\Controllers\EmployeeController::class);
 
     Route::resource('client', App\Http\Controllers\ClientController::class);
+
+    Route::resource('client-invoice', App\Http\Controllers\ClientInvoiceController::class);
 
     Route::resource('project', App\Http\Controllers\ProjectController::class);
 
@@ -47,8 +49,6 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function() {
     Route::get('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
     Route::post('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
 
-    // Route::resource('cms/blog', BlogController::class);
-
     Route::resource('role', App\Http\Controllers\RoleController::class);
 
     Route::resource('user', App\Http\Controllers\UserController::class);
@@ -57,9 +57,14 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function() {
 
     Route::get('time-tracker', [App\Http\Controllers\TimeTrackerController::class, 'index']);
 
+    Route::put('time-tracker/{id}/edit', [App\Http\Controllers\TimeTrackerController::class, 'update']);
+
     Route::delete('employee-doc/{id}', [App\Http\Controllers\EmployeeController::class, 'deleteDocs']);
 
     Route::get('employee-doc/{id}/view', [App\Http\Controllers\EmployeeController::class, 'viewDocs']);
+
+    Route::resource('payslip', App\Http\Controllers\PaySlipController::class);
+
 });
 
 //----------------------- User Routes
@@ -84,6 +89,8 @@ Route::group(['middleware' => ['employee', 'logout']], function() {
 
     Route::post('/breakin', [App\Http\Controllers\UserDashboardController::class, 'breakInTimeStore']);
     Route::post('/breakout', [App\Http\Controllers\UserDashboardController::class, 'breakOutTimeUpdate']);
+
+    Route::get('/timetracker/{id}', [App\Http\Controllers\UserDashboardController::class, 'updateTime']);
 
 });
 

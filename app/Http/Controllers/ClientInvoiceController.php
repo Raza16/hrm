@@ -23,7 +23,7 @@ class ClientInvoiceController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.client_invoice.create');
     }
 
     /**
