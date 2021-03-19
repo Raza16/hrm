@@ -113,9 +113,9 @@ class EmployeeController extends Controller
                     'file' => $filename
                 ]);
             }
-
-            return redirect('employee/create')->with('success', 'Record has been saved');
         }
+
+        return redirect('employee/create')->with('success', 'Record has been saved');
     }
 
     /**
