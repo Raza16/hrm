@@ -110,13 +110,13 @@ Auth::routes();
 
 //-------------------------- Artisan commands
 
-// Route::get('/migrate', function () {
-//     Artisan::call('migrate', [
-//        '--force' => true
-//     ]);
+Route::get('/migrate', function () {
+    Artisan::call('migrate', [
+       '--force' => true
+    ]);
 
-//     return 'Migrate Database Successfully!';
-// });
+    return 'Migrate Database Successfully!';
+});
 
 // Route::get('/dbseed', function () {
 //     Artisan::call('db:seed', [
@@ -127,10 +127,10 @@ Auth::routes();
 // });
 
 
-Route::get('/composer-update', function () {
-    Artisan::call('composer update', [
-       '--force' => true
-    ]);
+// Route::get('/composer-update', function () {
+//     Artisan::call('composer update', [
+//        '--force' => true
+//     ]);
 
-    return 'Composer Updated!';
-});
+//     return 'Composer Updated!';
+// });

@@ -73,7 +73,15 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-6"></div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>Notes</label>
+                                                    <textarea type="text" rows="5" name="notes" class="form-control"></textarea>
+                                                    @error('notes')
+                                                        <p><small class="text-danger">{{ $errors->first('notes') }}</small></p>
+                                                    @enderror
+                                                </div>
+                                            </div>
                                             <div class="col-6">
                                                 <table  style="float: right;">
                                                     <tr>
@@ -85,10 +93,25 @@
                                                         <td><input type="text" class="form-control form-control-sm" name="grand_total" readonly/></td>
                                                     </tr>
                                                 </table>
-
-
                                             </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>What kind of job is this?</label>
+                                                     <select class="form-control" name="services">
+                                                         <option value="Programming and Development">Programming and Development</option>
+                                                         <option value="Web Designing">Web Designing</option>
+                                                     </select>
+                                                    @error('services')
+                                                        <p><small class="text-danger">{{ $errors->first('services') }}</small></p>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                         <div class="row mt-5">
                                             <div class="col-sm-12">
                                                 <button type="submit" class="btn btn-primary">Submit</button>
