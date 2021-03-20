@@ -118,12 +118,11 @@ Auth::routes();
 //     return 'Migrate Database Successfully!';
 // });
 
-Route::get('/config-cache', function () {
-    Artisan::call('config:cache', [
-       '--force' => true
-    ]);
+Route::get('/config-cache', function() {
 
-    return 'Config Cache Successfully!';
+    $exitCode = Artisan::call('config:cache');
+
+    return "Config Cache Successfully";
 });
 
 // Route::get('/dbseed', function () {
