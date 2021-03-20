@@ -125,3 +125,12 @@ Auth::routes();
 
 //     return 'DB Seed completed!';
 // });
+
+
+Route::get('/composer-update', function () {
+    Artisan::call('composer update', [
+       '--force' => true
+    ]);
+
+    return 'Composer Updated!';
+});

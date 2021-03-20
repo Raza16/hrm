@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\Payslip;
-use PDF;
+use \PDF;
 
 class PayslipController extends Controller
 {
