@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\Payslip;
-use PDF;
+use \PDF;
 
 class PayslipController extends Controller
 {
@@ -50,7 +50,6 @@ class PayslipController extends Controller
             'bonus' => 'required',
             'total' => 'required',
         ]);
-
 
         Payslip::create([
             'date' => $request->date,
@@ -113,7 +112,10 @@ class PayslipController extends Controller
     {
         $payslip = Payslip::find($id)->delete();
 
-        return redirect('payslip');
+        return response()->json([
+            'message' => 'Record has been deleted!',
+        ]);
+        // return redirect('payslip')->with('delete', 'Record has been deleted');
     }
 
 

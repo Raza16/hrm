@@ -15,4 +15,12 @@ class TimeTrackerController extends Controller
 
         return view('backend.time_tracker.list', compact('time_trackers'));
     }
+
+    public function edit($id)
+    {
+        $timeTracker = TimeTracker::find($id);
+
+        return view('backend.time_tracker.edit', compact('timeTracker'));
+    }
+
 }

@@ -194,7 +194,9 @@ class TaskController extends Controller
 
     public function taskModuleForm()
     {
-        return view('backend.task.create_task_module');
+        $taskModules = DB::table('task_modules')->get();
+
+        return view('backend.task.create_task_module', compact('taskModules'));
     }
 
     public function taskModuleStore(Request $request)
@@ -210,6 +212,33 @@ class TaskController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Record has been submited');
+    }
+
+    public function taskModuleEdit($id)
+    {
+        $taskModule = DB::table('task_modules')->where('id', $id)->first();
+
+        return response()->json($taskModule);
+    }
+
+    public function taskModuleUpdate(Request $request, $id)
+    {
+        $taskModule = DB::table('task_modules')
+        ->where('id', $id)
+        ->update([
+            'module' => $request->module,
+        ]);
+
+        return response()->json($taskModule);
+    }
+
+    public function taskModuleDestory($id)
+    {
+        DB::table('task_modules')->where('id', $id)->delete();
+
+        return response()->json([
+            'message' => 'Record has been deleted!',
+        ]);
     }
 
 

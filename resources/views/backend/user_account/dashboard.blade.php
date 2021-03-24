@@ -178,13 +178,12 @@
                                             <span class="mb-2">Current Date Time: <span style="color:red;" id="ct6"></span></span>
                                             <br>
                                             <span class="mb-2">
-                                                @if($checkinPrevious)
+                                                {{-- @if($checkinPrevious)
                                                 <div class="form-group">
                                                     <form action="{{url('checkout')}}" method="POST">
                                                         @csrf
                                                         <label style="color:red;"><b>Previous checkout is missing</b></label><br>
                                                         <label>Enter you correct previous <span style="color: red;">checkout time</span> first</label>
-                                                        {{-- <p>{{$checkinPrevious->checkin->format('Y-m-d g:i a')}}</p> --}}
                                                         <p>Your previous Last Checkin <span style="color: red;"> {{date('j F, Y | g:i a' ,strtotime($checkinPrevious->checkin))}}</span></p>
                                                         <input type="time" name="checkout" class="form-control" value="{{old('checkout')}}">
                                                         @error('checkout')
@@ -193,7 +192,7 @@
                                                         <button type="submit" class="mt-2 btn btn-sm btn-primary">Submit Previous Check Out</button>
                                                     </form>
                                                 </div>
-                                                @else
+                                                @else --}}
                                                 <div style="display:flex;" class="mt-3">
                                                     @if (!$checkinDone)
                                                         <form action="{{url('checkin')}}" method="POST">
@@ -220,7 +219,7 @@
                                                     @endif
                                                 </div>
 
-                                                @endif
+                                                {{-- @endif --}}
                                             </span>
                                         </div>
                                     </div>

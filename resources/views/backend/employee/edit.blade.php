@@ -209,9 +209,9 @@
                                                             <tr>
                                                                 <td>{{$docs->file}}</td>
                                                                 <td>
-                                                                    <button type="button" style="background:none;border:none;outline:none;" class="deletedoc remove" data-id="{{url('employee-doc/'.$docs->id)}}"><i style="color:red;" class="fa fa-trash"></i></button>
-                                                                    &nbsp;
                                                                     <a href="{{url('employee-doc/'.$docs->id.'/view')}}"><i style="color:red;" class="fa fa-eye"></i></a>
+                                                                    &nbsp;
+                                                                    <button type="button" style="background:none;border:none;outline:none;" class="deletedoc remove" data-id="{{url('employee-doc/'.$docs->id)}}"><i style="color:red;" class="fa fa-trash"></i></button>
                                                                 </td>
                                                             </tr>
                                                         @endforeach

@@ -111,17 +111,6 @@ $("#title").keyup(function(){
     $("#slug").val(slug.toLowerCase());
 });
 
-
-// $('#title').keyup(function(e) {
-//     $.get('127.0.0.1:8000/check_slug',
-//         { 'title': $(this).val() },
-//         function( data ) {
-//             $('#slug').val(data.slug);
-//         }
-//     );
-//   });
-
-
 //--------------------------- Alert message
 $(document).ready(function() {
     $("#alert").fadeTo(2000, 500).fadeOut(2000, function(){
@@ -158,7 +147,6 @@ $("#to-date, #from-date").change(function(){
 $('.select2').select2({
     placeholder: '-- Select --'
   });
-
 
 
 

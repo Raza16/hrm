@@ -95,14 +95,14 @@
                                             </div>
                                             <div class="col-3">
                                                 <p>Hours Deduction</p>
-                                                <p><b>Total Deduction</b></p>
+                                                {{-- <p><b>Total Deduction</b></p> --}}
                                             </div>
                                             <div class="col-3">
                                                 {{-- hours deduction --}}
                                                 <p>{{$payslip->hours_deduction}}</p>
 
                                                 {{-- total deduction --}}
-                                                <p class="border-style"><b>{{$payslip->total}}</b></p>
+                                                {{-- <p class="border-style"><b>{{$payslip->total}}</b></p> --}}
                                             </div>
                                         </div>
                                         <div class="row border-style">
