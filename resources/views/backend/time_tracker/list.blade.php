@@ -43,9 +43,10 @@
                                                     <td>{{$time_tracker->working_hours ? $time_tracker->working_hours : '--missing--'}}</td>
                                                     <td>
                                                          <div style="margin-bottom:-9px;" class="option-btn">
-                                                            <a href="{{url('time-tracker/'.$time_tracker->id.'/edit')}}" class="btn btn-sm btn-primary">Edit</a>
+                                                            {{-- <a href="{{url('time-tracker/'.$time_tracker->id.'/edit')}}" class="btn btn-sm btn-primary">Edit</a>
                                                             </a><br>
-                                                            <a class="btn btn-sm btn-primary mt-1" href="{{url('employee-task-progress/'.$time_tracker->id)}}">View Break Time</a>
+                                                            <a class="btn btn-sm btn-primary mt-1" href="{{url('employee-task-progress/'.$time_tracker->id)}}">View Break Time</a> --}}
+
                                                             {{-- <form action="{{url('employee-task-progress/'.$time_tracker->id)}}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
