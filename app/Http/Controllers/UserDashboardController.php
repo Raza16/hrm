@@ -63,10 +63,10 @@ class UserDashboardController extends Controller
         //     })
         //     ->first();
 
-        $checkinPrevious = TimeTracker::whereNull('checkout')
-        ->where('employee_id', $employee->id)
-        ->whereDate('date', Carbon::yesterday())
-        ->first();
+        // $checkinPrevious = TimeTracker::whereNull('checkout')
+        // ->where('employee_id', $employee->id)
+        // ->whereDate('date', Carbon::yesterday())
+        // ->first();
         // dd($checkinPrevious);
 
         $checkinDone = TimeTracker::whereNull('checkout')
@@ -94,7 +94,7 @@ class UserDashboardController extends Controller
             'todayTasks',
             'checkinDone',
             'breakinDone',
-            'checkinPrevious',
+            // 'checkinPrevious',
             'employeeTimes',
         ));
     }
@@ -315,8 +315,6 @@ class UserDashboardController extends Controller
         $updateTime = TimeTracker::where('employee_id', Auth::user()->employee->id)
         ->where('id', $id)
         ->first();
-
-
     }
 
 

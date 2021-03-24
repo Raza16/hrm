@@ -21,10 +21,31 @@
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12 first-column">
                                                 <div class="form-group">
+                                                    <label>Invoice No</label>
+                                                    @if (isset($newInvoiceNo))
+                                                    <input type="text" name="invoice_no" class="form-control" value="{{$newInvoiceNo}}" readonly>
+                                                    @endif
+                                                    @error('invoice_no')
+                                                        <p><small class="text-danger">{{ $errors->first('invoice_no') }}</small></p>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group">
                                                     <label>Bill To</label>
-                                                    <input type="text" name="role_type" class="form-control" value="{{old('role_type')}}">
-                                                    @error('role_type')
-                                                        <p><small class="text-danger">{{ $errors->first('role_type') }}</small></p>
+                                                    @if (isset($clients))
+                                                    <select name="client_id" class="form-control select2">
+                                                        <option></option>
+                                                        @foreach ($clients as $client)
+                                                            <option value="{{$client->id}}">{{$client->full_name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @endif
+
+                                                    @if (isset($clientFullname))
+                                                        <p class="form-control">{{$clientFullname->full_name}}</p>
+                                                        <input type="hidden" class="form-control" name="client_id" value="{{$clientFullname->id}}" />
+                                                    @endif
+                                                    @error('client_id')
+                                                        <p><small class="text-danger">{{ $errors->first('client_id') }}</small></p>
                                                     @enderror
                                                 </div>
                                                 <p><b>Billing Period</b></p>
@@ -41,9 +62,9 @@
                                                     <div class="col-6">
                                                         <div class="form-group">
                                                             <label>To Date</label>
-                                                            <input type="date" name="from_date" class="form-control" value="{{old('from_date')}}">
-                                                            @error('from_date')
-                                                                <p><small class="text-danger">{{ $errors->first('from_date') }}</small></p>
+                                                            <input type="date" name="to_date" class="form-control" value="{{old('to_date')}}">
+                                                            @error('to_date')
+                                                                <p><small class="text-danger">{{ $errors->first('to_date') }}</small></p>
                                                             @enderror
                                                         </div>
                                                     </div>
@@ -60,15 +81,17 @@
                                                         <th>Total</th>
                                                         <th>option</th>
                                                     </tr>
+                                                    <tbody class="new-row">
                                                     <tr>
-                                                        <td><input type="text" class="form-control" name="description" /></td>
-                                                        <td><input type="text" class="form-control" name="quantity" /></td>
-                                                        <td><input type="text" class="form-control" name="rate" /></td>
-                                                        <td><input type="text" class="form-control" name="total" readonly/></td>
+                                                        <td><input type="text" class="form-control" name="description[]" /></td>
+                                                        <td><input type="text" class="form-control qty" name="quantity[]" /></td>
+                                                        <td><input type="text" class="form-control rate" name="rate[]" /></td>
+                                                        <td><input type="text" class="form-control total" name="total[]" /></td>
                                                         <td><button type="button" class="delete-row btn btn-default"><i class="fa fa-trash" style="color:red;"></i></button></td>
                                                     </tr>
+                                                    </tbody>
                                                 </table>
-                                                <button type="button" id="add-doc" class="mt-3 btn btn-sm btn-primary">+Add</button>
+                                                <button type="button" id="add" class="mt-3 btn btn-sm btn-primary">+Add</button>
                                                 <hr>
                                             </div>
                                         </div>
@@ -76,7 +99,7 @@
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label>Notes</label>
-                                                    <textarea type="text" rows="5" name="notes" class="form-control"></textarea>
+                                                    <textarea type="text" rows="5" name="notes" class="form-control">{{old('notes')}}</textarea>
                                                     @error('notes')
                                                         <p><small class="text-danger">{{ $errors->first('notes') }}</small></p>
                                                     @enderror
@@ -86,11 +109,20 @@
                                                 <table  style="float: right;">
                                                     <tr>
                                                         <td style="padding-right:140px;">Discount</td>
-                                                        <td><input type="text" class="form-control form-control-sm" name="discount" /></td>
+                                                        <td>
+                                                            <input type="text" class="form-control form-control-sm" id="discount" name="discount"/>
+                                                            @error('discount')
+                                                                <p><small class="text-danger">{{ $errors->first('discount') }}</small></p>
+                                                            @enderror
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Grand Total</td>
-                                                        <td><input type="text" class="form-control form-control-sm" name="grand_total" readonly/></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Grand Total</b></td>
+                                                        <td><input type="text" class="form-control form-control-sm" id="grand_total" name="grand_total" /></td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -100,12 +132,13 @@
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label>What kind of job is this?</label>
-                                                     <select class="form-control" name="services">
-                                                         <option value="Programming and Development">Programming and Development</option>
-                                                         <option value="Web Designing">Web Designing</option>
+                                                     <select class="form-control" name="task_module_id">
+                                                         @foreach ($modules as $module)
+                                                            <option value="{{$module->id}}">{{$module->module}}</option>
+                                                         @endforeach
                                                      </select>
-                                                    @error('services')
-                                                        <p><small class="text-danger">{{ $errors->first('services') }}</small></p>
+                                                    @error('task_module_id')
+                                                        <p><small class="text-danger">{{ $errors->first('task_module_id') }}</small></p>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -126,3 +159,46 @@
                 </div>
             </div>
 @endsection
+
+@push('scripts')
+    <script>
+    $('#add').on('click', function(){
+        var tr ='<tr>'+
+                    '<td><input type="text" class="form-control" name="description[]" /></td>'+
+                    '<td><input type="text" class="form-control qty" name="quantity[]" /></td>'+
+                    '<td><input type="text" class="form-control rate" name="rate[]" /></td>'+
+                    '<td><input type="text" class="form-control total" name="total[]" /></td>'+
+                    '<td><button type="button" class="delete-row btn btn-default"><i class="fa fa-trash" style="color:red;"></i></button></td>'+
+                '</tr>';
+
+            $('.new-row').append(tr);
+    });
+
+    $('.new-row').on('click', '.delete-row', function(){
+         $(this).parent().parent().remove();
+         total();
+    });
+
+    function cal(){
+        $('.new-row').on('.qty, .rate', 'keyup', function() {
+            var tr = $(this).parent().parent();
+            var qty = tr.find('.qty').val();
+            var rate = tr.find('.rate').val();
+            var total = qty * rate;
+            tr.find('.total').val(total.toFixed(2));
+            total();
+        });
+    }
+
+    function total(){
+         var total = 0;
+         $('.total').each(function(i,e){
+             grand_total += $(this).val() - 0;
+         });
+         $("#grand_total").val(grand_total.toFixed(2));
+    }
+
+
+
+    </script>
+@endpush

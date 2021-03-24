@@ -53,7 +53,7 @@
     <div id="header_top" class="header_top">
         <div class="container">
             <div class="hleft">
-                <a class="header-brand" href=""><i><img src="{{asset('img/favicon1.png')}}"/></i></a>
+                <i><img src="{{asset('img/favicon1.png')}}"/></i>
             </div>
         </div>
     </div>
@@ -316,6 +316,7 @@
 {{-- Custom.js for whole project --}}
 <script src="{{asset('assets/js/custom.js')}}"></script>
 
+{{-- Specific Page related Scripts --}}
 @stack('scripts')
 
 {{-- Ck editor --}}

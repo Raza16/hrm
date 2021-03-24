@@ -40,6 +40,8 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function() {
 
     Route::resource('client-invoice', App\Http\Controllers\ClientInvoiceController::class);
 
+    Route::get('client-invoice/create/{id}', [App\Http\Controllers\ClientInvoiceController::class, 'createInvoice']);
+
     Route::resource('project', App\Http\Controllers\ProjectController::class);
 
     Route::resource('task', App\Http\Controllers\TaskController::class);
@@ -48,6 +50,9 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function() {
 
     Route::get('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
     Route::post('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
+    Route::get('task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleEdit']);
+    Route::put('task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleUpdate']);
+    Route::delete('task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleDestory']);
 
     Route::resource('role', App\Http\Controllers\RoleController::class);
 
@@ -56,6 +61,7 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function() {
     Route::resource('leave-list', App\Http\Controllers\LeaveController::class);
 
     Route::get('time-tracker', [App\Http\Controllers\TimeTrackerController::class, 'index']);
+    Route::get('time-tracker/{id}/edit', [App\Http\Controllers\TimeTrackerController::class, 'edit']);
 
     Route::put('time-tracker/{id}/edit', [App\Http\Controllers\TimeTrackerController::class, 'update']);
 
@@ -118,11 +124,18 @@ Auth::routes();
 //     return 'Migrate Database Successfully!';
 // });
 
-Route::get('/config-cache', function() {
+// Route::get('/config-cache', function() {
 
-    $exitCode = Artisan::call('config:cache');
+//     $exitCode = Artisan::call('config:cache');
 
-    return "Config Cache Successfully";
+//     return "Config Cache Successfully";
+// });
+
+Route::get('/storage-link', function() {
+
+    Artisan::call('storage:link');
+
+    return "Storage Link Successfully";
 });
 
 // Route::get('/dbseed', function () {

@@ -30,15 +30,18 @@
                                                     <td>{{$payslip->employee->first_name.' '.$payslip->employee->middle_name.' '.$payslip->employee->last_name}}</td>
                                                     <td>{{$payslip->date}}</td>
                                                     <td>
-                                                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                                            <div class="btn-group" role="group">
-                                                                 <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options
-                                                                 </button>
-                                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                                 <a class="dropdown-item" href="{{url('payslip/'.$payslip->id)}}">View</a>
-                                                                 </div>
-                                                             </div>
-                                                         </div>
+                                                         <div style="margin-bottom:-9px;display:flex;" class="option-btn">
+                                                            <a href="{{url('payslip/'.$payslip->id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye" aria-hidden="true"></i></a> &nbsp;
+                                                            </a>
+                                                            {{-- <form action="{{ url('payslip/'.$payslip->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-sm btn-danger" style="text-transform:none;"><i class="fa fa-trash" aria-hidden="true"></i>
+                                                                </button>
+                                                            </form> --}}
+
+                                                            <button type="button" class="btn btn-sm btn-secondary delete remove" data-id="{{url('payslip/'.$payslip->id)}}"><i class="fa fa-trash"></i></button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -59,3 +62,29 @@
                 </div>
             </div>
 @endsection
+
+@push('scripts')
+
+<script>
+
+$(".delete").click('.remove',function(){
+
+    var dataId = $(this).attr("data-id");
+    var del = this;
+    if(confirm("Do you want to delete this record?")){
+        $.ajax({
+        url:dataId,
+        type:'DELETE',
+        data:{
+        _token : $("input[name=_token]").val()
+        },
+        success:function(response){
+            $(del).closest( "tr" ).remove();
+            alert(response.message);
+        }
+        });
+    }
+});
+
+</script>
+@endpush

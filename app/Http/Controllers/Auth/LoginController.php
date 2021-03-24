@@ -50,11 +50,6 @@ class LoginController extends Controller
 
                 return $this->redirectTo = '/user_account';
             }
-
-            // if (Auth::user()->role_id == 3) {
-            //     return $this->redirectTo = '/user_account';
-            // }
-
         }
     /**
      * Create a new controller instance.

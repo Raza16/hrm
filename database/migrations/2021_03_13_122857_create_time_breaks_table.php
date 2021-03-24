@@ -20,7 +20,7 @@ class CreateTimeBreaksTable extends Migration
             $table->date('date');
             $table->dateTime('breakin');
             $table->dateTime('breakout')->nullable();
-            $table->dateTime('total_hours')->nullable();
+            $table->time('total_hours')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

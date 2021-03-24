@@ -24,6 +24,7 @@ class CreatePayslipsTable extends Migration
             $table->integer('total');
             $table->string('payment_method');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
