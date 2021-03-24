@@ -116,13 +116,13 @@ Auth::routes();
 
 //-------------------------- Artisan commands
 
-// Route::get('/migrate', function () {
-//     Artisan::call('migrate', [
-//        '--force' => true
-//     ]);
+Route::get('/migrate', function () {
+    Artisan::call('migrate', [
+       '--force' => true
+    ]);
 
-//     return 'Migrate Database Successfully!';
-// });
+    return 'Migrate Database Successfully!';
+});
 
 // Route::get('/config-cache', function() {
 
