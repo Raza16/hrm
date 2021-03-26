@@ -24,29 +24,27 @@
                                             <div class="col-md-6 col-sm-12 first-column">
                                                 <div class="form-group">
                                                     <label>Checkin</label>
-                                                    <input type="text" name="role_type" class="form-control" value="">
-                                                    @error('role_type')
-                                                        <p><small class="text-danger">{{ $errors->first('role_type') }}</small></p>
+                                                    <input type="text" name="checkin" class="form-control" value="">
+                                                    @error('checkin')
+                                                        <p><small class="text-danger">{{ $errors->first('checkin') }}</small></p>
                                                     @enderror
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label>Checkout</label>
-                                                    <input type="text" name="role_type" class="form-control" value="">
-                                                    @error('role_type')
-                                                        <p><small class="text-danger">{{ $errors->first('role_type') }}</small></p>
+                                                    <input type="text" name="checkout" class="form-control" value="">
+                                                    @error('checkout')
+                                                        <p><small class="text-danger">{{ $errors->first('checkout') }}</small></p>
                                                     @enderror
                                                 </div>
                                             </div>
                                         </div>
-                                        {{-- ./row --}}
                                         <div class="row mt-5">
                                             <div class="col-sm-12">
                                                 <button type="submit" class="btn btn-primary">Save Changes</button>
-                                                <a href="{{url('role')}}" class="btn btn-secondary">Cancel</a>
+                                                <a href="{{url('client-invoice')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
                                         </div>
-                                        {{-- /row --}}
                                     </form>
                                 </div>
                             </div>

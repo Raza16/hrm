@@ -148,7 +148,7 @@
                                         <div class="row mt-5">
                                             <div class="col-sm-12">
                                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                                <a href="{{url('role')}}" class="btn btn-secondary">Cancel</a>
+                                                <a href="{{url('client-invoice')}}" class="btn btn-secondary">Cancel</a>
                                             </div>
                                         </div>
                                     </form>

@@ -8362,7 +8362,7 @@ body.h_menu.rtl .metismenu>li:last-child .collapse {
     }
 }
 
-body *::-webkit-scrollbar {
+/* body *::-webkit-scrollbar {
     width: 0px;
     height: 3px;
     transition: .3s background
@@ -8374,7 +8374,7 @@ body *::-webkit-scrollbar-thumb {
 
 body *:hover::-webkit-scrollbar-thumb {
     background: #f8f9fa
-}
+} */
 
 a:hover {
     text-decoration: none

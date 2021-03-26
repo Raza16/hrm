@@ -22,7 +22,7 @@ class CreateTasksTable extends Migration
             $table->date('assign_date');
             $table->date('deadline_date')->nullable();
             $table->string('status');
-            $table->string('note')->nullable();
+            $table->text('note')->nullable();
             $table->string('document')->nullable();
             $table->timestamps();
             $table->softDeletes();
