@@ -310,11 +310,25 @@ class UserDashboardController extends Controller
 
     }
 
-    public function updateTime(Request $request, $id)
+    public function viewTime($id)
     {
-        $updateTime = TimeTracker::where('employee_id', Auth::user()->employee->id)
+        $viewTime = TimeTracker::where('employee_id', Auth::user()->employee->id)
         ->where('id', $id)
         ->first();
+
+        return response()->json($viewTime);
+    }
+
+    public function updateTime(Request $request ,$id)
+    {
+        $viewTime = DB::table('time_tracker')->where('employee_id', Auth::user()->employee->id)
+        ->where('id', $id)
+        ->update([
+            'checkin' => $request->checkin,
+            'checkout' => $request->checkout,
+        ]);
+
+        return response()->json($viewTime);
     }
 
 

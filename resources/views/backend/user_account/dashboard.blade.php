@@ -239,7 +239,7 @@
                                         </div>
 
                                         <div class="table-responsive" style="padding:30px 30px;">
-                                            <table class="datatable table table-striped table-bordered" style="width:100%">
+                                            <table class="datatable table table-bordered" style="width:100%">
                                                 <thead>
                                                     <tr>
                                                         <th>Date</th>
@@ -257,57 +257,57 @@
                                                             <td>{{$employeeTime->date ? date('j F, Y', strtotime($employeeTime->date)):null}}</td>
                                                             <td>{{$employeeTime->checkin ? date('j F, Y | g:i a', strtotime($employeeTime->checkin)):null}}</td>
                                                             <td>{{$employeeTime->checkout ? date('j F, Y | g:i a', strtotime($employeeTime->checkout)):null}}</td>
-                                                            <td>{{$employeeTime->total_hours}}</td>
-                                                            <td>{{$employeeTime->break_hours}}</td>
-                                                            <td>{{$employeeTime->working_hours}}</td>
+                                                            <td>{{$employeeTime->total_hours ? $employeeTime->total_hours : null}}</td>
+                                                            <td>{{$employeeTime->break_hours ? $employeeTime->break_hours : null}}</td>
+                                                            <td>{{$employeeTime->working_hours ? $employeeTime->working_hours : null}}</td>
                                                             <td>
-                                                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                                                    <div class="btn-group" role="group">
-                                                                        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options
+                                                                <div style="margin-bottom:-9px;display:flex;">
+                                                                    @if($employeeTime->checkout == null)
+                                                                    <span data-toggle="tooltip" data-original-title="Edit">
+                                                                    <a class="btn btn-sm btn-primary" href="javascript:void(0)" onclick="editTime({{$employeeTime->id}})" data-original-title="Edit" data-target="#editModal"><i class="fa fa-edit"></i></a>
+                                                                    </span> &nbsp;
+                                                                    @endif
+                                                                    <br>
+                                                                    <a class="btn btn-sm btn-primary" data-toggle="tooltip" data-original-title="View Break Time" href="{{url('employee-task-progress/'.$employeeTime->id)}}"><i class="fa fa-eye"></i></a>
+                                                                </div>
+                                                                <!-- Modal -->
+                                                                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
                                                                         </button>
-                                                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                                        @if($employeeTime->checkout == null)
-                                                                         {{-- <a class="dropdown-item" href="{{url('time-tracker/'.$employeeTime->id.'/edit')}}">Edit</a> --}}
-                                                                         <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#editModal">Edit</a>
-                                                                         @endif
-                                                                        <a class="dropdown-item" href="{{url('employee-task-progress/'.$employeeTime->id)}}">View Break Time</a>
                                                                         </div>
-                                                                     </div>
-                                                                     <!-- Modal -->
-                                                                    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                        <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                <span aria-hidden="true">&times;</span>
-                                                                            </button>
-                                                                            </div>
+                                                                        <form id="timeFormEdit">
+                                                                            @csrf
                                                                             <div class="modal-body">
-                                                                                <div class="form-group">
-                                                                                    <label>Check In</label>
-                                                                                    <input type="text" name="checkin" class="form-control" value="{{$employeeTime->checkin}}">
-                                                                                    @error('checkin')
-                                                                                        <p><small class="text-danger">{{ $errors->first('checkin') }}</small></p>
-                                                                                    @enderror
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                    <label>Check Out</label>
-                                                                                    <input type="text" name="checkout" class="form-control" value="{{$employeeTime->checkout}}">
-                                                                                    @error('checkout')
-                                                                                        <p><small class="text-danger">{{ $errors->first('checkout') }}</small></p>
-                                                                                    @enderror
-                                                                                </div>
+                                                                            <input type="hidden" id="id" name="id"/>
+                                                                            <div class="form-group">
+                                                                                <label>Check In</label>
+                                                                                <input type="text" name="checkin" id="checkin" class="form-control" />
+                                                                                @error('checkin')
+                                                                                    <p><small class="text-danger">{{ $errors->first('checkin') }}</small></p>
+                                                                                @enderror
                                                                             </div>
-                                                                            <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                                                            <div class="form-group">
+                                                                                <label>Check Out</label>
+                                                                                <input type="text" name="checkout" id="checkout" class="form-control" />
+                                                                                @error('checkout')
+                                                                                    <p><small class="text-danger">{{ $errors->first('checkout') }}</small></p>
+                                                                                @enderror
                                                                             </div>
+                                                                            </div>
+                                                                        <div class="modal-footer">
+                                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                                         </div>
-                                                                        </div>
+                                                                        </form>
                                                                     </div>
-                                                                    <!-- /Modal -->
-                                                                 </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /Modal -->
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -368,7 +368,7 @@
                                                             <td>{{$todayTask->deadline_date ? \Carbon\Carbon::parse($todayTask->deadline_date)->format('j F, Y') : null}}</td>
                                                             <td>
                                                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                                                   <div class="btn-group  btn-group-sm" role="group">
+                                                                   <div class="btn-group btn-group-sm" role="group">
                                                                         <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options
                                                                         </button>
                                                                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -398,328 +398,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-                        {{-- <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link" id="pills-blog-tab" data-toggle="pill" href="#pills-blog" role="tab" aria-controls="pills-blog" aria-selected="false">Blog</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="pills-timeline-tab" data-toggle="pill" href="#pills-timeline" role="tab" aria-controls="pills-timeline" aria-selected="false">Timeline</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">Profile</a>
-                            </li>
-                        </ul> --}}
-
-                        {{-- <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade" id="pills-timeline" role="tabpanel" aria-labelledby="pills-timeline-tab">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Activity</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="timeline_item ">
-                                            <img class="tl_avatar" src="assets/images/xs/avatar1.jpg" alt="">
-                                            <span><a href="javascript:void(0);">Elisse Joson</a> San Francisco, CA <small class="float-right text-right">20-April-2019 - Today</small></span>
-                                            <h6 class="font600">Hello, 'Im a single div responsive timeline without media Queries!</h6>
-                                            <div class="msg">
-                                                <p>I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things. I write the best placeholder text, and I'm the biggest developer on the web card she has is the Lorem card.</p>
-                                                <a href="javascript:void(0);" class="mr-20 text-muted"><i class="fa fa-heart text-pink"></i> 12 Love</a>
-                                                <a class="text-muted" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-comments"></i> 1 Comment</a>
-                                                <div class="collapse p-4 section-gray" id="collapseExample">
-                                                    <form class="well">
-                                                        <div class="form-group">
-                                                            <textarea rows="2" class="form-control no-resize" placeholder="Enter here for tweet..."></textarea>
-                                                        </div>
-                                                        <button class="btn btn-primary">Submit</button>
-                                                    </form>
-                                                    <ul class="recent_comments list-unstyled mt-4 mb-0">
-                                                        <li>
-                                                            <div class="avatar_img">
-                                                                <img class="rounded img-fluid" src="assets/images/xs/avatar4.jpg" alt="">
-                                                            </div>
-                                                            <div class="comment_body">
-                                                                <h6>Donald Gardner <small class="float-right font-14">Just now</small></h6>
-                                                                <p>Lorem ipsum Veniam aliquip culpa laboris minim tempor</p>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="timeline_item ">
-                                            <img class="tl_avatar" src="assets/images/xs/avatar4.jpg" alt="">
-                                            <span><a href="javascript:void(0);" title="">Dessie Parks</a> Oakland, CA <small class="float-right text-right">19-April-2019 - Yesterday</small></span>
-                                            <h6 class="font600">Oeehhh, that's awesome.. Me too!</h6>
-                                            <div class="msg">
-                                                <p>I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things. on the web by far... While that's mock-ups and this is politics, are they really so different? I think the only card she has is the Lorem card.</p>
-                                                <div class="timeline_img mb-20">
-                                                    <img class="width100" src="assets/images/gallery/1.jpg" alt="Awesome Image">
-                                                    <img class="width100" src="assets/images/gallery/2.jpg" alt="Awesome Image">
-                                                </div>
-                                                <a href="javascript:void(0);" class="mr-20 text-muted"><i class="fa fa-heart text-pink"></i> 23 Love</a>
-                                                <a class="text-muted" role="button" data-toggle="collapse" href="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1"><i class="fa fa-comments"></i> 2 Comment</a>
-                                                <div class="collapse p-4 section-gray" id="collapseExample1">
-                                                    <form class="well">
-                                                        <div class="form-group">
-                                                            <textarea rows="2" class="form-control no-resize" placeholder="Enter here for tweet..."></textarea>
-                                                        </div>
-                                                        <button class="btn btn-primary">Submit</button>
-                                                    </form>
-                                                    <ul class="recent_comments list-unstyled mt-4 mb-0">
-                                                        <li>
-                                                            <div class="avatar_img">
-                                                                <img class="rounded img-fluid" src="assets/images/xs/avatar4.jpg" alt="">
-                                                            </div>
-                                                            <div class="comment_body">
-                                                                <h6>Donald Gardner <small class="float-right font-14">Just now</small></h6>
-                                                                <p>Lorem ipsum Veniam aliquip culpa laboris minim tempor</p>
-                                                                <div class="timeline_img mb-20">
-                                                                    <img class="width150" src="assets/images/gallery/7.jpg" alt="Awesome Image">
-                                                                    <img class="width150" src="assets/images/gallery/8.jpg" alt="Awesome Image">
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="avatar_img">
-                                                                <img class="rounded img-fluid" src="assets/images/xs/avatar3.jpg" alt="">
-                                                            </div>
-                                                            <div class="comment_body">
-                                                                <h6>Dessie Parks <small class="float-right font-14">1min ago</small></h6>
-                                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking</p>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="timeline_item ">
-                                            <img class="tl_avatar" src="assets/images/xs/avatar7.jpg" alt="">
-                                            <span><a href="javascript:void(0);" title="">Rochelle Barton</a> San Francisco, CA <small class="float-right text-right">12-April-2019</small></span>
-                                            <h6 class="font600">An Engineer Explains Why You Should Always Order the Larger Pizza</h6>
-                                            <div class="msg">
-                                                <p>I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things. I write the best placeholder text, and I'm the biggest developer on the web by far... While that's mock-ups and this is politics, is the Lorem card.</p>
-                                                <a href="javascript:void(0);" class="mr-20 text-muted"><i class="fa fa-heart text-pink"></i> 7 Love</a>
-                                                <a class="text-muted" role="button" data-toggle="collapse" href="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2"><i class="fa fa-comments"></i> 1 Comment</a>
-                                                <div class="collapse p-4 section-gray" id="collapseExample2">
-                                                    <form class="well">
-                                                        <div class="form-group">
-                                                            <textarea rows="2" class="form-control no-resize" placeholder="Enter here for tweet..."></textarea>
-                                                        </div>
-                                                        <button class="btn btn-primary">Submit</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade active show" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Edit Profile</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row clearfix">
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label class="form-label">Company</label>
-                                                    <input type="text" class="form-control" disabled="" placeholder="Company" value="Epic Theme">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 col-md-3">
-                                                <div class="form-group">
-                                                    <label class="form-label">Username</label>
-                                                    <input type="text" class="form-control" placeholder="Username" value="michael23">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 col-md-4">
-                                                <div class="form-group">
-                                                    <label class="form-label">Email address</label>
-                                                    <input type="email" class="form-control" placeholder="Email">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 col-md-6">
-                                                <div class="form-group">
-                                                    <label class="form-label">First Name</label>
-                                                    <input type="text" class="form-control" placeholder="Company" value="Jane">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 col-md-6">
-                                                <div class="form-group">
-                                                    <label class="form-label">Last Name</label>
-                                                    <input type="text" class="form-control" placeholder="Last Name" value="Pearson">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="form-label">Address</label>
-                                                    <input type="text" class="form-control" placeholder="Home Address" value="455 S. Airport St. Moncks Corner">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 col-md-4">
-                                                <div class="form-group">
-                                                    <label class="form-label">City</label>
-                                                    <input type="text" class="form-control" placeholder="City" value="New York">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6 col-md-3">
-                                                <div class="form-group">
-                                                    <label class="form-label">Postal Code</label>
-                                                    <input type="number" class="form-control" placeholder="ZIP Code">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label class="form-label">Country</label>
-                                                    <select class="form-control custom-select">
-                                                        <option value="">USA</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group mb-0">
-                                                    <label class="form-label">About Me</label>
-                                                    <textarea rows="5" class="form-control" placeholder="Here can be your description">Oh so, your weak rhyme You doubt I'll bother, reading into it I'll probably won't, left to my own devices But that's the difference in our opinions.</textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer text-right">
-                                        <button type="submit" class="btn btn-primary">Update Profile</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="pills-blog" role="tabpanel" aria-labelledby="pills-blog-tab">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="new_post">
-                                            <div class="form-group">
-                                                <textarea rows="4" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
-                                            </div>
-                                            <div class="mt-4 text-right">
-                                                <button class="btn btn-warning"><i class="icon-link"></i></button>
-                                                <button class="btn btn-warning"><i class="icon-camera"></i></button>
-                                                <button class="btn btn-primary">Post</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card blog_single_post">
-                                    <div class="img-post">
-                                        <img class="d-block img-fluid" src="assets/images/gallery/6.jpg" alt="First slide">
-                                    </div>
-                                    <div class="card-body">
-                                        <h4><a href="#">All photographs are accurate</a></h4>
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal</p>
-                                    </div>
-                                    <div class="footer">
-                                        <div class="actions">
-                                            <a href="javascript:void(0);" class="btn btn-outline-secondary">Continue Reading</a>
-                                        </div>
-                                        <ul class="stats list-unstyled">
-                                            <li><a href="javascript:void(0);">General</a></li>
-                                            <li><a href="javascript:void(0);" class="icon-heart"> 28</a></li>
-                                            <li><a href="javascript:void(0);" class="icon-bubbles"> 128</a></li>
-                                        </ul>
-                                    </div>
-                                    <ul class="list-group card-list-group">
-                                        <li class="list-group-item py-5">
-                                            <div class="media">
-                                                <img class="media-object avatar avatar-md mr-4" src="assets/images/xs/avatar3.jpg" alt="">
-                                                <div class="media-body">
-                                                    <div class="media-heading">
-                                                        <small class="float-right text-muted">4 min</small>
-                                                        <h5>Peter Richards</h5>
-                                                    </div>
-                                                    <div>
-                                                        Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras
-                                                        justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                                        nascetur ridiculus mus.
-                                                    </div>
-                                                    <ul class="media-list">
-                                                        <li class="media mt-4">
-                                                            <img class="media-object avatar mr-4" src="assets/images/xs/avatar1.jpg" alt="">
-                                                            <div class="media-body">
-                                                                <strong>Debra Beck: </strong>
-                                                                Donec id elit non mi porta gravida at eget metus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus
-                                                                auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis.
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card blog_single_post">
-                                    <div class="img-post">
-                                        <img class="d-block img-fluid" src="assets/images/gallery/4.jpg" alt="First slide">
-                                    </div>
-                                    <div class="card-body">
-                                        <h4><a href="#">All photographs are accurate</a></h4>
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal</p>
-                                    </div>
-                                    <div class="footer">
-                                        <div class="actions">
-                                            <a href="javascript:void(0);" class="btn btn-outline-secondary">Continue Reading</a>
-                                        </div>
-                                        <ul class="stats list-unstyled">
-                                            <li><a href="javascript:void(0);">General</a></li>
-                                            <li><a href="javascript:void(0);" class="icon-heart"> 28</a></li>
-                                            <li><a href="javascript:void(0);" class="icon-bubbles"> 128</a></li>
-                                        </ul>
-                                    </div>
-                                    <ul class="list-group card-list-group">
-                                        <li class="list-group-item py-5">
-                                            <div class="media">
-                                                <img class="media-object avatar avatar-md mr-4" src="assets/images/xs/avatar7.jpg" alt="">
-                                                <div class="media-body">
-                                                    <div class="media-heading">
-                                                        <small class="float-right text-muted">12 min</small>
-                                                        <h5>Peter Richards</h5>
-                                                    </div>
-                                                    <div>
-                                                        Donec id elit non mi porta gravida at eget metus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cum sociis natoque penatibus et magnis dis
-                                                        parturient montes, nascetur ridiculus mus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item py-5">
-                                            <div class="media">
-                                                <img class="media-object avatar avatar-md mr-4" src="assets/images/xs/avatar6.jpg" alt="">
-                                                <div class="media-body">
-                                                    <div class="media-heading">
-                                                        <small class="float-right text-muted">34 min</small>
-                                                        <h5>Peter Richards</h5>
-                                                    </div>
-                                                    <div>
-                                                        Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Aenean eu leo quam. Pellentesque ornare sem lacinia quam
-                                                        venenatis vestibulum. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-                                                    </div>
-                                                    <ul class="media-list">
-                                                        <li class="media mt-4">
-                                                            <img class="media-object avatar mr-4" src="assets/images/xs/avatar5.jpg" alt="">
-                                                            <div class="media-body">
-                                                                <strong>Wayne Holland: </strong>
-                                                                Donec id elit non mi porta gravida at eget metus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus
-                                                                auctor fringilla. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis.
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div> --}}
-
                     </div>
                 </div>
             </div>
@@ -741,7 +419,46 @@
         var refresh=1000; // Refresh rate in milli seconds
         mytime=setTimeout('display_ct6()',refresh)
         }
-    display_c6()
+    display_c6();
+
+    function editTime(id){
+        $.get('/timetracker/'+id, function(viewTime){
+            $('#id').val(viewTime.id);
+            $('#checkin').val(viewTime.checkin);
+            $('#checkout').val(viewTime.checkout);
+            $('#editModal').modal('toggle');
+        });
+    }
+
+    $('#timeFormEdit').submit(function(e){
+        e.preventDefault();
+
+        let id = $('#id').val();
+        let checkin = $('#checkin').val();
+        let checkout = $('#checkout').val();
+        let _token = $('input[name=_token]').val();
+
+        $.ajax({
+            url: "{{url('timetracker')}}"+"/"+id,
+            type: "PUT",
+            data: {
+                id:id,
+                checkin:checkin,
+                checkout:checkout,
+                _token:_token,
+            },
+            success:function(response){
+                // $('#mid' + response.id +' td:nth-child(1)').text(response.module);
+                // $('.taskmodule').text(response.module);
+                $('#editModal').modal('toggle');
+                alert('Record has been updated!');
+                $('#timeFormEdit')[0].reset();
+            }
+        })
+    });
+
+
+
 </script>
 
 @endpush
