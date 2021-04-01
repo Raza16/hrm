@@ -22,17 +22,10 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-//----------------------- Admin Routes
-Route::middleware(['auth', 'admin', 'logout'])->group(function() {
+//----------------------- Admin Routes---------------------------------------------------
+Route::middleware(['admin', 'logout'])->group(function() {
 
     Route::get('admin/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard']);
-
-    // Route::get('client/list', function () {
-    //     return view('backend/clients/list');
-    // });
-    // Route::get('client/create', function () {
-    //     return view('backend/clients/create');
-    // });
 
     Route::resource('employee', App\Http\Controllers\EmployeeController::class);
 
@@ -73,9 +66,11 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function() {
 
     Route::get('generate-pdf/{id}', [App\Http\Controllers\PayslipController::class, 'generatePDF']);
 
+    Route::resource('department', App\Http\Controllers\DepartmentController::class);
+
 });
 
-//----------------------- User Routes
+//----------------------- User Routes-----------------------------------------------
 Route::group(['middleware' => ['employee', 'logout']], function() {
 
     Route::get('/user_account', [App\Http\Controllers\UserDashboardController::class, 'dashboard']);

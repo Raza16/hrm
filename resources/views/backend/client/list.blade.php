@@ -40,7 +40,6 @@
                                                                 <a href="{{url('client-invoice/create/'.$client->id)}}" class="mb-1 btn btn-sm btn-primary">Create Invoice</a>
                                                                 <br>
                                                                 <a href="{{url('client/'.$client->id.'/edit')}}" class="mb-1 btn btn-sm btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a> &nbsp;
-                                                                </a>
                                                                 <form action="{{ url('client/'.$client->id) }}" method="POST">
                                                                     @csrf
                                                                     @method('DELETE')

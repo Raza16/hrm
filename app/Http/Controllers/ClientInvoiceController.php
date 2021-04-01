@@ -73,8 +73,6 @@ class ClientInvoiceController extends Controller
             'task_module_id' => $request->task_module_id,
         ]);
 
-        // dd($clientInvoice->id);
-
         if($clientInvoice){
 
             foreach($request->description as $key => $value){

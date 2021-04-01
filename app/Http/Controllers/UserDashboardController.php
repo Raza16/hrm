@@ -41,6 +41,7 @@ class UserDashboardController extends Controller
         $employeeTimes = TimeTracker::where('employee_id', $employee->id)
         ->orderBy('date', 'DESC')
         ->get();
+
         // dd($employeeTimes);
 
         // dd($EmployeeTime);
@@ -86,6 +87,10 @@ class UserDashboardController extends Controller
         ->first();
         // dd($breakinDone);
 
+        // $leave_days = Leave::where('employee_id', Auth::user()->employee->id)
+        // ->select('from_date', 'to_date')
+        // ->first();
+
         return view('backend.user_account.dashboard', compact(
             'employee',
             'leaveCount',
@@ -96,6 +101,7 @@ class UserDashboardController extends Controller
             'breakinDone',
             // 'checkinPrevious',
             'employeeTimes',
+            // 'leave_days'
         ));
     }
 
@@ -319,9 +325,9 @@ class UserDashboardController extends Controller
         return response()->json($viewTime);
     }
 
-    public function updateTime(Request $request ,$id)
+    public function updateTime(Request $request, $id)
     {
-        $viewTime = DB::table('time_tracker')->where('employee_id', Auth::user()->employee->id)
+        $viewTime = DB::table('time_tracker')
         ->where('id', $id)
         ->update([
             'checkin' => $request->checkin,

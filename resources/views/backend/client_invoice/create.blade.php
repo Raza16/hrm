@@ -76,7 +76,7 @@
                                                 <table class="table">
                                                     <tr>
                                                         <th>Description and Miscellaneous Work</th>
-                                                        <th>Quantity</th>
+                                                        <th>Hours</th>
                                                         <th>Rate</th>
                                                         <th>Total</th>
                                                         <th>option</th>

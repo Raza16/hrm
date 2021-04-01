@@ -39,12 +39,12 @@
                                                         {{-- <td>{{$employee->user->employee_id == null ? $employee->user->status : null}}</td> --}}
                                                         {{-- <td></td> --}}
                                                         <td>
-                                                            <div style="margin-bottom:-9px;display:flex;" class="option-btn">
-                                                                {{-- <a href="{{url('/cms/blog/'.$blog->id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye" aria-hidden="true"></i></a> --}}
+                                                            <div style="margin-bottom:-9px;display:flex;">
+                                                                <a href="{{url('employee/'.$employee->id)}}"  class="btn btn-sm btn-primary"><i class="fa fa-eye" aria-hidden="true"></i></a>
+
                                                                 <a href="{{url('employee/'.$employee->id.'/edit')}}" class="btn btn-sm btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;
                                                                 </a>
-                                                                {{-- <button type="button" class="font-small-2" style="cursor:pointer;background:none;border:none;color:#007bff;margin-left:-6px;" data-toggle="modal" data-target="#small">Delete</button> --}}
-                                                                {{-- <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#delete">Delete</button> --}}
+
                                                                 <form action="{{ url('employee/'.$employee->id) }}" method="POST">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -73,30 +73,5 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Modal -->
-            {{-- <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want this record?
-                </div>
-                <div class="modal-footer">
-                    <form action="{{ url('/cms/blog/'. $blogs->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#small" style="text-transform:none;">Yes</button>
-                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">No</button>
-                    </form>
-                </div>
-                </div>
-            </div>
-            </div> --}}
 
 @endsection
