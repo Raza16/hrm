@@ -13,3 +13,7 @@ npm-debug.log
 yarn-error.log
 
 *.zip
+
+public/img/profile-images
+
+*.sql
