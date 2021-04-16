@@ -10,10 +10,10 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="header">
-                <h2><strong>Edit</strong> Department</h2>
+                <h2>Edit Department</h2>
                 <ul class="header-dropdown">
                     <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                        <ul class="dropdown-menu dropdown-menu-right slideUp">
+                        <ul class="dropdown-menu dropdown-menu-right">
                             <li><a href="{{url('department/create')}}">All Departments</a></li>
                         </ul>
                     </li>
