@@ -126,7 +126,6 @@
 <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/plugins/summernote/dist/summernote.js')}}"></script>
 <script src="{{asset('assets/js/pages/forms/advanced-form-elements.js')}}"></script>
-{{-- <script src="{{asset('assets/js/plupload.full.min.js')}}"></script> --}}
 <script src="{{asset('assets/plugins/ssi-uploader/dist/ssi-uploader/js/ssi-uploader.min.js')}}"></script>
 @stop
 

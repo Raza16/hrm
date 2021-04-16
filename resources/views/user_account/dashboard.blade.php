@@ -97,8 +97,6 @@
             </div>
             <div class="body">
                 <div class="row">
-
-
                 <div class="col-md-6">
                 <span class="mb-2">Current Date Time: <span style="color:red;" id="ct6"></span></span>
                 <div style="display:flex;" class="mt-3 mb-5">
@@ -129,6 +127,7 @@
                 </div>
 
                 <div class="col-md-6">
+                    <p>Today Time Breaks</p>
                     <table class="table table-bordered">
                         <tr>
                             <th>Break In</th>
@@ -145,14 +144,12 @@
                     </table>
                 </div>
                 </div>
-
-
             </div>
-            </div>
+        </div>
 
     </div>
 </div>
-<div class="row">
+
     <div class="card">
         <div class="header">
             <h2>Time Tracker</h2>
@@ -162,7 +159,7 @@
                 <table class="emp-timetracker-datatable table table-hover">
                     <thead class="thead-light">
                         <tr>
-                            <th>ID</th>
+                            {{-- <th>ID</th> --}}
                             <th>Date</th>
                             <th>Check In</th>
                             <th>Check Out</th>
@@ -174,7 +171,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
+                            {{-- <th>ID</th> --}}
                             <th>Date</th>
                             <th>Check In</th>
                             <th>Check Out</th>
@@ -187,7 +184,7 @@
                     <tbody>
                         @foreach ($employeeTimes as $employeeTime)
                         <tr>
-                            <td>{{$employeeTime->id}}</td>
+                            {{-- <td>{{$employeeTime->id}}</td> --}}
                             <td>{{$employeeTime->date ? date('j F, Y', strtotime($employeeTime->date)):null}}</td>
                             <td>{{$employeeTime->checkin ? date('j F, Y | g:i a', strtotime($employeeTime->checkin)):null}}</td>
                             <td>{{$employeeTime->checkout ? date('j F, Y | g:i a', strtotime($employeeTime->checkout)):null}}</td>
@@ -209,7 +206,7 @@
                     <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">View Record</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Time Breaks</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -298,17 +295,14 @@
     </div>
 </div>
 
+
 {{-- <div class="card">
     <div class="body">
         <div id="calendar"></div>
     </div>
 </div> --}}
 
-</div>
-
 @stop
-
-
 
 @section('page-script')
 <script src="{{asset('assets/plugins/light-gallery/js/lightgallery-all.min.js')}}"></script>
@@ -337,7 +331,6 @@ function showModule(id){
     $.get('/timebreaker/'+id, function(viewTimeTracker){
         $('#break-time').empty();
         if (viewTimeTracker.length > 0) {
-            // div_no_data.style.display = 'none';
             $.each(viewTimeTracker, function (index, value) {
                 $('#break-time').append('<tr>' +
                     '<td>' + value.breakin  + '</td>' +
@@ -346,6 +339,10 @@ function showModule(id){
                     '</tr>');
             });
 
+            $('#viewModal').modal('toggle');
+        }
+        else{
+            $('#break-time').append('<div  style="text-align:center;"><p>Break time not found</p></div>');
             $('#viewModal').modal('toggle');
         };
 

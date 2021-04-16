@@ -7,12 +7,7 @@
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.css')}}"/>
 
-
-<style>
-    .input-group-text {
-        padding: 0 .75rem;
-    }
-</style>
+<link  rel="stylesheet" href="{{asset('assets/plugins/ssi-uploader/dist/ssi-uploader/styles/ssi-uploader.min.css')}}"/>
 @stop
 @section('content')
 
@@ -245,6 +240,13 @@
                         <textarea class="summernote" name="notes">{{old('notes')}}</textarea>
                         <br>
 
+                        <h6>Document Attachment</h6>
+                        <hr>
+                        <div class="form-group">
+                            <label>File Attachment</label>
+                            <input type="file" name="file[]" multiple id="ssi-upload" accept=".docx, .doc, .pdf, .csv, .png, .jpeg, .jpg, .pptx, .xls, .xlsx"/>
+                        </div>
+
                         <h6>Profile Image</h6>
                         <hr>
                         <div class="row">
@@ -302,7 +304,17 @@
         </div>
     </div>
 </div>
+@stop
 
+
+@section('page-script')
+<script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
+<script src="{{asset('assets/js/pages/forms/advanced-form-elements.js')}}"></script>
+<script src="{{asset('assets/plugins/ssi-uploader/dist/ssi-uploader/js/ssi-uploader.min.js')}}"></script>
+
+<script src="{{asset('assets/plugins/summernote/dist/summernote.js')}}"></script>
+<script src="{{asset('assets/plugins/dropify/js/dropify.min.js')}}"></script>
+<script src="{{asset('assets/js/pages/forms/dropify.js')}}"></script>
 @stop
 
 @push('after-scripts')
@@ -325,15 +337,19 @@
 
 });
 </script>
+
+<script>
+    $('#ssi-upload').ssi_uploader({
+        allowed: ['png', 'jpg', 'jpeg', 'pdf', 'txt', 'doc', 'docx', 'xls', 'csv', 'xlsx', 'pptx'],
+        errorHandler: {
+            method: function (msg, type) {
+                ssi_modal.notify(type, {content: msg});
+            },
+            success: 'success',
+            error: 'error'
+        },
+        maxFileSize: 122//mb
+    });
+</script>
 @endpush
-
-@section('page-script')
-<script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
-<script src="{{asset('assets/js/pages/forms/advanced-form-elements.js')}}"></script>
-
-<script src="{{asset('assets/plugins/summernote/dist/summernote.js')}}"></script>
-<script src="{{asset('assets/plugins/dropify/js/dropify.min.js')}}"></script>
-<script src="{{asset('assets/js/pages/forms/dropify.js')}}"></script>
-@stop
-
 
