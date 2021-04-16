@@ -68,21 +68,8 @@
                                                             <td class="taskmodule">{{$taskModule->module}}</td>
                                                             <td>
                                                                 <div style="margin-bottom:-9px;display:flex;" class="option-btn">
-                                                                    {{-- <a href="{{url('task-module/'.$taskModule->id.'/edit')}}" class="btn btn-sm btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp;
-                                                                    </a> --}}
                                                                     <a href="javascript:void(0)" onclick="editModule({{$taskModule->id}})" class="btn btn-sm btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                                                     &nbsp;
-
-                                                                    {{-- <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#updateModal" onclick="editModule({{$taskModule->id}})">
-                                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                                    </button> &nbsp; --}}
-
-                                                                    {{-- <form action="{{ url('task-module/'.$taskModule->id) }}" method="POST">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit" class="btn btn-sm btn-danger" style="text-transform:none;"><i class="fa fa-trash" aria-hidden="true"></i>
-                                                                        </button>
-                                                                    </form> --}}
                                                                     <button type="button" class="btn btn-sm btn-secondary delete remove" data-id="{{url('task-module/'.$taskModule->id)}}"><i class="fa fa-trash"></i></button>
                                                                 </div>
                                                             </td>

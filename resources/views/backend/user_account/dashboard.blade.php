@@ -193,6 +193,10 @@
                                                     </form>
                                                 </div>
                                                 @else --}}
+                                                {{-- @if (!$leave_days) --}}
+                                                {{-- @if ($leave_days->from_date == Carbon::today() || $leave_days->to_date == Carbon::today())
+                                                    <p style="color: red;">You mark as leave today</p>
+                                                @else --}}
                                                 <div style="display:flex;" class="mt-3">
                                                     @if (!$checkinDone)
                                                         <form action="{{url('checkin')}}" method="POST">
@@ -218,6 +222,8 @@
                                                         </form>
                                                     @endif
                                                 </div>
+                                                {{-- @endif --}}
+                                                {{-- @endif --}}
 
                                                 {{-- @endif --}}
                                             </span>
@@ -280,20 +286,20 @@
                                                                             <span aria-hidden="true">&times;</span>
                                                                         </button>
                                                                         </div>
-                                                                        <form id="timeFormEdit">
-                                                                            @csrf
-                                                                            <div class="modal-body">
-                                                                            <input type="hidden" id="id" name="id"/>
+                                                                        <div class="modal-body">
+                                                                            <form id="timeFormEdit">
+                                                                                @csrf
+                                                                            <input type="text" id="id" name="id"/>
                                                                             <div class="form-group">
                                                                                 <label>Check In</label>
-                                                                                <input type="text" name="checkin" id="checkin" class="form-control" />
+                                                                                <input type="text" id="checkin" name="checkin" class="form-control" />
                                                                                 @error('checkin')
                                                                                     <p><small class="text-danger">{{ $errors->first('checkin') }}</small></p>
                                                                                 @enderror
                                                                             </div>
                                                                             <div class="form-group">
                                                                                 <label>Check Out</label>
-                                                                                <input type="text" name="checkout" id="checkout" class="form-control" />
+                                                                                <input type="text" id="checkout" name="checkout" class="form-control" />
                                                                                 @error('checkout')
                                                                                     <p><small class="text-danger">{{ $errors->first('checkout') }}</small></p>
                                                                                 @enderror
@@ -404,6 +410,7 @@
 @endsection
 
 @push('scripts')
+
 <script>
     function display_ct6() {
         var x = new Date()
@@ -420,7 +427,9 @@
         mytime=setTimeout('display_ct6()',refresh)
         }
     display_c6();
+</script>
 
+<script>
     function editTime(id){
         $.get('/timetracker/'+id, function(viewTime){
             $('#id').val(viewTime.id);
@@ -448,8 +457,7 @@
                 _token:_token,
             },
             success:function(response){
-                // $('#mid' + response.id +' td:nth-child(1)').text(response.module);
-                // $('.taskmodule').text(response.module);
+
                 $('#editModal').modal('toggle');
                 alert('Record has been updated!');
                 $('#timeFormEdit')[0].reset();

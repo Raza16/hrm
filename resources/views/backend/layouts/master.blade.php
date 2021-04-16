@@ -1,18 +1,18 @@
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <link rel="icon" href="{{asset('img/datech.ico')}}" type="image/x-icon"/>
 
 <title>@yield('title')</title>
 
 <!-- Bootstrap Core and vandor -->
-<link rel="stylesheet" href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" />
-{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" /> --}}
+{{-- <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" /> --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css"/>
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.css"/>
 
@@ -125,6 +125,13 @@
                 <ul>
                     <li class="{{request()->is('payslip') ? 'active' : null}}"><a href="{{url('payslip')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Payslip List</a></li>
                     <li class="{{request()->is('payslip/create') ? 'active' : null}}"><a href="{{url('payslip/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add Payslip</a></li>
+                </ul>
+            </li>
+
+            <li class="{{request()->is('department/create') ? 'active' : null}}">
+                <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-file-text"></i><span>Department</span></a>
+                <ul>
+                    <li class="{{request()->is('department/create') ? 'active' : null}}"><a href="{{url('department/create')}}"><i class="fa fa-arrow-right" aria-hidden="true"></i>Add Department</a></li>
                 </ul>
             </li>
 

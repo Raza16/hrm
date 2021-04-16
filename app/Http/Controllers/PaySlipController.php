@@ -18,7 +18,7 @@ class PayslipController extends Controller
     {
         $payslips = Payslip::all();
 
-        return view('backend.payslip.list', compact('payslips'));
+        return view('payslip.list', compact('payslips'));
     }
 
     /**
@@ -30,7 +30,7 @@ class PayslipController extends Controller
     {
         $employees = DB::table('employees')->select('id', 'first_name', 'middle_name', 'last_name')->get();
 
-        return view('backend.payslip.create', compact('employees'));
+        return view('payslip.create', compact('employees'));
     }
 
     /**
@@ -76,7 +76,7 @@ class PayslipController extends Controller
     {
         $payslip = Payslip::find($id);
 
-        return view('backend.payslip.show', compact('payslip'));
+        return view('payslip.show', compact('payslip'));
     }
 
     /**

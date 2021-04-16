@@ -82,7 +82,7 @@
                                                     <thead>
                                                     <tr>
                                                         <th>Description & miscellaneous work</th>
-                                                        <th>Quantity</th>
+                                                        <th>Hours</th>
                                                         <th>Rate</th>
                                                         <th>Total</th>
                                                     </tr>

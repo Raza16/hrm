@@ -42,8 +42,8 @@
                     </div>
                     <div class="card-body">
                         <h5 class="number mb-0 font-32">{{$totalProjects}}</h5>
-                        <span class="font-12">Ongoing: {{$processProjects}}</span>
-                        <span class="font-12">Pending: {{$pendingProjects}}</span>
+                        <span class="font-12">Ongoing: {{$processProjects}}</span><br>
+                        <span class="font-12">Pending: {{$pendingProjects}}</span><br>
                         <span class="font-12">Completed: {{$completedProjects}}</span>
 
                     </div>

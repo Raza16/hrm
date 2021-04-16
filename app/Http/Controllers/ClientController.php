@@ -17,7 +17,7 @@ class ClientController extends Controller
         //onlyTrashed() work with softDeletes, return all deleted record
         // $clients = Client::onlyTrashed()->get();
         $clients = Client::all();
-        return view('backend.client.list', compact('clients'));
+        return view('client.list', compact('clients'));
     }
 
     /**
@@ -27,7 +27,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('backend.client.create');
+        return view('client.create');
     }
 
     /**
@@ -79,7 +79,7 @@ class ClientController extends Controller
     public function edit($id)
     {
         $client = Client::find($id);
-        return view('backend.client.edit', compact('client'));
+        return view('client.edit', compact('client'));
     }
 
     /**
@@ -109,7 +109,7 @@ class ClientController extends Controller
 
         $client->save();
 
-        return redirect('client');
+        return redirect()->back()->with('update', 'Record had been updated');
     }
 
     /**
@@ -123,6 +123,6 @@ class ClientController extends Controller
         $client = Client::find($id);
         $client->delete();
 
-        return redirect('client');
+        return redirect('client')->with('delete', 'Record has been deleted');
     }
 }
