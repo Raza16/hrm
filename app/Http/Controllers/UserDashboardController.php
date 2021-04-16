@@ -36,10 +36,10 @@ class UserDashboardController extends Controller
         ->where('status', 'process')
         ->count();
 
-        $todayTasks = Task::where(['employee_id' => $employee->id, 'assign_date' => date("Y-m-d")])->get();
+        $ongoingTasks = Task::where(['employee_id' => $employee->id, 'status' => 'ongoing'])->get();
 
-        $employeeTimes = TimeTracker::where('employee_id', $employee->id)
-        ->orderBy('date', 'DESC')
+        $employeeTimes = TimeTracker::orderBy('id', 'DESC')
+        ->where('employee_id', $employee->id)
         ->get();
 
         // dd($employeeTimes);
@@ -91,17 +91,29 @@ class UserDashboardController extends Controller
         // ->select('from_date', 'to_date')
         // ->first();
 
-        return view('backend.user_account.dashboard', compact(
+        $totalAttendanceCurrentMonth = TimeTracker::where('employee_id', Auth::user()->employee->id)
+        ->whereMonth('date', Carbon::now()->month)
+        ->count();
+        // dd($totalAttendance);
+
+        $todayBreakTime = TimeBreaker::where('employee_id', Auth::user()->employee->id)
+        ->whereDate('date', Carbon::today())
+        ->get();
+        // dd($todayBreakTime);
+
+        return view('user_account.dashboard', compact(
             'employee',
             'leaveCount',
             'completedTaskCount',
             'processTaskCount',
-            'todayTasks',
+            'ongoingTasks',
             'checkinDone',
             'breakinDone',
             // 'checkinPrevious',
             'employeeTimes',
             // 'leave_days'
+            'totalAttendanceCurrentMonth',
+            'todayBreakTime'
         ));
     }
 
@@ -318,11 +330,14 @@ class UserDashboardController extends Controller
 
     public function viewTime($id)
     {
-        $viewTime = TimeTracker::where('employee_id', Auth::user()->employee->id)
-        ->where('id', $id)
-        ->first();
+        // $viewTimeTracker = TimeTracker::where('employee_id', Auth::user()->employee->id)
+        // ->where('time_tracker_id', $id)->timebreaks;
+        $viewTimeTracker = TimeTracker::find($id)->timebreaks;
+        // ->get();
+        // dd($viewTimeTracker);
 
-        return response()->json($viewTime);
+        return response()->json($viewTimeTracker);
+        // return view('user_account.dashboard', compact('viewTimeTracker'));
     }
 
     public function updateTime(Request $request, $id)

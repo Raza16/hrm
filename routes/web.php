@@ -68,6 +68,10 @@ Route::middleware(['admin', 'logout'])->group(function() {
 
     Route::resource('department', App\Http\Controllers\DepartmentController::class);
 
+    // Route::get('profile/show', function () {
+    //     return view('employee.show');
+    // });
+
 });
 
 //----------------------- User Routes-----------------------------------------------
@@ -93,7 +97,7 @@ Route::group(['middleware' => ['employee', 'logout']], function() {
     Route::post('/breakin', [App\Http\Controllers\UserDashboardController::class, 'breakInTimeStore']);
     Route::post('/breakout', [App\Http\Controllers\UserDashboardController::class, 'breakOutTimeUpdate']);
 
-    Route::get('/timetracker/{id}', [App\Http\Controllers\UserDashboardController::class, 'viewTime']);
+    Route::get('/timebreaker/{id}', [App\Http\Controllers\UserDashboardController::class, 'viewTime']);
     Route::put('/timetracker/{id}', [App\Http\Controllers\UserDashboardController::class, 'updateTime']);
 
 });

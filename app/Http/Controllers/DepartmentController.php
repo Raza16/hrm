@@ -28,7 +28,7 @@ class DepartmentController extends Controller
     {
         $departments = Department::all();
 
-        return view('backend.department.create', compact('departments'));
+        return view('department.create', compact('departments'));
     }
 
     /**
@@ -86,7 +86,7 @@ class DepartmentController extends Controller
         $department = Department::find($id);
         $designations = Department::find($id)->designation;
 
-        return view('backend.department.edit', compact('department', 'designations'));
+        return view('department.edit', compact('department', 'designations'));
     }
 
     /**
@@ -109,12 +109,20 @@ class DepartmentController extends Controller
         if($department)
         {
             foreach($request->title as $key => $value){
-                $designation_id = $request->id[$key];
-                $data = [
-                    'title' => $request->title[$key],
-                ];
+                // $department_id = $department->id;
+                // $designation_id = $request->id[$key];
+                // $data = [
+                //     'title' => $request->title[$key],
+                // ];
 
-                DB::table('designations')->where('id', $designation_id)->update($data);
+                // DB::table('designations')->where('id', $designation_id)->updateOrCreate($data);
+                Designation::updateOrCreate([
+                    'id' => $request->id[$key],
+                ],
+                [
+                    // 'department_id' => $id,
+                    'title' => $request->title[$key],
+                ]);
             }
 
         }

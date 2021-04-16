@@ -19,7 +19,7 @@ class ClientInvoiceController extends Controller
     {
         $clientInvoices = ClientInvoice::all();
 
-        return view('backend.client_invoice.list', compact('clientInvoices'));
+        return view('client_invoice.list', compact('clientInvoices'));
     }
 
     /**
@@ -35,7 +35,7 @@ class ClientInvoiceController extends Controller
         $clientInvoice = DB::table('client_invoices')->latest()->first();
         if(!$clientInvoice){
             $newInvoiceNo = "INV-000001";
-            return view('backend.client_invoice.create', compact('clients', 'modules', 'newInvoiceNo'));
+            return view('client_invoice.create', compact('clients', 'modules', 'newInvoiceNo'));
         }
 
         $lastInvoiceNo = DB::table('client_invoices')->orderBy('id', 'desc')->pluck('invoice_no')->first();
@@ -43,7 +43,7 @@ class ClientInvoiceController extends Controller
         $invoice_no = preg_replace("/[^0-9\.]/", '', $lastInvoiceNo);
         $newInvoiceNo = $prefix . sprintf('%06d', $invoice_no+1);
 
-        return view('backend.client_invoice.create', compact('clients', 'modules', 'newInvoiceNo'));
+        return view('client_invoice.create', compact('clients', 'modules', 'newInvoiceNo'));
     }
 
     /**
@@ -106,7 +106,7 @@ class ClientInvoiceController extends Controller
 
         $clientInvoiceDetail = ClientInvoice::find($id)->clientInvoiceDetail;
 
-        return view('backend.client_invoice.show', compact('clientInvoice', 'clientInvoiceDetail'));
+        return view('client_invoice.show', compact('clientInvoice', 'clientInvoiceDetail'));
     }
 
     /**
@@ -158,7 +158,7 @@ class ClientInvoiceController extends Controller
         $clientInvoice = DB::table('client_invoices')->latest()->first();
         if(!$clientInvoice){
             $newInvoiceNo = "INV-000001";
-            return view('backend.client_invoice.create', compact('clientFullname', 'modules', 'newInvoiceNo'));
+            return view('client_invoice.create', compact('clientFullname', 'modules', 'newInvoiceNo'));
         }
 
         $lastInvoiceNo = DB::table('client_invoices')->orderBy('id', 'desc')->pluck('invoice_no')->first();
@@ -166,7 +166,7 @@ class ClientInvoiceController extends Controller
         $invoice_no = preg_replace("/[^0-9\.]/", '', $lastInvoiceNo);
         $newInvoiceNo = $prefix . sprintf('%06d', $invoice_no+1);
 
-        return view('backend.client_invoice.create', compact('clientFullname', 'modules', 'newInvoiceNo'));
+        return view('client_invoice.create', compact('clientFullname', 'modules', 'newInvoiceNo'));
     }
 
 

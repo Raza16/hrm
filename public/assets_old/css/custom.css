@@ -1,0 +1,105 @@
+.first-column {
+    border-width:2px;
+    align-items: center;
+
+}
+.second-column {
+  border-width: 2px;
+}
+
+.ck-editor__editable {
+  min-height: 200px !important;
+}
+
+div.dataTables_length {
+  margin-right: 1em;
+}
+
+/* #myTable {
+  table-layout: fixed;
+  width: 100% !important;
+}
+#myTable td,
+#myTable th{
+  width: auto !important;
+  white-space: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+} */
+
+thead input {
+  width: 100%;
+}
+
+/* stop watch for checkin/ checkout */
+
+	/* .hello {
+		display: block;
+		width: 100px;
+		text-align: center;
+		color: rgb(224, 26, 26);
+		font-size: 1rem;
+		font-weight: 900;
+		text-align: center;
+	} */
+
+	/* .clock-button {
+		padding: .5em 1.25em;
+		position: absolute;
+		bottom: 0;
+		color: rgb(253, 44, 44);
+		border: 1px solid rgb(14, 13, 13);
+		border-radius: .5em;
+		text-transform: uppercase;
+		font-size: 1.25rem;
+	} */
+
+	#clock-toggle {
+    right: 0;
+  }
+
+	#clock-clear {
+		transition: all 300ms cubic-bezier(.4,.25,.3,1);
+		left: 0;
+		opacity: 0;
+		pointer-events: none;
+		&[data-state='visible'] {
+			opacity: 1;
+			pointer-events: auto;
+		}
+	}
+
+
+.border-style{
+    border-top:1px solid #000;
+    border-bottom:1px solid #000;
+}
+
+/* .dataTables_scroll {
+    width: 80%;
+    margin: 0 auto;
+    overflow-x: auto;
+} */
+
+/* .dataTables_scrollBody::-webkit-scrollbar {
+	width: 5px !important;
+	background-color: black !important;
+}
+
+.dataTables_scrollBody::-webkit-scrollbar-track {
+	width: 5px !important;
+	background-color: white !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+}
+
+.dataTables_scrollBody::-webkit-scrollbar-thumb {
+	border-radius: 5px !important;
+	background: white !important;
+	cursor: pointer !important;
+}
+
+
+.datatable tfoot tr th {
+    width: 100px !important;
+} */

@@ -19,7 +19,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = Employee::all();
-        return view('backend.employee.list', compact('employees'));
+        return view('employee.list', compact('employees'));
     }
 
     /**
@@ -32,7 +32,7 @@ class EmployeeController extends Controller
         $employee = DB::table('employees')->latest()->first();
         if(!$employee){
             $newEmployeeNo = "EMP-000001";
-            return view('backend.employee.create', compact('newEmployeeNo'));
+            return view('employee.create', compact('newEmployeeNo'));
         }
 
         $lastEmployeeNo = DB::table('employees')->orderBy('id', 'desc')->pluck('employee_no')->first();
@@ -43,7 +43,7 @@ class EmployeeController extends Controller
         $employees = Employee::select('id', 'first_name', 'middle_name', 'last_name')->get();
         $designations = Designation::select('id', 'title')->get();
 
-        return view('backend.employee.create', compact('newEmployeeNo', 'employees', 'designations'));
+        return view('employee.create', compact('newEmployeeNo', 'employees', 'designations'));
     }
 
     /**
@@ -118,7 +118,7 @@ class EmployeeController extends Controller
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
             $name = time().'_'.$image->getClientOriginalName();
-            $destinationPath = public_path('/img/profile-images');
+            $destinationPath = public_path('/storage/profile-images');
             $imagePath = $destinationPath. "/".  $name;
             $image->move($destinationPath, $name);
             $employee->profile_image = $name;
@@ -128,7 +128,7 @@ class EmployeeController extends Controller
         {
             foreach ($request->file ? : [] as $file) {
                 $filename =  time().'_'.$file->getClientOriginalName();
-                $destinationPath = public_path('storage/employee_documents');
+                $destinationPath = public_path('/storage/employee_documents');
                 $filePath = $destinationPath. "/".  $filename;
                 $file->move($destinationPath, $filename);
                 EmployeeDocuments::create([
@@ -150,7 +150,8 @@ class EmployeeController extends Controller
     public function show($id)
     {
         $employee = Employee::find($id);
-        return view('backend.employee.show', compact('employee'));
+
+        return view('employee.show', compact('employee'));
     }
 
     /**
@@ -167,7 +168,7 @@ class EmployeeController extends Controller
         $emps = Employee::select('id', 'first_name', 'middle_name', 'last_name')->get();
         $designations = Designation::select('id', 'title')->get();
 
-        return view('backend.employee.edit', compact('employee', 'employeeDocuments', 'emps', 'designations'));
+        return view('employee.edit', compact('employee', 'employeeDocuments', 'emps', 'designations'));
     }
 
     /**
@@ -184,8 +185,8 @@ class EmployeeController extends Controller
             'middle_name' => 'alpha',
             'last_name' => 'required|alpha',
             'gender' => 'required',
-            'mobile_no' => 'required',
-            'email' => 'required',
+            'mobile_no' => "required|unique:employees,mobile_no,$id",
+            'email' => "required|unique:employees,email,$id",
             'profile_image' => 'image|mimes:jpeg,png,jpg',
             'designation_id' => 'required',
             'employee_id' => 'required',
@@ -240,7 +241,7 @@ class EmployeeController extends Controller
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
             $name = time().'_'.$image->getClientOriginalName();
-            $destinationPath = public_path('/img/profile-images');
+            $destinationPath = public_path('/storage/profile-images');
             $imagePath = $destinationPath. "/".  $name;
             $image->move($destinationPath, $name);
             $old_image = $employee->profile_image;
@@ -253,7 +254,7 @@ class EmployeeController extends Controller
         {
             foreach ($request->file ? : [] as $file) {
                 $filename =  time().'_'.$file->getClientOriginalName();
-                $destinationPath = public_path('storage/employee_documents');
+                $destinationPath = public_path('/storage/employee_documents');
                 $filePath = $destinationPath. "/".  $filename;
                 $file->move($destinationPath, $filename);
                 EmployeeDocuments::create([

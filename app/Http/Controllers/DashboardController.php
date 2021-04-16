@@ -14,13 +14,13 @@ class DashboardController extends Controller
     {
         $totalEmployees = DB::table('employees')->count();
         $totalClients = DB::table('clients')->count();
-        $totalTasks = DB::table('tasks')->count();
-        $totalTasksOngoing = DB::table('tasks')->where('status', 'ongoing')->count();
-        $totalTasksCompleted = DB::table('tasks')->where('status', 'completed')->count();
         $totalProjects = DB::table('projects')->count();
         $processProjects = DB::table('projects')->where('status', 'process')->count();
         $pendingProjects = DB::table('projects')->where('status', 'pending')->count();
         $completedProjects = DB::table('projects')->where('status', 'completed')->count();
+        $totalTasks = DB::table('tasks')->count();
+        $totalTasksOngoing = DB::table('tasks')->where('status', 'ongoing')->count();
+        $totalTasksCompleted = DB::table('tasks')->where('status', 'completed')->count();
 
         $projectStatus = DB::table('tasks')
         ->join('projects', 'projects.id', '=', 'tasks.project_id')
@@ -41,26 +41,26 @@ class DashboardController extends Controller
         // $totalLoggedInUser = Auth::user()->;
         // dd($totalLoggedInUser);
 
-        $todayTasks = Task::where(['assign_date' => date("Y-m-d")])->get();
+        $ongoingTasks = Task::where(['status' => 'ongoing'])->get();
 
 
 
-        return view('backend/dashboard/index', compact(
+        return view('dashboard/index', compact(
             'totalEmployees',
             'totalClients',
             'totalProjects',
-            'totalTasks',
-            'totalTasksOngoing',
-            'totalTasksCompleted',
             'processProjects',
             'pendingProjects',
             'completedProjects',
-            'projectStatus',
-            'todayTasks',
-            'todayLeaves',
-            'totalUser',
-            'totalUserActive',
-            'totalUserInactive'
+            // 'projectStatus',
+            'totalTasks',
+            'totalTasksOngoing',
+            'totalTasksCompleted',
+            'ongoingTasks',
+            // 'todayLeaves',
+            // 'totalUser',
+            // 'totalUserActive',
+            // 'totalUserInactive'
         ));
     }
 }

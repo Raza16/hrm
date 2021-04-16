@@ -32,4 +32,9 @@ class TimeTracker extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public function timebreaks()
+    {
+        return $this->hasMany(TimeBreaker::class);
+    }
 }

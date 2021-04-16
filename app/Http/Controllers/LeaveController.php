@@ -17,7 +17,7 @@ class LeaveController extends Controller
     {
         $leaves = Leave::all();
 
-        return view('backend.leave.list', compact('leaves'));
+        return view('leave.list', compact('leaves'));
     }
 
     /**
@@ -62,7 +62,7 @@ class LeaveController extends Controller
     {
         $leave = Leave::find($id);
 
-        return view('backend.leave.edit', compact('leave'));
+        return view('leave.edit', compact('leave'));
     }
 
     /**

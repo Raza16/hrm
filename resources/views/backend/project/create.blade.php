@@ -321,8 +321,6 @@
                                                         <option value="Business development" {{old('service') == 'Business development' ? 'selected' : ''}}>Business development</option>
 
                                                         <option value="Graphics Design and Branding" {{old('service') == 'Graphics Design and Branding' ? 'selected' : ''}}>Graphic Design and Branding</option>
-
-
                                                     </select>
                                                     @error('website')
                                                         <p><small class="text-danger">{{ $errors->first('website') }}</small></p>
