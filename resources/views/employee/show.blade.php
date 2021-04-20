@@ -152,7 +152,7 @@
             <div class="col-md-12 col-sm-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Employee</strong> Job Info</h2>
+                        <h2>Employee Job Info</h2>
                     </div>
                     <div class="body">
                             <div class="row">

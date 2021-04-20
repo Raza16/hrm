@@ -43,7 +43,8 @@ class DashboardController extends Controller
 
         $ongoingTasks = Task::where(['status' => 'ongoing'])->get();
 
-
+        $loggedInUser = Auth::user()->email;
+        // dd($loggedInUser);
 
         return view('dashboard/index', compact(
             'totalEmployees',

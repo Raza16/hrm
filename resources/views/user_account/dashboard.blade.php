@@ -97,7 +97,7 @@
             </div>
             <div class="body">
                 <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12 col-sm-6">
                 <span class="mb-2">Current Date Time: <span style="color:red;" id="ct6"></span></span>
                 <div style="display:flex;" class="mt-3 mb-5">
                     @if (!$checkinDone)
@@ -122,12 +122,13 @@
                             @csrf
                             <button type="submit" class="btn btn-sm btn-primary">Break Off</button>
                         </form>
+                    @else
+                    <p>checkin done</p>
+
                     @endif
                 </div>
-                </div>
-
-                <div class="col-md-6">
-                    <p>Today Time Breaks</p>
+                {{-- <div class="row"> --}}
+                    <p><b>Today Time Breaks</b></p>
                     <table class="table table-bordered">
                         <tr>
                             <th>Break In</th>
@@ -141,9 +142,18 @@
                             <td>{{$row->total_hours}}</td>
                         </tr>
                         @endforeach
+                        <tr>
+                            <th colspan="2">Total Time</th>
+                            <td>{{$sumBreakTime}}</td>
+                        </tr>
                     </table>
+                {{-- </div> --}}
                 </div>
-                </div>
+
+                {{-- <div class="col-md-6">
+                </div> --}}
+
+            </div>
             </div>
         </div>
 
@@ -156,7 +166,7 @@
         </div>
         <div class="body">
             <div class="table-responsive">
-                <table class="emp-timetracker-datatable table table-hover">
+                <table class="emp-datatable table table-hover" style="width: 100%;">
                     <thead class="thead-light">
                         <tr>
                             {{-- <th>ID</th> --}}
@@ -251,7 +261,7 @@
     </div>
     <div class="body">
         <div class="table-responsive">
-            <table class="emp-task-datatable table table-hover">
+            <table class="emp-datatable table table-hover" style="width: 100%;">
                 <thead class="thead-light">
                     <tr>
                         <th>Project Title</th>
@@ -295,7 +305,28 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="onloadModal" role="dialog">
+    <div class="modal-dialog">
 
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
 {{-- <div class="card">
     <div class="body">
         <div id="calendar"></div>
@@ -348,6 +379,11 @@ function showModule(id){
 
     });
 }
+
+$(window).load(function()
+{
+    $('#onloadModal').modal('show');
+})
 
 </script>
 

@@ -101,6 +101,26 @@ class UserDashboardController extends Controller
         ->get();
         // dd($todayBreakTime);
 
+        $timeTrackerId = TimeTracker::select('id')->whereNull('checkout')
+            ->where('employee_id', Auth::user()->employee->id)
+            ->whereDate('date', Carbon::today())
+            ->first();
+
+            if($timeTrackerId){
+
+                $sum_total_hours = TimeBreaker::where([
+                    'time_tracker_id' => $timeTrackerId->id,
+                    'employee_id' => Auth::user()->employee->id,
+                    'date' => date('Y-m-d')])
+                    ->sum(DB::raw("TIME_TO_SEC(total_hours)"));
+                    $sumBreakTime = gmdate("H:i:s", $sum_total_hours);
+            }
+            else{
+                $sumBreakTime ="00:00:00";
+            }
+
+            // disableCheckin =
+
         return view('user_account.dashboard', compact(
             'employee',
             'leaveCount',
@@ -113,7 +133,8 @@ class UserDashboardController extends Controller
             'employeeTimes',
             // 'leave_days'
             'totalAttendanceCurrentMonth',
-            'todayBreakTime'
+            'todayBreakTime',
+            'sumBreakTime'
         ));
     }
 

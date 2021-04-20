@@ -120,7 +120,6 @@ class DepartmentController extends Controller
                     'id' => $request->id[$key],
                 ],
                 [
-                    // 'department_id' => $id,
                     'title' => $request->title[$key],
                 ]);
             }

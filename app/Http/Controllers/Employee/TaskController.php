@@ -44,7 +44,13 @@ class TaskController extends Controller
 
         // dd($tasks);
 
-        return view('user_account.task.list', compact('tasks'));
+        // $taskDetailView = Task::find($employee_id);
+        // // dd($taskDetailView);
+        // $todayDate = date("Y-m-d");
+
+        $modules = DB::table('task_modules')->select('module')->get();
+
+        return view('user_account.task.list', compact('tasks', 'modules'));
     }
 
     public function edit($id)
@@ -54,7 +60,11 @@ class TaskController extends Controller
 
         $task = Task::find($id);
 
-        return view('user_account.task.edit', compact('task', 'taskStatus'));
+        // $modules = DB::table('task_modules')->select('module')->get();
+
+        // return view('user_account.task.edit', compact('task', 'taskStatus'));
+        // return response()->json([$task, $modules]);
+        return response()->json($task);
     }
 
     public function update(Request $request, $id)

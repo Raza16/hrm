@@ -7,12 +7,6 @@
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.css')}}"/>
 
-
-<style>
-    .input-group-text {
-        padding: 0 .75rem;
-    }
-</style>
 @stop
 @section('content')
 
@@ -22,11 +16,12 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="header">
-                <h2><strong>Edit</strong> User</h2>
+                <h2>Edit User</h2>
                 <ul class="header-dropdown">
                     <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                        <ul class="dropdown-menu dropdown-menu-right slideUp">
+                        <ul class="dropdown-menu dropdown-menu-right">
                             <li><a href="{{url('user')}}">All User</a></li>
+                            <li><a href="{{url('user/create')}}">Add User</a></li>
                         </ul>
                     </li>
                     <li class="remove">
@@ -36,8 +31,8 @@
             </div>
             <div class="body">
                 <form action="{{url('user/'.$user->id)}}" method="post">
-                    @method('put')
-                    @csrf
+                @method('put')
+                @csrf
                 <div class="row clearfix">
                     <div class="col-md-6">
                         <label>Select Employee</label>

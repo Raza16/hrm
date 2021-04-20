@@ -23,7 +23,7 @@
             </div>
             <div class="body">
                 <div class="table-responsive">
-                    <table class="emp-task-datatable table table-hover">
+                    <table class="emp-datatable table table-hover" style="width:100%;">
                         <thead class="thead-light">
                             <tr>
                                 <th>Leave Type</th>

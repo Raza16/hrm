@@ -7,12 +7,6 @@
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.css')}}"/>
 
-
-<style>
-    .input-group-text {
-        padding: 0 .75rem;
-    }
-</style>
 @stop
 @section('content')
 
@@ -22,15 +16,14 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="header">
-                <h2><strong><i class="fas fa-user"></i> Edit</strong> Employee</h2>
+                <h2>Edit Employee</h2>
                 <ul class="header-dropdown">
-                    {{-- <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                        <ul class="dropdown-menu dropdown-menu-right slideUp">
-                            <li><a href="javascript:void(0);">Edit</a></li>
-                            <li><a href="javascript:void(0);">Delete</a></li>
-                            <li><a href="javascript:void(0);">Report</a></li>
+                    <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{url('employee')}}">All Employee</a></li>
+                            <li><a href="{{url('employee/create')}}">Create Employee</a></li>
                         </ul>
-                    </li> --}}
+                    </li>
                     <li class="remove">
                         <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
                     </li>
@@ -196,12 +189,12 @@
 
                         <label>Working Time Start</label>
                         <div class="form-group">
-                            <input type="time" name="working_time_start" class="form-control" placeholder="Ex: 11:59 pm" value="{{$employee->working_time_start}}">
+                            <input type="time" name="working_time_start" class="form-control" placeholder="Ex: 09:00 am" value="{{$employee->working_time_start}}">
                         </div>
 
                         <label>Working Time End</label>
                         <div class="form-group">
-                            <input type="time" name="working_time_end" class="form-control" placeholder="Ex: 11:59 pm" value="{{$employee->working_time_end}}">
+                            <input type="time" name="working_time_end" class="form-control" placeholder="Ex: 06:00 pm" value="{{$employee->working_time_end}}">
                         </div>
 
                         <label style="color:red;">Termination Date</label>

@@ -63,7 +63,13 @@
                     <div class="col-lg-7 col-md-6 col-sm-12">
                         <h5>@yield('title')</h5>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{url('admin/dashboard')}}"><i class="zmdi zmdi-home"></i> Dashboard</a></li>
+                            <li class="breadcrumb-item">
+                                @if (Auth::user()->role_id == 1)
+                                <a href="{{url('admin/dashboard')}}"><i class="zmdi zmdi-home"></i> Dashboard</a>
+                                @elseif (Auth::user()->role_id == 2)
+                                <a href="{{url('user_account')}}"><i class="zmdi zmdi-home"></i> Dashboard</a>
+                                @endif
+                            </li>
                             @if (trim($__env->yieldContent('parentPageTitle')))
                                 <li class="breadcrumb-item">@yield('parentPageTitle')</li>
                             @endif
@@ -82,7 +88,9 @@
                 @yield('content')
             </div>
         </section>
+
         @yield('modal')
+
         <!-- Scripts -->
         @stack('before-scripts')
         <script src="{{ asset('assets/bundles/libscripts.bundle.js') }}"></script>

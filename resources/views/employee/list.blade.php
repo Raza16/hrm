@@ -23,7 +23,7 @@
             </div>
             <div class="body">
                 <div class="table-responsive">
-                    <table class="employee-datatable table table-hover">
+                    <table class="admin-datatable table table-hover" style="width: 100%;">
                         <thead class="thead-light">
                             <tr>
                                 <th>Employee No</th>

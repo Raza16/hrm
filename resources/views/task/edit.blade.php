@@ -19,7 +19,8 @@
                 <ul class="header-dropdown">
                     <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="{{url('task')}}">All Task</a></li>
+                            <li><a href="{{url('task')}}">All Tasks</a></li>
+                            <li><a href="{{url('task/create')}}">Add Task</a></li>
                         </ul>
                     </li>
                     <li class="remove">
@@ -104,7 +105,7 @@
                     <div class="col-md-6">
                     </div>
                 </div>
-                <button type="submit" class="mt-5 btn btn-primary">Save</button>
+                <button type="submit" class="mt-5 btn btn-primary">Save Changes</button>
                 </form>
             </div>
         </div>

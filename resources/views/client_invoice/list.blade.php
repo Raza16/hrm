@@ -25,14 +25,14 @@
             </div>
             <div class="body">
                 <div class="table-responsive">
-                    <table class="client-invoice-datatable table table-hover">
+                    <table class="admin-datatable table table-hover" style="width:100%;">
                         <thead class="thead-light">
                             <tr>
                                 <th>Client</th>
                                 <th>Invoice No</th>
                                 <th>Billing Period</th>
-                                <th>Discount</th>
-                                <th>Grand Total</th>
+                                {{-- <th>Discount</th> --}}
+                                {{-- <th>Grand Total</th> --}}
                                 <th>Services</th>
                                 <th>Options</th>
                             </tr>
@@ -42,8 +42,8 @@
                                 <th>Client</th>
                                 <th>Invoice No</th>
                                 <th>Billing Period</th>
-                                <th>Discount</th>
-                                <th>Grand Total</th>
+                                {{-- <th>Discount</th> --}}
+                                {{-- <th>Grand Total</th> --}}
                                 <th>Services</th>
                                 <th>Options</th>
                             </tr>
@@ -56,8 +56,8 @@
                                 {{-- @endisset --}}
                                 <td>{{$clientInvoice->invoice_no}}</td>
                                 <td><b>From:</b> {{date('j F, Y', strtotime($clientInvoice->from_date)) ?? null}} <br> <b>To:</b> {{$clientInvoice->to_date ? date('j F, Y', strtotime($clientInvoice->to_date)):null}}</td>
-                                <td>{{$clientInvoice->discount}}</td>
-                                <td>{{$clientInvoice->grand_total}}</td>
+                                {{-- <td>{{$clientInvoice->discount}}</td> --}}
+                                {{-- <td>{{$clientInvoice->grand_total}}</td> --}}
                                 <td>{{$clientInvoice->task_module->module}}</td>
                                 <td>
                                     <div style="display: flex;">

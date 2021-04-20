@@ -55,8 +55,11 @@ Route::middleware(['admin', 'logout'])->group(function() {
 
     Route::get('time-tracker', [App\Http\Controllers\TimeTrackerController::class, 'index']);
     Route::get('time-tracker/{id}/edit', [App\Http\Controllers\TimeTrackerController::class, 'edit']);
+    Route::put('time-tracker/{id}', [App\Http\Controllers\TimeTrackerController::class, 'update']);
+    Route::delete('time-tracker/{id}', [App\Http\Controllers\TimeTrackerController::class, 'destory']);
 
-    Route::put('time-tracker/{id}/edit', [App\Http\Controllers\TimeTrackerController::class, 'update']);
+    Route::get('time-breaker/{id}', [App\Http\Controllers\TimeTrackerController::class, 'editBreakTime']);
+    Route::put('time-breaker/{id}', [App\Http\Controllers\TimeTrackerController::class, 'updateBreakTime']);
 
     Route::delete('employee-doc/{id}', [App\Http\Controllers\EmployeeController::class, 'deleteDocs']);
 

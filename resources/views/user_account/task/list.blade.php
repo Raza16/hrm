@@ -2,6 +2,9 @@
 @section('title', 'Tasks')
 @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css')}}"/>
+<link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
+<link rel="stylesheet" href="{{asset('assets/plugins/summernote/dist/summernote.css')}}"/>
+<link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.css')}}"/>
 @stop
 @section('content')
 @include('layouts.alert_message')
@@ -23,7 +26,7 @@
             </div>
             <div class="body">
                 <div class="table-responsive">
-                    <table class="emp-task-datatable table table-hover">
+                    <table class="emp-datatable table table-hover" style="width:100%;">
                         <thead class="thead-light">
                             <tr>
                                 <th>project</th>
@@ -77,14 +80,174 @@
                                 </td>
                                 <td>
                                     <div style="display: flex;">
-                                        <div style="display: flex;">
-                                            <a href="{{url('employee-task/'.$task->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Task"><i class="far fa-eye"></i></a>
+                                        <a href="{{url('employee-task/'.$task->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Task"><i class="far fa-eye"></i></a>
 
-                                            <a href="{{url('employee-task-progress/'.$task->id.'/task-progress')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Submit Task Progress"><i class="fas fa-tasks"></i></a>
-                                        </div>
+                                        <a href="{{url('employee-task-progress/'.$task->id.'/task-progress')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Submit Task Progress"><i class="fas fa-tasks"></i></a>
+
+                                        {{-- <a class="btn btn-default" role="button" data-toggle="collapse" href="#task-{{$task->id}}" aria-expanded="false"
+                                        aria-controls="collapseExample">View</a> --}}
+                                        <a  href="javascript:void(0)" onclick="editModule({{$task->id}})"  class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a>
                                     </div>
                                 </td>
                             </tr>
+                            {{-- <tr>
+                                <td colspan="7">
+                                    <div class="collapse" id="task-{{$task->id}}">
+                                        <div class="well">
+                                            <label><b>Task Info</b></label>
+                                            {!!$task->note!!}
+                                            <hr>
+
+                                            <div class="row clearfix">
+                                                <div class="col-lg-12">
+                                                    <div class="card">
+                                                        <div class="body">
+                                                            <h5>Add Task Progress for Project <span class="text-danger">{{$task->project->title}}</span></h5>
+                                                            <form action="{{url('employee-task-progress/'.$task->id)}}" method="post">
+                                                                @csrf
+                                                            <div class="row clearfix">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Date</label>
+                                                                        <input type="date" name="date" class="form-control form-control-sm" value="{{date('Y-m-d')}}">
+                                                                        @error('date')
+                                                                            <label class="error">{{$errors->first('date')}}</label>
+                                                                        @enderror
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label>Module</label>
+                                                                        <select name="module" class="form-control show-tick ms select2" data-placeholder="Select">
+                                                                            <option></option>
+                                                                            @foreach ($modules as $module)
+                                                                                <option value="{{$module->module}}">{{$module->module}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                        @error('module')
+                                                                            <label class="error">{{$errors->first('module')}}</label>
+                                                                        @enderror
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label>Hours</label>
+                                                                        <input type="text" name="hours" class="form-control form-control-sm" value="{{old('hours')}}">
+                                                                        @error('hours')
+                                                                            <label class="error">{{$errors->first('hours')}}</label>
+                                                                        @enderror
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label>Note</label>
+                                                                        <textarea name="work_detail" rows="5" class="form-control">{{old('work_detail')}}</textarea>
+                                                                        @error('work_detail')
+                                                                            <label class="error">{{$errors->first('work_detail')}}</label>
+                                                                        @enderror
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                </div>
+                                                            </div>
+                                                            <button type="submit" class="mt-3 btn btn-primary">Save</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr> --}}
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="viewTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Task Progress <span id="projectTitle"></span></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <form id="FormEdit">
+                                    <div class="modal-body">
+                                    <label><b>Task Details</b></label>
+                                    <p id="note"></p>
+                                        @csrf
+                                        <input type="hidden" id="id" name="id"/>
+                                        <div class="form-group">
+                                            <label><b>Project Status</b></label>
+                                            <select class="form-control" id="status" name="status">
+                                                <option>Ongoing</option>
+                                                <option>Completed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                    </form>
+                                    <form action="">
+                                        <div class="modal-body">
+                                            <form action="" method="post">
+                                                @csrf
+                                            <div class="row clearfix">
+                                                <div class="col-md-6">
+
+                                                    <div class="form-group">
+                                                        <label>Date</label>
+                                                        <input type="date" name="date" class="form-control form-control-sm" value="{{date('Y-m-d')}}">
+                                                        @error('date')
+                                                            <label class="error">{{$errors->first('date')}}</label>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Module</label>
+                                                        <select name="module" class="form-control show-tick ms select2" data-placeholder="Select">
+                                                            <option></option>
+                                                            @foreach ($modules as $module)
+                                                                <option value="{{$module->module}}">{{$module->module}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('module')
+                                                            <label class="error">{{$errors->first('module')}}</label>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Hours</label>
+                                                        <input type="text" name="hours" class="form-control form-control-sm" value="{{old('hours')}}">
+                                                        @error('hours')
+                                                            <label class="error">{{$errors->first('hours')}}</label>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Note</label>
+                                                        <textarea name="work_detail" class="summernote">{{old('work_detail')}}</textarea>
+                                                        @error('work_detail')
+                                                            <label class="error">{{$errors->first('work_detail')}}</label>
+                                                        @enderror
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="mt-5 btn btn-primary">Save</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+
+                                        </div>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+
                             @endforeach
                         </tbody>
                     </table>
@@ -108,4 +271,24 @@
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/buttons.html5.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/buttons.print.min.js')}}"></script>
 <script src="{{asset('assets/js/pages/tables/jquery-datatable.js')}}"></script>
+<script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
+<script src="{{asset('assets/plugins/summernote/dist/summernote.js')}}"></script>
 @stop
+
+@push('after-scripts')
+<script>
+function editModule(id){
+    $.get('/employee-task/'+id+'/edit', function(task){
+        $('#id').val(task.id);
+        $('#projectTitle').html(task.project_id);
+        $('#note').html(task.note);
+
+        // $('#modules')
+
+        $('#viewTaskModal').modal('toggle');
+    });
+
+
+}
+</script>
+@endpush

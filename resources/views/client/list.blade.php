@@ -25,7 +25,7 @@
             </div>
             <div class="body">
                 <div class="table-responsive">
-                    <table class="client-datatable table table-hover">
+                    <table class="admin-datatable table table-hover" style="width: 100%;">
                         <thead class="thead-light">
                             <tr>
                                 <th>Full Name</th>
