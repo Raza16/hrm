@@ -36,11 +36,12 @@ class UserDashboardController extends Controller
         ->where('status', 'process')
         ->count();
 
-        $todayTasks = Task::where(['employee_id' => $employee->id, 'assign_date' => date("Y-m-d")])->get();
+        $ongoingTasks = Task::where(['employee_id' => $employee->id, 'status' => 'ongoing'])->get();
 
-        $employeeTimes = TimeTracker::where('employee_id', $employee->id)
-        ->orderBy('date', 'DESC')
+        $employeeTimes = TimeTracker::orderBy('id', 'DESC')
+        ->where('employee_id', $employee->id)
         ->get();
+
         // dd($employeeTimes);
 
         // dd($EmployeeTime);
@@ -63,10 +64,10 @@ class UserDashboardController extends Controller
         //     })
         //     ->first();
 
-        $checkinPrevious = TimeTracker::whereNull('checkout')
-        ->where('employee_id', $employee->id)
-        ->whereDate('date', Carbon::yesterday())
-        ->first();
+        // $checkinPrevious = TimeTracker::whereNull('checkout')
+        // ->where('employee_id', $employee->id)
+        // ->whereDate('date', Carbon::yesterday())
+        // ->first();
         // dd($checkinPrevious);
 
         $checkinDone = TimeTracker::whereNull('checkout')
@@ -86,16 +87,54 @@ class UserDashboardController extends Controller
         ->first();
         // dd($breakinDone);
 
-        return view('backend.user_account.dashboard', compact(
+        // $leave_days = Leave::where('employee_id', Auth::user()->employee->id)
+        // ->select('from_date', 'to_date')
+        // ->first();
+
+        $totalAttendanceCurrentMonth = TimeTracker::where('employee_id', Auth::user()->employee->id)
+        ->whereMonth('date', Carbon::now()->month)
+        ->count();
+        // dd($totalAttendance);
+
+        $todayBreakTime = TimeBreaker::where('employee_id', Auth::user()->employee->id)
+        ->whereDate('date', Carbon::today())
+        ->get();
+        // dd($todayBreakTime);
+
+        $timeTrackerId = TimeTracker::select('id')->whereNull('checkout')
+            ->where('employee_id', Auth::user()->employee->id)
+            ->whereDate('date', Carbon::today())
+            ->first();
+
+            if($timeTrackerId){
+
+                $sum_total_hours = TimeBreaker::where([
+                    'time_tracker_id' => $timeTrackerId->id,
+                    'employee_id' => Auth::user()->employee->id,
+                    'date' => date('Y-m-d')])
+                    ->sum(DB::raw("TIME_TO_SEC(total_hours)"));
+                    $sumBreakTime = gmdate("H:i:s", $sum_total_hours);
+            }
+            else{
+                $sumBreakTime ="00:00:00";
+            }
+
+            // disableCheckin =
+
+        return view('user_account.dashboard', compact(
             'employee',
             'leaveCount',
             'completedTaskCount',
             'processTaskCount',
-            'todayTasks',
+            'ongoingTasks',
             'checkinDone',
             'breakinDone',
-            'checkinPrevious',
+            // 'checkinPrevious',
             'employeeTimes',
+            // 'leave_days'
+            'totalAttendanceCurrentMonth',
+            'todayBreakTime',
+            'sumBreakTime'
         ));
     }
 
@@ -310,13 +349,28 @@ class UserDashboardController extends Controller
 
     }
 
+    public function viewTime($id)
+    {
+        // $viewTimeTracker = TimeTracker::where('employee_id', Auth::user()->employee->id)
+        // ->where('time_tracker_id', $id)->timebreaks;
+        $viewTimeTracker = TimeTracker::find($id)->timebreaks;
+        // ->get();
+        // dd($viewTimeTracker);
+
+        return response()->json($viewTimeTracker);
+        // return view('user_account.dashboard', compact('viewTimeTracker'));
+    }
+
     public function updateTime(Request $request, $id)
     {
-        $updateTime = TimeTracker::where('employee_id', Auth::user()->employee->id)
+        $viewTime = DB::table('time_tracker')
         ->where('id', $id)
-        ->first();
+        ->update([
+            'checkin' => $request->checkin,
+            'checkout' => $request->checkout,
+        ]);
 
-
+        return response()->json($viewTime);
     }
 
 

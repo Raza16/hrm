@@ -252,7 +252,7 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Title</label>
+                                                    <label>Project Name</label>
                                                     <input type="text" name="title" class="form-control" value="{{old('title')}}">
                                                     @error('title')
                                                         <p><small class="text-danger">{{ $errors->first('title') }}</small></p>
@@ -302,21 +302,25 @@
                                                 <div class="form-group">
                                                     <label>Service</label>
                                                     <select name="service" class="form-control">
-                                                        <option value="Web Design and Development" {{old('service') == 'Web Design and Development' ? 'selected' : ''}}>Web Design and Development</option>
+                                                        <option value="Web Designing" {{old('service') == 'Web Designing' ? 'selected' : ''}}>Web Designing</option>
 
-                                                        <option value="Mobile App Design and Development" {{old('service') == 'Mobile App Design and Development' ? 'selected' : ''}}>Mobile App Design and Development</option>
+                                                        <option value="Web Development" {{old('service') == 'Web Development' ? 'selected' : ''}}>Web Development</option>
+
+                                                        <option value="Hybrid Mobile App Development" {{old('service') == 'Hybrid Mobile App Development' ? 'selected' : ''}}>Hybrid Mobile App Development</option>
+
+                                                        <option value="Native Mobile App Development" {{old('service') == 'Native Mobile App Development' ? 'selected' : ''}}>Native Mobile App Development</option>
 
                                                         <option value="CMS Development" {{old('service') == 'CMS Development' ? 'selected' : ''}}>CMS Development</option>
 
-                                                        <option value="Search Engine Optimization" {{old('service') == 'Search Engine Optimization' ? 'selected' : ''}}>Search Engine Optimization</option>
+                                                        <option value="SEO" {{old('service') == 'SEO' ? 'selected' : ''}}>SEO</option>
 
                                                         <option value="Social Media Marketing" {{old('service') == 'Social Media Marketing' ? 'selected' : ''}}>Social Media Marketing</option>
 
                                                         <option value="Content Writing" {{old('service') == 'Content Writing' ? 'selected' : ''}}>Content Writing</option>
 
-                                                        <option value="Business Development" {{old('service') == 'Business Development' ? 'selected' : ''}}>Business Development</option>
+                                                        <option value="Business development" {{old('service') == 'Business development' ? 'selected' : ''}}>Business development</option>
 
-                                                        <option value="Graphics Design and Branding" {{old('service') == 'Graphics Design and Branding' ? 'selected' : ''}}>Graphics Design and Branding</option>
+                                                        <option value="Graphics Design and Branding" {{old('service') == 'Graphics Design and Branding' ? 'selected' : ''}}>Graphic Design and Branding</option>
                                                     </select>
                                                     @error('website')
                                                         <p><small class="text-danger">{{ $errors->first('website') }}</small></p>

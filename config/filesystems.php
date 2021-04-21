@@ -32,12 +32,12 @@ return [
 
         'profile-image' => [
             'driver' => 'local',
-            'root' => public_path('img/profile-images'),
+            'root' => public_path('storage/profile-images'),
         ],
 
         'task-attachment' => [
             'driver' => 'local',
-            'root' => public_path('file_storage/task_files'),
+            'root' => public_path('storage/task_files'),
         ],
 
         'employee-documents' => [

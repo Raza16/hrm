@@ -38,20 +38,22 @@
                                                     <td>{{$time_tracker->date ? date('j F, Y', strtotime($time_tracker->date)):null}}</td>
                                                     <td>{{$time_tracker->checkin ? date('j F, Y | g:i a', strtotime($time_tracker->checkin)):null}}</td>
                                                     <td>{{$time_tracker->checkout ? date('j F, Y | g:i a', strtotime($time_tracker->checkout)) : null}}</td>
-                                                    <td>{{$time_tracker->total_hours}}</td>
-                                                    <td>{{$time_tracker->break_hours}}</td>
-                                                    <td>{{$time_tracker->working_hours}}</td>
+                                                    <td>{{$time_tracker->total_hours ? $time_tracker->total_hours : null}}</td>
+                                                    <td>{{$time_tracker->break_hours ? $time_tracker->break_hours : null}}</td>
+                                                    <td>{{$time_tracker->working_hours ? $time_tracker->working_hours : null}}</td>
                                                     <td>
-                                                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                                            <div class="btn-group" role="group">
-                                                                 <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options
-                                                                 </button>
-                                                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                                 <a class="dropdown-item" href="{{url('time-tracker/'.$time_tracker->id.'/edit')}}">Edit</a>
-                                                                 <a class="dropdown-item" href="{{url('employee-task-progress/'.$time_tracker->id)}}">View Break Time</a>
-                                                                 </div>
-                                                             </div>
-                                                         </div>
+                                                         <div style="margin-bottom:-9px;">
+                                                            {{-- <a href="{{url('time-tracker/'.$time_tracker->id.'/edit')}}" class="btn btn-sm btn-primary">Edit</a>
+                                                            </a><br>
+                                                            <a class="btn btn-sm btn-primary mt-1" href="{{url('employee-task-progress/'.$time_tracker->id)}}">View Break Time</a> --}}
+
+                                                            {{-- <form action="{{url('employee-task-progress/'.$time_tracker->id)}}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-sm btn-danger" style="text-transform:none;"><i class="fa fa-trash" aria-hidden="true"></i>
+                                                                </button>
+                                                            </form> --}}
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 @endforeach

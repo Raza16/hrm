@@ -12,6 +12,14 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 
+<<<<<<< HEAD
 datech_hrm.sql
 
 vendor.zip
+=======
+public/img/profile-images
+
+*.zip
+
+*.sql
+>>>>>>> dev

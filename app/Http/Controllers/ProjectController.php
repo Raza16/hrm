@@ -18,7 +18,7 @@ class ProjectController extends Controller
         // with() function with client model
         // $projects = Project::with('client')->get();
         $projects = Project::all();
-        return view('backend.project.list', compact('projects'));
+        return view('project.list', compact('projects'));
     }
 
     /**
@@ -30,7 +30,7 @@ class ProjectController extends Controller
     {
         $clients = DB::table('clients')->select('id', 'full_name')->get();
 
-        return view('backend.project.create', compact('clients'));
+        return view('project.create', compact('clients'));
     }
 
     /**
@@ -63,7 +63,7 @@ class ProjectController extends Controller
 
         $project->save();
 
-        return redirect('project/create')->with('success', 'Record has been submited');
+        return redirect('project/create')->with('success', 'Record has been saved');
     }
 
     /**
@@ -87,7 +87,7 @@ class ProjectController extends Controller
     {
         $clients = DB::table('clients')->select('id', 'full_name')->get();
         $project = Project::find($id);
-        return view('backend.project.edit', compact('project', 'clients'));
+        return view('project.edit', compact('project', 'clients'));
     }
 
     /**
@@ -121,7 +121,7 @@ class ProjectController extends Controller
 
         $project->save();
 
-        return redirect('project');
+        return redirect()->back()->with('update', 'Record has been updated');
     }
 
     /**
