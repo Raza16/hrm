@@ -21,7 +21,7 @@
                                         <table class="datatable table table-striped table-bordered" style="width:100%">
                                             <thead>
                                                 <tr>
-                                                    <th>project</th>
+                                                    <th>Project</th>
                                                     <th>Employee</th>
                                                     <th>Task No</th>
                                                     <th>Priority</th>
