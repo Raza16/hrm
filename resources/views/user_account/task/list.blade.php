@@ -2,9 +2,9 @@
 @section('title', 'Tasks')
 @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css')}}"/>
+<link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/summernote/dist/summernote.css')}}"/>
-<link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.css')}}"/>
 @stop
 @section('content')
 @include('layouts.alert_message')
@@ -90,79 +90,9 @@
                                     </div>
                                 </td>
                             </tr>
-                            {{-- <tr>
-                                <td colspan="7">
-                                    <div class="collapse" id="task-{{$task->id}}">
-                                        <div class="well">
-                                            <label><b>Task Info</b></label>
-                                            {!!$task->note!!}
-                                            <hr>
-
-                                            <div class="row clearfix">
-                                                <div class="col-lg-12">
-                                                    <div class="card">
-                                                        <div class="body">
-                                                            <h5>Add Task Progress for Project <span class="text-danger">{{$task->project->title}}</span></h5>
-                                                            <form action="{{url('employee-task-progress/'.$task->id)}}" method="post">
-                                                                @csrf
-                                                            <div class="row clearfix">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label>Date</label>
-                                                                        <input type="date" name="date" class="form-control form-control-sm" value="{{date('Y-m-d')}}">
-                                                                        @error('date')
-                                                                            <label class="error">{{$errors->first('date')}}</label>
-                                                                        @enderror
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label>Module</label>
-                                                                        <select name="module" class="form-control show-tick ms select2" data-placeholder="Select">
-                                                                            <option></option>
-                                                                            @foreach ($modules as $module)
-                                                                                <option value="{{$module->module}}">{{$module->module}}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                        @error('module')
-                                                                            <label class="error">{{$errors->first('module')}}</label>
-                                                                        @enderror
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label>Hours</label>
-                                                                        <input type="text" name="hours" class="form-control form-control-sm" value="{{old('hours')}}">
-                                                                        @error('hours')
-                                                                            <label class="error">{{$errors->first('hours')}}</label>
-                                                                        @enderror
-                                                                    </div>
-
-                                                                    <div class="form-group">
-                                                                        <label>Note</label>
-                                                                        <textarea name="work_detail" rows="5" class="form-control">{{old('work_detail')}}</textarea>
-                                                                        @error('work_detail')
-                                                                            <label class="error">{{$errors->first('work_detail')}}</label>
-                                                                        @enderror
-                                                                    </div>
-
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                </div>
-                                                            </div>
-                                                            <button type="submit" class="mt-3 btn btn-primary">Save</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr> --}}
-
                             <!-- Modal -->
                             <div class="modal fade" id="viewTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Task Progress <span id="projectTitle"></span></h5>
@@ -170,32 +100,64 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     </div>
-                                    <form id="FormEdit">
+                                    <form id="task-form-edit">
                                     <div class="modal-body">
                                     <label><b>Task Details</b></label>
                                     <p id="note"></p>
+                                    <hr>
                                         @csrf
                                         <input type="hidden" id="id" name="id"/>
+                                        <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><b>Project progress(%)</b></label>
+                                            <select class="form-control" id="progress" name="progress">
+                                                <option value="100">100% (Completed)</option>
+                                                <option value="95">95%</option>
+                                                <option value="90">90%</option>
+                                                <option value="85">85%</option>
+                                                <option value="80">80%</option>
+                                                <option value="75">75%</option>
+                                                <option value="70">70%</option>
+                                                <option value="65">65%</option>
+                                                <option value="60">60%</option>
+                                                <option value="55">55%</option>
+                                                <option value="50">50%</option>
+                                                <option value="45">45%</option>
+                                                <option value="40">40%</option>
+                                                <option value="35">35%</option>
+                                                <option value="30">30%</option>
+                                                <option value="25">25%</option>
+                                                <option value="20">20%</option>
+                                                <option value="15">15%</option>
+                                                <option value="10">10%</option>
+                                                <option value="5">5%</option>
+                                                <option value="0" selected>0%</option>
+                                            </select>
+                                        </div>
+
                                         <div class="form-group">
                                             <label><b>Project Status</b></label>
                                             <select class="form-control" id="status" name="status">
-                                                <option>Ongoing</option>
-                                                <option>Completed</option>
+                                                <option value="ongoing">Ongoing</option>
+                                                <option value="completed">Completed</option>
                                             </select>
                                         </div>
+                                        </div>
+
                                     </div>
                                     <div class="modal-footer">
                                     <button type="submit" class="btn btn-primary">Save changes</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
                                     </div>
                                     </form>
-                                    <form action="">
-                                        <div class="modal-body">
-                                            <form action="" method="post">
-                                                @csrf
-                                            <div class="row clearfix">
-                                                <div class="col-md-6">
 
+                                    <form id="add-task-progress">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <hr>
+                                            <h5>Add Task Progress</h5>
+                                            <div class="row clearfix">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Date</label>
                                                         <input type="date" name="date" class="form-control form-control-sm" value="{{date('Y-m-d')}}">
@@ -203,7 +165,9 @@
                                                             <label class="error">{{$errors->first('date')}}</label>
                                                         @enderror
                                                     </div>
+                                                </div>
 
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Module</label>
                                                         <select name="module" class="form-control show-tick ms select2" data-placeholder="Select">
@@ -216,7 +180,9 @@
                                                             <label class="error">{{$errors->first('module')}}</label>
                                                         @enderror
                                                     </div>
+                                                </div>
 
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Hours</label>
                                                         <input type="text" name="hours" class="form-control form-control-sm" value="{{old('hours')}}">
@@ -224,30 +190,29 @@
                                                             <label class="error">{{$errors->first('hours')}}</label>
                                                         @enderror
                                                     </div>
-
-                                                    <div class="form-group">
-                                                        <label>Note</label>
-                                                        <textarea name="work_detail" class="summernote">{{old('work_detail')}}</textarea>
-                                                        @error('work_detail')
-                                                            <label class="error">{{$errors->first('work_detail')}}</label>
-                                                        @enderror
-                                                    </div>
-
                                                 </div>
-                                                <div class="col-md-6">
+                                                {{-- <div class="col-md-6">
+                                                </div> --}}
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Note</label>
+                                                    <textarea name="work_detail" class="summernote">{{old('work_detail')}}</textarea>
+                                                    @error('work_detail')
+                                                    <label class="error">{{$errors->first('work_detail')}}</label>
+                                                    @enderror
+                                                </div>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="mt-5 btn btn-primary">Save</button>
-                                            </form>
                                         </div>
                                         <div class="modal-footer">
-
+                                            <button type="submit" class="mt-5 btn btn-primary">Save</button>
                                         </div>
                                     </form>
                                 </div>
                                 </div>
                             </div>
-
                             @endforeach
                         </tbody>
                     </table>
@@ -258,6 +223,7 @@
 </div>
 
 @stop
+
 @section('page-script')
 <script src="{{asset('assets/bundles/datatablescripts.bundle.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/dataTables.buttons.min.js')}}"></script>
@@ -283,12 +249,33 @@ function editModule(id){
         $('#projectTitle').html(task.project_id);
         $('#note').html(task.note);
 
-        // $('#modules')
-
         $('#viewTaskModal').modal('toggle');
     });
-
-
 }
+
+
+$('#task-form-edit').submit(function(e){
+
+    e.preventDefault();
+
+    let _token = $('input[name=_token]').val();
+    let id = $('#id').val();
+    let status = $('.status').val();
+
+    $.ajax({
+        url: "{{url('employee-task')}}"+"/"+id,
+        type: "put",
+        data: {
+            _token:_token,
+            id:id,
+            status:status,
+        },
+        success:function(response){
+            $('#viewBreakTimeModal').modal('toggle');
+            alert(response);
+        }
+    })
+});
+
 </script>
 @endpush

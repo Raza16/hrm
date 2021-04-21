@@ -60,8 +60,6 @@ class TaskController extends Controller
 
         $task = Task::find($id);
 
-        // $modules = DB::table('task_modules')->select('module')->get();
-
         // return view('user_account.task.edit', compact('task', 'taskStatus'));
         // return response()->json([$task, $modules]);
         return response()->json($task);
@@ -79,7 +77,8 @@ class TaskController extends Controller
 
         $task->save();
 
-        return redirect('employee-task');
+        // return redirect('employee-task');
+        return response()->json('Record has been updated!');
     }
 
     public function getDownload($id)
@@ -130,7 +129,9 @@ class TaskController extends Controller
 
         DB::table('task_progress')->insert([$data]);
 
-        return redirect('/employee-task')->with('success', 'Record has been Submitted');
+        // return redirect('/employee-task')->with('success', 'Record has been Submitted');
+        return response()->json('Record has been sent');
 
     }
+
 }
