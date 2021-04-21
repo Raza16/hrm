@@ -105,9 +105,9 @@ Route::group(['middleware' => ['employee', 'logout']], function() {
 
 });
 
-// Route::get('/', function () {
-//     return redirect(route('login'));
-// });
+Route::get('/', function () {
+    return redirect(route('login'));
+});
 
 Auth::routes();
 
