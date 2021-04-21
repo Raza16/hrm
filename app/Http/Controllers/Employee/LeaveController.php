@@ -19,7 +19,7 @@ class LeaveController extends Controller
         $employeeId = Auth::user()->employee_id;
         $leaves = Leave::where('employee_id', $employeeId)->get();
 
-        return view('backend.user_account.leave.list', compact('leaves'));
+        return view('user_account.leave.list', compact('leaves'));
 
     }
 
@@ -30,7 +30,7 @@ class LeaveController extends Controller
      */
     public function create()
     {
-        return view('backend.user_account.leave.create');
+        return view('user_account.leave.create');
     }
 
     /**
@@ -45,6 +45,7 @@ class LeaveController extends Controller
             'leave_type' => 'required',
             'from_date' => 'required',
             'to_date' => 'required',
+            'days' => 'required',
         ]);
 
         $employeeId = Auth::user()->employee_id;
@@ -61,15 +62,7 @@ class LeaveController extends Controller
             'updated_at' => \Carbon\Carbon::now()
         ];
 
-        // $fromDate = \Carbon\Carbon::parse($request->from_date);
-        // $toDate = \Carbon\Carbon::parse($request->to_date);
-        // $diffDays = $fromDate->diffInDays($toDate);
-        // dd($diffDays);
-
-
-
         Leave::insert([$data]);
-        // DB::table('leaves')->create([$data]);
 
         return redirect('leave/create')->with('success', 'Record has been submited');
     }
@@ -95,7 +88,7 @@ class LeaveController extends Controller
     {
         $leave = Leave::find($id);
 
-        return view('backend.user_account.leave.edit', compact('leave'));
+        return view('user_account.leave.edit', compact('leave'));
     }
 
     /**
@@ -111,6 +104,7 @@ class LeaveController extends Controller
             'leave_type' => 'required',
             'from_date' => 'required',
             'to_date' => 'required',
+            'days' => 'required'
         ]);
 
         $leave = Leave::find($id);
@@ -123,24 +117,7 @@ class LeaveController extends Controller
 
         $leave->save();
 
-        // $employeeId = Auth::user()->employee_id;
-
-        // $data = [
-        //     // 'employee_id' => $employeeId,
-        //     'leave_type' => $request->leave_type,
-        //     'from_date' => $request->from_date,
-        //     'to_date' => $request->to_date,
-        //     'reason' => $request->reason,
-        //     'updated_at' => \Carbon\Carbon::now()
-        // ];
-
-        // dd($data);
-
-        // $leave =  Leave::where('id', $id)->update([$data]);
-
-        $request->session()->flash('update', 'Record has been updated');
-
-        return redirect('leave');
+        return redirect()->back()->with('update', 'Record has been updated');
     }
 
     /**

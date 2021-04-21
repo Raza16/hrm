@@ -18,7 +18,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all();
-        return view('backend.task.list', compact('tasks'));
+        return view('task.list', compact('tasks'));
     }
 
     /**
@@ -34,17 +34,14 @@ class TaskController extends Controller
         $task = DB::table('tasks')->latest()->first();
         if(!$task){
             $newTaskNo = "0000001";
-            return view('backend.task.create', compact('employees', 'projects', 'newTaskNo'));
+            return view('task.create', compact('employees', 'projects', 'newTaskNo'));
         }
 
         $lastTaskNo = DB::table('tasks')->orderBy('id', 'desc')->pluck('task_no')->first();
         $task_no = preg_replace("/[^0-9\.]/", '', $lastTaskNo);
         $newTaskNo = sprintf('%07d', $task_no+1);
 
-        // $todayDate = today();
-        // $todayDate = date("Y-m-d");
-
-        return view('backend.task.create', compact('employees', 'projects', 'newTaskNo'));
+        return view('task.create', compact('employees', 'projects', 'newTaskNo'));
     }
 
     /**
@@ -78,7 +75,7 @@ class TaskController extends Controller
         if ($request->hasFile('document')) {
             $file = $request->file('document');
             $fileName = time().'_'.$file->getClientOriginalName();
-            $destinationPath = public_path('/file_storage/task_files');
+            $destinationPath = public_path('/storage/task_files');
             $filePath = $destinationPath. "/".  $fileName;
             $file->move($destinationPath, $fileName);
             $task->document = $fileName;
@@ -113,7 +110,7 @@ class TaskController extends Controller
         $projects = DB::table('projects')->select('id', 'title')->get();
         $employees = DB::table('employees')->select('id', 'first_name', 'middle_name', 'last_name')->get();
 
-        return view('backend.task.edit', compact('task', 'projects', 'employees'));
+        return view('task.edit', compact('task', 'projects', 'employees'));
     }
 
     /**
@@ -144,7 +141,7 @@ class TaskController extends Controller
         if ($request->hasFile('document')) {
             $file = $request->file('document');
             $fileName = time().'_'.$file->getClientOriginalName();
-            $destinationPath = public_path('/file_storage/task_files');
+            $destinationPath = public_path('/storage/task_files');
             $filePath = $destinationPath. "/".  $fileName;
             $file->move($destinationPath, $fileName);
             $old_image = $task->document;
@@ -155,7 +152,7 @@ class TaskController extends Controller
 
         $task->save();
 
-        return redirect('task');
+        return redirect()->back()->with('update', 'Record has been updated');
     }
 
     /**
@@ -166,7 +163,11 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $task = Task::find($id)->delete();
+
+        Storage::disk('task-attachment')->delete($task->document);
+
+        return redirect('/task');
     }
 
 
@@ -189,14 +190,14 @@ class TaskController extends Controller
         ->get();
 
 
-        return view('backend.task.report', compact('taskReport'));
+        return view('task.report', compact('taskReport'));
     }
 
     public function taskModuleForm()
     {
         $taskModules = DB::table('task_modules')->get();
 
-        return view('backend.task.create_task_module', compact('taskModules'));
+        return view('task.create_task_module', compact('taskModules'));
     }
 
     public function taskModuleStore(Request $request)

@@ -22,17 +22,10 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-//----------------------- Admin Routes
-Route::middleware(['auth', 'admin', 'logout'])->group(function() {
+//----------------------- Admin Routes---------------------------------------------------
+Route::middleware(['admin', 'logout'])->group(function() {
 
     Route::get('admin/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard']);
-
-    // Route::get('client/list', function () {
-    //     return view('backend/clients/list');
-    // });
-    // Route::get('client/create', function () {
-    //     return view('backend/clients/create');
-    // });
 
     Route::resource('employee', App\Http\Controllers\EmployeeController::class);
 
@@ -62,8 +55,11 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function() {
 
     Route::get('time-tracker', [App\Http\Controllers\TimeTrackerController::class, 'index']);
     Route::get('time-tracker/{id}/edit', [App\Http\Controllers\TimeTrackerController::class, 'edit']);
+    Route::put('time-tracker/{id}', [App\Http\Controllers\TimeTrackerController::class, 'update']);
+    Route::delete('time-tracker/{id}', [App\Http\Controllers\TimeTrackerController::class, 'destory']);
 
-    Route::put('time-tracker/{id}/edit', [App\Http\Controllers\TimeTrackerController::class, 'update']);
+    Route::get('time-breaker/{id}', [App\Http\Controllers\TimeTrackerController::class, 'editBreakTime']);
+    Route::put('time-breaker/{id}', [App\Http\Controllers\TimeTrackerController::class, 'updateBreakTime']);
 
     Route::delete('employee-doc/{id}', [App\Http\Controllers\EmployeeController::class, 'deleteDocs']);
 
@@ -73,9 +69,15 @@ Route::middleware(['auth', 'admin', 'logout'])->group(function() {
 
     Route::get('generate-pdf/{id}', [App\Http\Controllers\PayslipController::class, 'generatePDF']);
 
+    Route::resource('department', App\Http\Controllers\DepartmentController::class);
+
+    // Route::get('profile/show', function () {
+    //     return view('employee.show');
+    // });
+
 });
 
-//----------------------- User Routes
+//----------------------- User Routes-----------------------------------------------
 Route::group(['middleware' => ['employee', 'logout']], function() {
 
     Route::get('/user_account', [App\Http\Controllers\UserDashboardController::class, 'dashboard']);
@@ -98,7 +100,7 @@ Route::group(['middleware' => ['employee', 'logout']], function() {
     Route::post('/breakin', [App\Http\Controllers\UserDashboardController::class, 'breakInTimeStore']);
     Route::post('/breakout', [App\Http\Controllers\UserDashboardController::class, 'breakOutTimeUpdate']);
 
-    Route::get('/timetracker/{id}', [App\Http\Controllers\UserDashboardController::class, 'viewTime']);
+    Route::get('/timebreaker/{id}', [App\Http\Controllers\UserDashboardController::class, 'viewTime']);
     Route::put('/timetracker/{id}', [App\Http\Controllers\UserDashboardController::class, 'updateTime']);
 
 });
@@ -117,13 +119,13 @@ Auth::routes();
 
 //-------------------------- Artisan commands
 
-// Route::get('/migrate', function () {
-//     Artisan::call('migrate', [
-//        '--force' => true
-//     ]);
+Route::get('/migrate', function () {
+    Artisan::call('migrate', [
+       '--force' => true
+    ]);
 
-//     return 'Migrate Database Successfully!';
-// });
+    return 'Migrate Database Successfully!';
+});
 
 // Route::get('/config-cache', function() {
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Employee;
+use App\Models\Designation;
 use App\Models\EmployeeDocuments;
 use DB;
 
@@ -18,7 +19,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = Employee::all();
-        return view('backend.employee.list', compact('employees'));
+        return view('employee.list', compact('employees'));
     }
 
     /**
@@ -31,7 +32,7 @@ class EmployeeController extends Controller
         $employee = DB::table('employees')->latest()->first();
         if(!$employee){
             $newEmployeeNo = "EMP-000001";
-            return view('backend.employee.create', compact('newEmployeeNo'));
+            return view('employee.create', compact('newEmployeeNo'));
         }
 
         $lastEmployeeNo = DB::table('employees')->orderBy('id', 'desc')->pluck('employee_no')->first();
@@ -39,7 +40,10 @@ class EmployeeController extends Controller
         $employee_no = preg_replace("/[^0-9\.]/", '', $lastEmployeeNo);
         $newEmployeeNo = $prefix . sprintf('%06d', $employee_no+1);
 
-        return view('backend.employee.create', compact('newEmployeeNo'));
+        $employees = Employee::select('id', 'first_name', 'middle_name', 'last_name')->get();
+        $designations = Designation::select('id', 'title')->get();
+
+        return view('employee.create', compact('newEmployeeNo', 'employees', 'designations'));
     }
 
     /**
@@ -52,21 +56,27 @@ class EmployeeController extends Controller
     {
         $this->validate($request, [
             'employee_no' => 'required|unique:employees',
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|alpha',
+            'middle_name' => 'alpha',
+            'last_name' => 'required|alpha',
             'gender' => 'required',
             'cnic' => 'unique:employees',
             'mobile_no' => 'required|unique:employees',
             'email' => 'required|unique:employees',
             'profile_image' => 'image|mimes:jpeg,png,jpg',
+            'designation_id' => 'required',
+            'employee_id' => 'required',
+            'job_status' => 'required',
+            'salary' => 'numeric',
             // 'file.*' => 'mimes:jpeg, png, jpg, pdf, docx, doc'
         ],
         [
             'profile_image.mimes'=> 'Image must be in jpeg, png, jpg',
+            'designation_id.required' => 'Designation field is required',
+            'employee_id.required' => 'Supervisor field is required'
             // 'file.mimes' => 'File must be jpeg, png, jpg, pdf, docx, doc'
         ]
         );
-
 
         $employee = new Employee;
 
@@ -91,11 +101,24 @@ class EmployeeController extends Controller
         $employee->postal_code = $request->postal_code;
         $employee->address = $request->address;
         $employee->notes = $request->notes;
+        $employee->designation_id = $request->designation_id;
+        $employee->salary = $request->salary;
+        $employee->joining_date = $request->joining_date;
+        $employee->ending_date = $request->ending_date;
+        $employee->employee_id = $request->employee_id;
+        $employee->working_time_start = $request->working_time_start;
+        $employee->working_time_end = $request->working_time_end;
+        $employee->termination_date = $request->termination_date;
+        $employee->job_status = $request->job_status;
+        $employee->probation_period_start = $request->probation_period_start;
+        $employee->probation_period_end = $request->probation_period_end;
+        $employee->internship_period_start = $request->internship_period_start;
+        $employee->internship_period_end = $request->internship_period_end;
 
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
             $name = time().'_'.$image->getClientOriginalName();
-            $destinationPath = public_path('/img/profile-images');
+            $destinationPath = public_path('/storage/profile-images');
             $imagePath = $destinationPath. "/".  $name;
             $image->move($destinationPath, $name);
             $employee->profile_image = $name;
@@ -105,7 +128,7 @@ class EmployeeController extends Controller
         {
             foreach ($request->file ? : [] as $file) {
                 $filename =  time().'_'.$file->getClientOriginalName();
-                $destinationPath = public_path('storage/employee_documents');
+                $destinationPath = public_path('/storage/employee_documents');
                 $filePath = $destinationPath. "/".  $filename;
                 $file->move($destinationPath, $filename);
                 EmployeeDocuments::create([
@@ -127,7 +150,8 @@ class EmployeeController extends Controller
     public function show($id)
     {
         $employee = Employee::find($id);
-        return view('backend.employee.show', compact('employee'));
+
+        return view('employee.show', compact('employee'));
     }
 
     /**
@@ -140,7 +164,11 @@ class EmployeeController extends Controller
     {
         $employee = Employee::find($id);
         $employeeDocuments = Employee::find($id)->documents;
-        return view('backend.employee.edit', compact('employee', 'employeeDocuments'));
+
+        $emps = Employee::select('id', 'first_name', 'middle_name', 'last_name')->get();
+        $designations = Designation::select('id', 'title')->get();
+
+        return view('employee.edit', compact('employee', 'employeeDocuments', 'emps', 'designations'));
     }
 
     /**
@@ -153,16 +181,24 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|alpha',
+            'middle_name' => 'alpha',
+            'last_name' => 'required|alpha',
             'gender' => 'required',
-            'mobile_no' => 'required',
-            'email' => 'required',
+            'mobile_no' => "required|unique:employees,mobile_no,$id",
+            'email' => "required|unique:employees,email,$id",
             'profile_image' => 'image|mimes:jpeg,png,jpg',
-            'file.*' => 'mimes:jpeg, png, jpg, pdf, docx, doc'
+            'designation_id' => 'required',
+            'employee_id' => 'required',
+            'job_status' => 'required',
+            'salary' => 'numeric',
+            // 'file.*' => 'mimes:jpeg, png, jpg, pdf, docx, doc'
         ],
         [
             'profile_image.mimes'=> 'Image must be in jpeg, png, jpg',
+            'designation_id.required' => 'Designation field is required',
+            'employee_id.required' => 'Supervisor field is required'
+
         ]);
 
 
@@ -188,11 +224,24 @@ class EmployeeController extends Controller
         $employee->postal_code = $request->postal_code;
         $employee->address = $request->address;
         $employee->notes = $request->notes;
+        $employee->designation_id = $request->designation_id;
+        $employee->salary = $request->salary;
+        $employee->joining_date = $request->joining_date;
+        $employee->ending_date = $request->ending_date;
+        $employee->employee_id = $request->employee_id;
+        $employee->working_time_start = $request->working_time_start;
+        $employee->working_time_end = $request->working_time_end;
+        $employee->termination_date = $request->termination_date;
+        $employee->job_status = $request->job_status;
+        $employee->probation_period_start = $request->probation_period_start;
+        $employee->probation_period_end = $request->probation_period_end;
+        $employee->internship_period_start = $request->internship_period_start;
+        $employee->internship_period_end = $request->internship_period_end;
 
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
             $name = time().'_'.$image->getClientOriginalName();
-            $destinationPath = public_path('/img/profile-images');
+            $destinationPath = public_path('/storage/profile-images');
             $imagePath = $destinationPath. "/".  $name;
             $image->move($destinationPath, $name);
             $old_image = $employee->profile_image;
@@ -205,7 +254,7 @@ class EmployeeController extends Controller
         {
             foreach ($request->file ? : [] as $file) {
                 $filename =  time().'_'.$file->getClientOriginalName();
-                $destinationPath = public_path('storage/employee_documents');
+                $destinationPath = public_path('/storage/employee_documents');
                 $filePath = $destinationPath. "/".  $filename;
                 $file->move($destinationPath, $filename);
                 EmployeeDocuments::create([

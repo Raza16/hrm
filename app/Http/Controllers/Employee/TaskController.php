@@ -44,7 +44,13 @@ class TaskController extends Controller
 
         // dd($tasks);
 
-        return view('backend.user_account.task.list', compact('tasks'));
+        // $taskDetailView = Task::find($employee_id);
+        // // dd($taskDetailView);
+        // $todayDate = date("Y-m-d");
+
+        $modules = DB::table('task_modules')->select('module')->get();
+
+        return view('user_account.task.list', compact('tasks', 'modules'));
     }
 
     public function edit($id)
@@ -54,7 +60,9 @@ class TaskController extends Controller
 
         $task = Task::find($id);
 
-        return view('backend.user_account.task.edit', compact('task', 'taskStatus'));
+        // return view('user_account.task.edit', compact('task', 'taskStatus'));
+        // return response()->json([$task, $modules]);
+        return response()->json($task);
     }
 
     public function update(Request $request, $id)
@@ -69,14 +77,15 @@ class TaskController extends Controller
 
         $task->save();
 
-        return redirect('employee-task');
+        // return redirect('employee-task');
+        return response()->json('Record has been updated!');
     }
 
     public function getDownload($id)
     {
         $task = Task::find($id);
 
-        $file = public_path()."/file_storage/task_files/".$task->document;
+        $file = public_path()."/storage/task_files/".$task->document;
 
         $headers = array(
 
@@ -94,7 +103,7 @@ class TaskController extends Controller
 
         $modules = DB::table('task_modules')->select('module')->get();
 
-        return view('backend.user_account.task.create', compact('task', 'todayDate', 'modules'));
+        return view('user_account.task.create', compact('task', 'todayDate', 'modules'));
     }
 
     public function taskProgressStore(Request $request, $id)
@@ -120,7 +129,9 @@ class TaskController extends Controller
 
         DB::table('task_progress')->insert([$data]);
 
-        return redirect('/employee-task');
+        // return redirect('/employee-task')->with('success', 'Record has been Submitted');
+        return response()->json('Record has been sent');
 
     }
+
 }

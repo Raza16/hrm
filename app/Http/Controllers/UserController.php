@@ -33,7 +33,7 @@ class UserController extends Controller
                  'roles.role_type')
         ->get();
 
-        return view('backend.user.list', compact('users'));
+        return view('user.list', compact('users'));
     }
 
     /**
@@ -45,7 +45,7 @@ class UserController extends Controller
     {
         $employees = DB::table('employees')->select('id', 'first_name', 'middle_name', 'last_name')->get();
         $roles = DB::table('roles')->select('id', 'role_type')->get();
-        return view('backend.user.create', compact('employees' ,'roles'));
+        return view('user.create', compact('employees' ,'roles'));
     }
 
     /**
@@ -129,7 +129,7 @@ class UserController extends Controller
 
         $user = User::find($id);
 
-        return view('backend.user.edit', compact('user', 'employees', 'roles'));
+        return view('user.edit', compact('user', 'employees', 'roles'));
     }
 
     /**
@@ -142,8 +142,8 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'employee_id' => 'required',
-            'email' => 'required',
+            'employee_id' => "required|unique:users,employee_id,$id",
+            'email' => "required|unique:users,email,$id",
             'role_id' => 'required',
             'status' => 'required',
         ]);
@@ -158,7 +158,7 @@ class UserController extends Controller
         $user->status = $request->status;
         $user->save();
 
-        return redirect('user')->with('update', 'Record has been updated');
+        return redirect()->back()->with('update', 'Record has been updated');
     }
 
     /**
@@ -172,6 +172,6 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return redirect('user');
+        return redirect('user')->with('delete', 'Record has been deleted');
     }
 }
