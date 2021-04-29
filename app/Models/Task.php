@@ -19,4 +19,9 @@ class Task extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public function task_attachment()
+    {
+        return $this->hasMany(TaskAttachment::class);
+    }
 }

@@ -7,7 +7,6 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-
 use App\Models\User;
 use App\Models\TimeTracker;
 use Auth;
@@ -48,7 +47,12 @@ class LoginController extends Controller
 
             if (Auth::user()->role_id == 2) {
 
-                return $this->redirectTo = '/user_account';
+                return $this->redirectTo = '/emp/dashboard';
+            }
+
+            if (Auth::user()->role_id == 3) {
+
+                return $this->redirectTo = '/manager/dashboard';
             }
         }
     /**
@@ -59,6 +63,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        // $this->middleware('guest:client_login')->except('logout');
     }
 
     protected function validateLogin(Request $request)
@@ -89,6 +94,37 @@ class LoginController extends Controller
         // else{
             // return redirect('/user_account')->with('logout', 'First Checkout your current time then logout');
         // }
+    }
+
+
+    public function showClientLoginForm()
+    {
+        return view('auth.client_login');
+    }
+
+    public function clientLogin(Request $request)
+    {
+        $this->validate($request, [
+            'email'   => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (Auth::guard('client_login')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 1], $request->get('remember')))
+        {
+            return redirect()->intended('/ClientDashboard');
+        }
+
+        return back()->withErrors([
+            'email' => 'Your credentials do not match our records.',
+        ]);
+    }
+
+    public function clientLogout(Request $request)
+    {
+        Auth::guard('client_login')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/ClientLogin');
     }
 
 

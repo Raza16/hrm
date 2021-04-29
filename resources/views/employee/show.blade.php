@@ -5,10 +5,8 @@
     <div class="col-xl-4 col-lg-12 col-md-12">
         <div class="card mcard_3">
             <div class="body">
-
                 <a href="javascript:void(0);">
-
-                    <img src="{{$employee->profile_image ? asset('img/profile-images/'.$employee->profile_image) : asset('img/no_image.png')}}" class="rounded-circle" alt="profile-image" width="200" height="200">
+                    <img src="{{$employee->profile_image ? asset('storage/profile-images/'.$employee->profile_image) : asset('img/no_image.png')}}" class="rounded-circle" alt="profile-image" width="200" height="200">
                 </a>
                 <h5 class="m-t-10 mt-4">{{$employee->first_name.' '.$employee->middle_name.' '.$employee->last_name}}</h5>
 

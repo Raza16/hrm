@@ -21,12 +21,12 @@ class Is_employee
             return redirect('/login');
         }
 
-        // if (Auth::user()->role_id == 1) {
-        //     return redirect('admin/dashboard');
-        // }
-        
         if (Auth::user()->role_id == 2) {
             return $next($request);
         }
+        else{
+            return redirect()->back();
+        }
+
     }
 }

@@ -6,6 +6,9 @@ $(function () {
             },
             'gender': {
                 required: true
+            },
+            'select': {
+                required: true
             }
         },
         highlight: function (input) {

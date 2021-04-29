@@ -50,12 +50,17 @@ class DepartmentController extends Controller
         if($department)
         {
             foreach($request->title as $key => $value){
-                $data = [
-                    'department_id' => $department->id,
-                    'title' => $request->title[$key],
-                ];
+                // $data = [
+                //     'department_id' => $department->id,
+                //     'title' => $request->title[$key],
+                // ];
 
-                Designation::create($data);
+                // Designation::create($data);
+                $designation = new Designation;
+
+                $designation->department_id = $request->department->id;
+                $designation->title = $request->title[$key];
+                $designation->save();
             }
         }
 
@@ -116,6 +121,13 @@ class DepartmentController extends Controller
                 // ];
 
                 // DB::table('designations')->where('id', $designation_id)->updateOrCreate($data);
+
+                    // $designation = Designation::where('id', $designation_id);
+
+                    // $designation->title = $request->title[$key];
+
+                    // $designation->save();
+
                 Designation::updateOrCreate([
                     'id' => $request->id[$key],
                 ],

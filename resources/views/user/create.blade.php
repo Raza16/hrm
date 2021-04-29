@@ -62,7 +62,7 @@
                         <div class="form-group">
                             <select name="role_id" class="form-control form-control-sm show-tick">
                                 @foreach ($roles as $role)
-                                    <option value="{{$role->id}}" {{$role->id == 1 ? 'disabled' : ''}} >{{$role->role_type}}</option>
+                                    <option value="{{$role->id}}" {{$role->id == 1 ? 'disabled' : null}} >{{$role->role_type}}</option>
                                 @endforeach
                             </select>
                         </div>

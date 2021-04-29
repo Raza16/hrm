@@ -15,6 +15,8 @@
 
         <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{asset('assets/css/style.min.css')}}">
+
+        <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
         @stack('after-styles')
     </head>
     <?php
@@ -36,7 +38,7 @@
         }
 
     ?>
-    <body class="<?= $theme ?>" style="font-family: 'Segoe UI';">
+    <body class="<?= $theme ?>" style="font-family: 'Inter', san-serif;">
     <div class="authentication">
         <div class="container">
             @yield('content')

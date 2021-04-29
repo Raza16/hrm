@@ -13,7 +13,7 @@
     <div class="col-lg-4 col-md-12">
         <div class="card mcard_3">
             <div class="body">
-                <img src="{{$employee->profile_image ? asset('img/profile-images/'.Auth::user()->employee->profile_image) : asset('img/no_image.png') }}" class="rounded-circle shadow" alt="profile-image">
+                <img src="{{$employee->profile_image ? asset('storage/profile-images/'.Auth::user()->employee->profile_image) : asset('img/no_image.png') }}" class="rounded-circle shadow" alt="profile-image" width="200" height="200">
                 <h4 class="m-t-10"></h4>
                 <div class="row">
                     <div class="col-12">
@@ -269,6 +269,7 @@
                         <th>Priority</th>
                         <th>Assign Date</th>
                         <th>Deadline Date</th>
+                        <th>Status</th>
                         <th>Options</th>
                     </tr>
                 </thead>
@@ -279,22 +280,30 @@
                         <th>Priority</th>
                         <th>Assign Date</th>
                         <th>Deadline Date</th>
+                        <th>Status</th>
                         <th>Options</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach ($ongoingTasks as $ongoingTask)
+                    @foreach ($ongoingPendingTasks as $ongoingPendingTask)
                         <tr>
-                            <td>{{$ongoingTask->project->title}}</td>
-                            <td>{{$ongoingTask->task_no}}</td>
-                            <td>{{$ongoingTask->priority}}</td>
-                            <td>{{$ongoingTask->assign_date ? \Carbon\Carbon::parse($ongoingTask->assign_date)->format('j F, Y') : null}}</td>
-                            <td>{{$ongoingTask->deadline_date ? \Carbon\Carbon::parse($ongoingTask->deadline_date)->format('j F, Y') : null}}</td>
+                            <td>{{$ongoingPendingTask->project->title}}</td>
+                            <td>{{$ongoingPendingTask->task_no}}</td>
+                            <td>{{$ongoingPendingTask->priority}}</td>
+                            <td>{{$ongoingPendingTask->assign_date ? \Carbon\Carbon::parse($ongoingPendingTask->assign_date)->format('j F, Y') : null}}</td>
+                            <td>{{$ongoingPendingTask->deadline_date ? \Carbon\Carbon::parse($ongoingPendingTask->deadline_date)->format('j F, Y') : null}}</td>
+                            <td>
+                                @if ($ongoingPendingTask->status == 'in progress')
+                                    <span class="badge badge-warning">{{$ongoingPendingTask->status}}</span>
+                                @elseif ($ongoingPendingTask->status == 'ongoing')
+                                    <span class="badge badge-primary">{{$ongoingPendingTask->status}}</span>
+                                @endif
+                            </td>
                             <td>
                                 <div style="display: flex;">
-                                    <a href="{{url('employee-task/'.$ongoingTask->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Task"><i class="far fa-eye"></i></a>
+                                    <a href="{{url('employee-task/'.$ongoingPendingTask->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Task"><i class="far fa-eye"></i></a>
 
-                                    <a href="{{url('employee-task-progress/'.$ongoingTask->id.'/task-progress')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Submit Task Progress"><i class="fas fa-tasks"></i></a>
+                                    <a href="{{url('employee-task-progress/'.$ongoingPendingTask->id.'/task-progress')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Submit Task Progress"><i class="fas fa-tasks"></i></a>
                                 </div>
                             </td>
                         </tr>

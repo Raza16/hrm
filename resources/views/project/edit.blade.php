@@ -56,6 +56,22 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Project Type</label><br>
+                            <div class="radio inlineblock m-r-20">
+                                <input type="radio" name="project_type" id="hourly-rate" class="with-gap" checked value="hourly rate" {{$project->project_type == 'hourly rate' ? 'checked':null}}>
+                                <label for="hourly-rate">Hourly Rate</label>
+                            </div>
+                            <div class="radio inlineblock">
+                                <input type="radio" name="project_type" id="fixed-rate" class="with-gap" value="fixed rate" {{$project->project_type == 'fixed rate' ? 'checked':null}}>
+                                <label for="fixed-rate">Fixed Rate</label>
+                            </div>
+                            <br>
+                            @error('project_type')
+                                <label class="error">{{$errors->first('project_type')}}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label>Start Date<span class="text-danger">*</span></label>
                             <input type="date" name="start_date" class="form-control form-control-sm" value="{{date('Y-m-d')}}">
                             @error('start_date')

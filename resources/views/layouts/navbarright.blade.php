@@ -184,13 +184,19 @@
             </ul>
         </li> --}}
         <li><a href="javascript:void(0);" class="js-right-sidebar" title="Setting"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a></li>
+
         <li>
-            {{-- <a href="#" class="mega-menu" title="Sign Out"><i class="zmdi zmdi-power"></i></a> --}}
-            <form method="POST" action="{{ route('logout') }}" style="margin-top: 12px;
-            margin-left: 1em;">
+            <a class="mega-menu" href="{{ route('logout') }}"
+               onclick="event.preventDefault();
+               document.getElementById('logout-form').submit();">
+               <i class="zmdi zmdi-power"></i>
+            </a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf
-                <a class="mega-menu" style="cursor:pointer;" title="Sign Out" :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();"><i class="zmdi zmdi-power"></i></a>
             </form>
         </li>
+
+
     </ul>
 </div>

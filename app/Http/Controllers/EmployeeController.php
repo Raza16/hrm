@@ -283,9 +283,7 @@ class EmployeeController extends Controller
         // "profile-image" is a custom disk name in config/filesystems.php
         Storage::disk('profile-image')->delete($employee->profile_image);
 
-        session()->flash('delete', 'Record has been deleted');
-
-        return redirect('/employee');
+        return redirect('/employee')->with('delete', 'Record has been deleted');
     }
 
     public function viewDocs($id)

@@ -1,9 +1,9 @@
 <!-- Left Sidebar -->
-<aside id="leftsidebar" class="sidebar" style="font-family: 'Segoe UI';">
+<aside id="leftsidebar" class="sidebar" style="font-family: 'Inter', san-serif;">
     <div class="navbar-brand">
         <button class="btn-menu ls-toggle-btn" type="button"><i class="zmdi zmdi-menu"></i></button>
         {{-- {{route('dashboard.index')}} --}}
-        <a href="#"><img src="{{asset('assets/images/datech_logo.svg')}}" width="25" alt="DA Tech"><span class="m-l-10">DA Tech</span></a>
+        <a href="#"><img src="{{asset('img/datech-logo.png')}}" width="25" alt="DA Tech"><span class="m-l-10">DA Tech</span></a>
     </div>
     <div class="menu">
         <ul class="list">
@@ -13,7 +13,9 @@
                         @if (Auth::user()->role_id == 1)
                         <img src="{{asset('img/no_image.png')}}" alt="Profile-Photo" />
                         @elseif (Auth::user()->role_id == 2 && Auth::user()->employee->profile_image)
-                        <img src="{{asset('img/profile-images/'.Auth::user()->employee->profile_image)}}" alt="Profile-Photo" />
+                        <img src="{{asset('storage/profile-images/'.Auth::user()->employee->profile_image)}}" alt="Profile-Photo" width="" />
+                        @elseif (Auth::user()->role_id == 3 && Auth::user()->employee->profile_image)
+                        <img src="{{asset('storage/profile-images/'.Auth::user()->employee->profile_image)}}" alt="Profile-Photo" width="" />
                         @else
                         <img src="{{asset('img/no_image.png')}}" alt="Profile-Photo" />
                         @endif
@@ -26,12 +28,19 @@
                             <h5 style="font-size:13px;margin-bottom:0;">{{$employee->first_name.' '.$employee->middle_name.' '.$employee->last_name}}</h5>
                             <small>Employee</small>
                         @endif
+
+                        @if (Auth::user()->role_id == 3)
+                        <h5 style="font-size:13px;margin-bottom:0;">{{$employee->first_name.' '.$employee->middle_name.' '.$employee->last_name}}</h5>
+                        <small>Project Manager</small>
+                        @endif
+
                         <small>{{Auth::user()->role_id == 1 ? 'Admin' : null }}</small>
                     </div>
                 </div>
             </li>
 
             {{-- --------------- Role Admin------------- --}}
+
             @if(Auth::user()->role_id == 1)
             <li class="{{ request()->is('admin/dashboard') ? 'active open' : null }}"><a href="{{url('admin/dashboard')}}"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
 
@@ -66,7 +75,7 @@
                 <ul class="ml-menu">
                     <li class="{{ request()->is('task') ? 'active' : null }}"><a href="{{url('task')}}">All Tasks</a></li>
                     <li class="{{ request()->is('task/create') ? 'active' : null }}"><a href="{{url('task/create')}}">Add Task</a></li>
-                    <li class="{{ request()->is('task-report') ? 'active' : null }}"><a href="{{url('task-report')}}">Task Report</a></li>
+                    <li class="{{ request()->is('task-report') ? 'active' : null }}"><a href="{{url('task-report')}}">Task hourly Report</a></li>
                     <li class="{{ request()->is('task-module') ? 'active' : null }}"><a href="{{url('task-module')}}">Task Module</a></li>
                 </ul>
             </li>
@@ -107,16 +116,17 @@
                     <li class="{{ request()->is('user/create') ? 'active' : null }}"><a href="{{url('user/create')}}">Add User</a></li>
                 </ul>
             </li>
+
             @endif
 
             {{----------------- Role Employee---------------}}
             @if(Auth::user()->role_id == 2)
-            <li class="{{ request()->is('user_account') ? 'active open' : null }}"><a href="{{url('user_account')}}"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+            <li class="{{ request()->is('emp/dashboard') ? 'active open' : null }}"><a href="{{url('emp/dashboard')}}"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
 
             <li class="{{request()->is('leave') || request()->is('leave/create') ? 'active' : null}}">
                 <a href="javascript:void(0)" class="menu-toggle"><i class="fas fa-file-alt"></i> <span>Leaves</span></a>
                 <ul class="ml-menu">
-                    <li class="{{request()->is('leave') ? 'active' : null}}"><a href="{{url('leave')}}">Leave List</a></li>
+                    <li class="{{request()->is('leave') ? 'active' : null}}"><a href="{{url('leave')}}">All Leave</a></li>
                     <li class="{{request()->is('leave/create') ? 'active' : null}}"><a href="{{url('leave/create')}}">Apply Leave</a></li>
                 </ul>
             </li>
@@ -124,12 +134,33 @@
             <li class="{{request()->is('employee-task') ? 'active' : null}}">
                 <a href="javascript:void(0)" class="menu-toggle"><i class="fas fa-tasks"></i> <span>Task</span></a>
                 <ul class="ml-menu">
-                    <li class="{{request()->is('employee-task') ? 'active' : null}}"><a href="{{url('employee-task')}}">Task List</a></li>
+                    <li class="{{request()->is('employee-task') ? 'active' : null}}"><a href="{{url('employee-task')}}">All Task</a></li>
+                </ul>
+            </li>
+            @endif
+
+            {{----------------- Role Manager/--------------}}
+            @if(Auth::user()->role_id == 3)
+            <li class="{{ request()->is('manager/dashboard') ? 'active open' : null }}"><a href="{{url('manager/dashboard')}}"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+
+            <li class="{{request()->is('manager/project') || request()->is('manager/project/create') ? 'active' : null}}">
+                <a href="javascript:void(0)" class="menu-toggle"><i class="fas fa-project-diagram"></i> <span>Project</span></a>
+                <ul class="ml-menu">
+                    <li class="{{request()->is('manager/project') ? 'active' : null}}"><a href="{{url('manager/project')}}">All Project</a></li>
+                    <li class="{{request()->is('manager/project/create') ? 'active' : null}}"><a href="{{url('manager/project/create')}}">Add Project</a></li>
                 </ul>
             </li>
 
+            <li class="{{ request()->is('manager/task') || request()->is('manager/task/create') || request()->is('manager/task-report') || request()->is('manager/task-module') ? 'active open' : null }}">
+                <a href="javascript:void(0)" class="menu-toggle"><i class="fas fa-tasks"></i> <span>Task Tracker</span></a>
+                <ul class="ml-menu">
+                    <li class="{{ request()->is('manager/task') ? 'active' : null }}"><a href="{{url('manager/task')}}">All Tasks</a></li>
+                    <li class="{{ request()->is('manager/task/create') ? 'active' : null }}"><a href="{{url('manager/task/create')}}">Add Task</a></li>
+                    <li class="{{ request()->is('manager/task-report') ? 'active' : null }}"><a href="{{url('manager/task-report')}}">Task hourly Report</a></li>
+                    <li class="{{ request()->is('manager/task-module') ? 'active' : null }}"><a href="{{url('manager/task-module')}}">Task Module</a></li>
+                </ul>
+            </li>
             @endif
-
 
         </ul>
     </div>

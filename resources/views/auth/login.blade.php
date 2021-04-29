@@ -5,7 +5,7 @@
     <div class="col-lg-4 col-sm-12">
         <div class="card auth_form">
             <div class="header">
-                <img class="logo" src="{{asset('assets/images/datech_logo.svg')}}" alt="DA Tech Logo" width="50" height="50">
+                <img src="{{asset('img/datech-logo.png')}}" alt="DA Tech Logo" width="40">
                 <h5>Log in</h5>
             </div>
             <div class="body">
