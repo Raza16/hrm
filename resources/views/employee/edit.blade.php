@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Edit Employee')
+@section('title', 'Employee')
 @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/plugins/summernote/dist/summernote.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/dropify/css/dropify.min.css')}}"/>

@@ -79,6 +79,7 @@ Route::group(['middleware' => ['employee', 'logout']], function() {
     Route::get('/employee-task', [App\Http\Controllers\Employee\TaskController::class, 'index']);
     Route::get('/employee-task/{id}/edit', [App\Http\Controllers\Employee\TaskController::class, 'edit']);
     Route::put('/employee-task/{id}', [App\Http\Controllers\Employee\TaskController::class, 'update']);
+    Route::put('/employee-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'progressUpdate']);
 
     Route::get('/employee-task-download/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
 

@@ -269,6 +269,7 @@
                         <th>Priority</th>
                         <th>Assign Date</th>
                         <th>Deadline Date</th>
+                        <th>Progress</th>
                         <th>Status</th>
                         <th>Options</th>
                     </tr>
@@ -280,6 +281,7 @@
                         <th>Priority</th>
                         <th>Assign Date</th>
                         <th>Deadline Date</th>
+                        <th>Progress</th>
                         <th>Status</th>
                         <th>Options</th>
                     </tr>
@@ -291,7 +293,14 @@
                             <td>{{$ongoingPendingTask->task_no}}</td>
                             <td>{{$ongoingPendingTask->priority}}</td>
                             <td>{{$ongoingPendingTask->assign_date ? \Carbon\Carbon::parse($ongoingPendingTask->assign_date)->format('j F, Y') : null}}</td>
-                            <td>{{$ongoingPendingTask->deadline_date ? \Carbon\Carbon::parse($ongoingPendingTask->deadline_date)->format('j F, Y') : null}}</td>
+                            <td>{{$ongoingPendingTask->deadline_date ? \Carbon\Carbon::parse($ongoingPendingTask->deadline_date)->format('j F, Y') : null}}
+                            </td>
+                            <td>
+                                <p style="margin-bottom: -10px;"><small>{{$ongoingPendingTask->progress}}%</small></p>
+                                <div class="progress" style="margin-top:8px;background:#F7C600;border-radius:0;">
+                                <div class="progress-bar l-green" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100" style="width: {{$ongoingPendingTask->progress}}%;border-radius:0;"></div>
+                                </div>
+                            </td>
                             <td>
                                 @if ($ongoingPendingTask->status == 'in progress')
                                     <span class="badge badge-warning">{{$ongoingPendingTask->status}}</span>
@@ -302,8 +311,6 @@
                             <td>
                                 <div style="display: flex;">
                                     <a href="{{url('employee-task/'.$ongoingPendingTask->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Task"><i class="far fa-eye"></i></a>
-
-                                    <a href="{{url('employee-task-progress/'.$ongoingPendingTask->id.'/task-progress')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Submit Task Progress"><i class="fas fa-tasks"></i></a>
                                 </div>
                             </td>
                         </tr>

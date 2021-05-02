@@ -57,8 +57,19 @@ class TaskController extends Controller
 
         $task->save();
 
-        return redirect('employee-task')->with('success', 'Record has been updated');
-        // return response()->json('Record has been updated!');
+        // return redirect('employee-task')->with('success', 'Record has been updated');
+        return response()->json($task);
+    }
+
+    public function progressUpdate(Request $request, $id)
+    {
+        $task = Task::find($id);
+
+        $task->progress = $request->progress;
+
+        $task->save();
+
+        return response()->json($task);
     }
 
     public function getDownload(Request $request, $id)

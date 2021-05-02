@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Add Employee')
+@section('title', 'Employee')
 @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/plugins/summernote/dist/summernote.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/dropify/css/dropify.min.css')}}"/>
@@ -7,7 +7,6 @@
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.css')}}"/>
 
-<link  rel="stylesheet" href="{{asset('assets/plugins/ssi-uploader/dist/ssi-uploader/styles/ssi-uploader.min.css')}}"/>
 @stop
 @section('content')
 
@@ -244,7 +243,7 @@
                         <hr>
                         <div class="form-group">
                             <label>File Attachment</label>
-                            <input type="file" name="file[]" multiple id="ssi-upload" accept=".docx, .doc, .pdf, .csv, .png, .jpeg, .jpg, .pptx, .xls, .xlsx"/>
+                            <input type="file" name="file[]" multiple accept=".docx, .doc, .pdf, .csv, .png, .jpeg, .jpg, .pptx, .xls, .xlsx"/>
                         </div>
 
                         <h6>Profile Image</h6>
@@ -310,7 +309,6 @@
 @section('page-script')
 <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/js/pages/forms/advanced-form-elements.js')}}"></script>
-<script src="{{asset('assets/plugins/ssi-uploader/dist/ssi-uploader/js/ssi-uploader.min.js')}}"></script>
 
 <script src="{{asset('assets/plugins/summernote/dist/summernote.js')}}"></script>
 <script src="{{asset('assets/plugins/dropify/js/dropify.min.js')}}"></script>
@@ -338,18 +336,5 @@
 });
 </script>
 
-<script>
-    $('#ssi-upload').ssi_uploader({
-        allowed: ['png', 'jpg', 'jpeg', 'pdf', 'txt', 'doc', 'docx', 'xls', 'csv', 'xlsx', 'pptx'],
-        errorHandler: {
-            method: function (msg, type) {
-                ssi_modal.notify(type, {content: msg});
-            },
-            success: 'success',
-            error: 'error'
-        },
-        maxFileSize: 122//mb
-    });
-</script>
 @endpush
 

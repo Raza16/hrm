@@ -70,6 +70,7 @@ class TaskController extends Controller
         $task->assign_date = $request->assign_date;
         $task->deadline_date = $request->deadline_date;
         $task->status = $request->status;
+        $task->progress = 0;
         $task->note = $request->note;
 
         if($task->save())

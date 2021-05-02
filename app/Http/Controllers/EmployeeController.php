@@ -57,7 +57,6 @@ class EmployeeController extends Controller
         $this->validate($request, [
             'employee_no' => 'required|unique:employees',
             'first_name' => 'required|alpha',
-            'middle_name' => 'alpha',
             'last_name' => 'required|alpha',
             'gender' => 'required',
             'cnic' => 'unique:employees',
@@ -72,8 +71,8 @@ class EmployeeController extends Controller
         ],
         [
             'profile_image.mimes'=> 'Image must be in jpeg, png, jpg',
-            'designation_id.required' => 'Designation field is required',
-            'employee_id.required' => 'Supervisor field is required'
+            'designation_id.required' => 'Designation must be required',
+            'employee_id.required' => 'Supervisor must be required'
             // 'file.mimes' => 'File must be jpeg, png, jpg, pdf, docx, doc'
         ]
         );
@@ -182,7 +181,6 @@ class EmployeeController extends Controller
     {
         $this->validate($request, [
             'first_name' => 'required|alpha',
-            'middle_name' => 'alpha',
             'last_name' => 'required|alpha',
             'gender' => 'required',
             'mobile_no' => "required|unique:employees,mobile_no,$id",
