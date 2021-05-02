@@ -12,6 +12,7 @@ $('.admin-datatable tfoot th').each( function () {
 // User Database
 var admin_datatable = $('.admin-datatable').DataTable({
     dom: 'lBfrtip',
+    'scrollX': true,
     buttons: [
         {
             extend: 'csv',

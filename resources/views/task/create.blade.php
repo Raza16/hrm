@@ -4,7 +4,8 @@
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/summernote/dist/summernote.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.css')}}"/>
-<link  rel="stylesheet" href="{{asset('assets/plugins/ssi-uploader/dist/ssi-uploader/styles/ssi-uploader.min.css')}}"/>
+<link rel="stylesheet" href="{{asset('assets/plugins/fileuploader/font/font-fileuploader.css')}}">
+<link rel="stylesheet" href="{{asset('assets/plugins/fileuploader/jquery.fileuploader.min.css')}}">
 @stop
 
 @section('content')
@@ -28,12 +29,12 @@
                 </ul>
             </div>
             <div class="body">
-                <form action="{{url('task')}}" method="post">
+                <form id="form_validation" action="{{url('task')}}" method="post" enctype="multipart/form-data">
                     @csrf
                 <div class="row clearfix">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Project Tital</label>
+                            <label>Project Title</label>
                             <select name="project_id" class="form-control show-tick ms select2" data-placeholder="Select">
                                 <option></option>
                                 @foreach ($projects as $project)
@@ -95,6 +96,19 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Status</label>
+                            <select name="status" class="form-control form-control-sm">
+                                <option value="pending">Pending</option>
+                                <option value="in progress">In Progress</option>
+                                <option value="ongoing">Ongoing</option>
+                            </select>
+                            @error('status')
+                                <label class="error">{{$errors->first('status')}}</label>
+                            @enderror
+                        </div>
+
+
+                        <div class="form-group">
                             <label>Note</label>
                             <textarea name="note" class="summernote">{{old('note')}}</textarea>
                             @error('note')
@@ -102,9 +116,9 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" class="hide-text" id='hide-copyright'>
                             <label>File Attachment</label>
-                            <input type="file" name="document" multiple id="ssi-upload" accept=".docx, .doc, .pdf, .csv, .png, .jpeg, .jpg, .pptx, .xls, .xlsx"/>
+                            <input type="file" name="attachment" multiple id="fileuploader"/>
                         </div>
 
                     </div>
@@ -121,26 +135,23 @@
 @stop
 
 
-
 @section('page-script')
 <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/plugins/summernote/dist/summernote.js')}}"></script>
+<script src="{{asset('assets/plugins/fileuploader/jquery.fileuploader.min.js')}}"></script>
 <script src="{{asset('assets/js/pages/forms/advanced-form-elements.js')}}"></script>
-<script src="{{asset('assets/plugins/ssi-uploader/dist/ssi-uploader/js/ssi-uploader.min.js')}}"></script>
+
+<script src="{{asset('assets/plugins/jquery-validation/jquery.validate.js')}}"></script>
+<script src="{{asset('assets/plugins/jquery-steps/jquery.steps.js')}}"></script>
+<script src="{{asset('assets/js/pages/forms/form-validation.js')}}"></script>
 @stop
 
 @push('after-scripts')
 <script>
-$('#ssi-upload').ssi_uploader({
-    allowed: ['png', 'jpg', 'jpeg', 'pdf', 'txt', 'doc', 'docx', 'xls', 'csv', 'xlsx', 'pptx'],
-    errorHandler: {
-        method: function (msg, type) {
-            ssi_modal.notify(type, {content: msg});
-        },
-        success: 'success',
-        error: 'error'
-    },
-    maxFileSize: 122//mb
-});
+// enable fileuploader plugin
+$('#fileuploader').fileuploader({
+        addMore: true
+    });
+
 </script>
 @endpush

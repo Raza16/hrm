@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Edit Employee')
+@section('title', 'Employee')
 @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/plugins/summernote/dist/summernote.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/dropify/css/dropify.min.css')}}"/>
@@ -246,7 +246,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="file" name="profile_image" class="dropify" data-allowed-file-extensions="png jpg jpeg" data-default-file="{{$employee->profile_image ? asset('img/profile-images/'.$employee->profile_image) : asset('img/no_image.png')}}">
+                                    <input type="file" name="profile_image" class="dropify" data-allowed-file-extensions="png jpg jpeg" data-default-file="{{$employee->profile_image ? asset('storage/profile-images/'.$employee->profile_image) : asset('img/no_image.png')}}">
                                 </div>
                             </div>
                         </div>

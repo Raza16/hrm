@@ -32,6 +32,11 @@ class TimeTrackerController extends Controller
             'checkout' => $request->checkout,
         ]);
 
+        $ifCheckout = TimeTracker::whereNull('checkout')->where('id', $id)->first();
+
+        if(!$ifCheckout)
+        {
+
         $totalTime = TimeTracker::select('checkin', 'checkout')->where('id', $id)->first();
 
         // -------------total time between two Date time with Carbon object
@@ -52,15 +57,17 @@ class TimeTrackerController extends Controller
 
         $workingHours = $total_time->diffInHours($sumBreakTime). ':' .$total_time->diff($sumBreakTime)->format('%I:%S');
 
-
         TimeTracker::where('id', $id)
         ->update([
             'total_hours' => $total_time,
             'break_hours' => $sumBreakTime,
             'working_hours' => $workingHours
-        ]);
+            ]);
 
-        return response()->json($time_tracker);
+            return response()->json($time_tracker);
+        }
+
+            return response()->json($time_tracker);
     }
 
     public function destory($id)

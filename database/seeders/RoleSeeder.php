@@ -16,13 +16,23 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $roles = [
+            // [
+            //     'role_type' => 'Admin',
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now(),
+            // ],
+            // [
+            //     'role_type' => 'Employee',
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now(),
+            // ],
             [
-                'role_type' => 'Admin',
+                'role_type' => 'Manager',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'role_type' => 'Employee',
+                'role_type' => 'HR',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

@@ -19,6 +19,8 @@
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
         <!-- Custom Css -->
         <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 
         @stack('after-styles')
     </head>
@@ -44,11 +46,11 @@
             $theme .= " rtl";
         }
     ?>
-    <body class="<?= $theme ?>" style="font-family: 'Segoe UI';">
+    <body class="<?= $theme ?>" style="font-family: 'Inter', sans-serif;">
         <!-- Page Loader -->
         <div class="page-loader-wrapper">
             <div class="loader">
-                <div class="m-t-30"><img src="{{asset('assets/images/datech_logo.svg')}}" width="48" height="48" alt="DA Tech"></div>
+                <div class="m-t-30"><img src="{{asset('img/datech-logo.png')}}" width="48" height="48" alt="DA Tech"></div>
                 <p>Please wait...</p>
             </div>
         </div>
@@ -67,7 +69,9 @@
                                 @if (Auth::user()->role_id == 1)
                                 <a href="{{url('admin/dashboard')}}"><i class="zmdi zmdi-home"></i> Dashboard</a>
                                 @elseif (Auth::user()->role_id == 2)
-                                <a href="{{url('user_account')}}"><i class="zmdi zmdi-home"></i> Dashboard</a>
+                                <a href="{{url('emp/dashboard')}}"><i class="zmdi zmdi-home"></i> Dashboard</a>
+                                @elseif (Auth::user()->role_id == 3)
+                                <a href="{{url('project')}}"><i class="zmdi zmdi-home"></i> Dashboard</a>
                                 @endif
                             </li>
                             @if (trim($__env->yieldContent('parentPageTitle')))

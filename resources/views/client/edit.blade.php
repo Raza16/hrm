@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title', 'Client')
 @section('page-style')
+<link rel="stylesheet" href="{{asset('assets/plugins/summernote/dist/summernote.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.css')}}"/>
 @stop
@@ -81,18 +82,41 @@
                         </div>
 
                         <div class="form-group">
-                            <label>State Province</label>
-                            <input type="text" name="state_province" class="form-control form-control-sm" value="{{$client->state_province}}">
-                            @error('state_province')
-                                <label class="error">{{ $errors->first('state_province') }}</label>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
                             <label>City</label>
                             <input type="text" name="city" class="form-control form-control-sm" value="{{$client->city}}">
                             @error('city')
                                 <label class="error">{{ $errors->first('city') }}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Payment Resource</label>
+                            <select name="payment_resource" class="form-control form-control-sm">
+                                <option value="paypal" {{$client->payment_resource == 'paypal' ? 'selected' : null}}>PayPay</option>
+                                <option value="guru" {{$client->payment_resource == 'guru' ? 'selected' : null}}>Guru</option>
+                                <option value="fiverr" {{$client->payment_resource == 'fiverr' ? 'selected' : null}}>Fiverr</option>
+                                <option value="upwork" {{$client->payment_resource == 'upwork' ? 'selected' : null}}>Upwork</option>
+                                <option value="payoneer" {{$client->payment_resource == 'payoneer' ? 'selected' : null}}>Payoneer</option>
+                                <option value="bank transfer" {{$client->payment_resource == 'band transfer' ? 'selected' : null}}>Bank Transfer</option>
+                            </select>
+                            @error('payment_resource')
+                                <label class="error">{{ $errors->first('payment_resource') }}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Skype</label>
+                            <input type="text" name="skype" class="form-control form-control-sm" value="{{$client->skype}}">
+                            @error('skype')
+                                <label class="error">{{ $errors->first('skype') }}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Note</label>
+                            <textarea type="text" name="note" class="summernote">{{$client->note}}</textarea>
+                            @error('note')
+                                <label class="error">{{ $errors->first('note') }}</label>
                             @enderror
                         </div>
 
@@ -118,17 +142,5 @@
 @stop
 
 @push('after-scripts')
-<script>
-$('#ssi-upload').ssi_uploader({
-    allowed: ['png', 'jpg', 'jpeg', 'pdf', 'txt', 'doc', 'docx', 'xls', 'csv', 'xlsx', 'pptx'],
-    errorHandler: {
-        method: function (msg, type) {
-            ssi_modal.notify(type, {content: msg});
-        },
-        success: 'success',
-        error: 'error'
-    },
-    maxFileSize: 122//mb
-});
-</script>
+
 @endpush

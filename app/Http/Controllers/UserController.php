@@ -45,6 +45,7 @@ class UserController extends Controller
     {
         $employees = DB::table('employees')->select('id', 'first_name', 'middle_name', 'last_name')->get();
         $roles = DB::table('roles')->select('id', 'role_type')->get();
+
         return view('user.create', compact('employees' ,'roles'));
     }
 

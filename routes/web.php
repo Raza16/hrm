@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-// use App\Http\Controllers\Frontend\BlogController as FrontendBlogController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,22 +69,19 @@ Route::middleware(['admin', 'logout'])->group(function() {
 
     Route::resource('department', App\Http\Controllers\DepartmentController::class);
 
-    // Route::get('profile/show', function () {
-    //     return view('employee.show');
-    // });
-
 });
 
 //----------------------- User Routes-----------------------------------------------
 Route::group(['middleware' => ['employee', 'logout']], function() {
 
-    Route::get('/user_account', [App\Http\Controllers\UserDashboardController::class, 'dashboard']);
+    Route::get('/emp/dashboard', [App\Http\Controllers\UserDashboardController::class, 'dashboard']);
 
     Route::get('/employee-task', [App\Http\Controllers\Employee\TaskController::class, 'index']);
     Route::get('/employee-task/{id}/edit', [App\Http\Controllers\Employee\TaskController::class, 'edit']);
     Route::put('/employee-task/{id}', [App\Http\Controllers\Employee\TaskController::class, 'update']);
+    Route::put('/employee-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'progressUpdate']);
 
-    Route::get('/employee-task/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
+    Route::get('/employee-task-download/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
 
     Route::get('/employee-task-progress/{id}/task-progress', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressForm']);
 
@@ -105,27 +100,63 @@ Route::group(['middleware' => ['employee', 'logout']], function() {
 
 });
 
-Route::get('/', function () {
-    return redirect(route('login'));
+Route::group(['middleware' => ['manager', 'logout']], function() {
+
+    Route::get('/manager/dashboard', [App\Http\Controllers\UserDashboardController::class, 'dashboard']);
+
+    Route::resource('manager/project', App\Http\Controllers\ProjectController::class);
+
+    Route::resource('manager/task', App\Http\Controllers\TaskController::class);
+
+    Route::get('manager/task-report', [App\Http\Controllers\TaskController::class, 'taskReport']);
+
+    Route::get('manager/task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
+    Route::post('manager/task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
+    Route::get('manager/task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleEdit']);
+    Route::put('manager/task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleUpdate']);
+    Route::delete('manager/task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleDestory']);
 });
 
-Auth::routes();
+
+
+Route::get('/ClientLogin', [App\Http\Controllers\Auth\LoginController::class, 'showClientLoginForm']);
+Route::post('/ClientLogin', [App\Http\Controllers\Auth\LoginController::class, 'clientLogin']);
+Route::post('/ClientLogout', [App\Http\Controllers\Auth\LoginController::class, 'clientLogout']);
+
+//----------------------- Client Routes-----------------------------------------------
+Route::middleware(['client', 'logout'])->group(function() {
+
+    Route::get('/ClientDashboard', [App\Http\Controllers\Client\DashboardController::class, 'dashboard']);
+
+    Route::get('/client-project',  [App\Http\Controllers\Client\ProjectController::class, 'index']);
+
+});
+
+
+
+// Route::view('/home', 'home')->middleware('auth');
+// Route::view('/clientLogin', 'client_login');
+// Route::view('/writer', 'writer');
 
 
 // Route::get('/loginmail', function () {
 //     return view('layouts/login_mail');
 // });
 
+Route::get('/', function () {
+    return redirect(route('login'));
+});
 
+Auth::routes();
 //-------------------------- Artisan commands
 
-Route::get('/migrate', function () {
-    Artisan::call('migrate', [
-       '--force' => true
-    ]);
+// Route::get('/migrate', function () {
+//     Artisan::call('migrate', [
+//        '--force' => true
+//     ]);
 
-    return 'Migrate Database Successfully!';
-});
+//     return 'Migrate Database Successfully!';
+// });
 
 // Route::get('/config-cache', function() {
 

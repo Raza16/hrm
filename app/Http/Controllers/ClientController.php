@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\ClientLogin;
+use Hash;
 
 class ClientController extends Controller
 {
@@ -41,7 +43,7 @@ class ClientController extends Controller
         $this->validate($request, [
             'full_name' => 'required',
             'email' => 'required',
-            // 'mobile_no' => 'required',
+            'login_email' => 'unique:client_logins,email',
         ]);
 
         $client = new Client;
@@ -51,10 +53,19 @@ class ClientController extends Controller
         $client->email = $request->email;
         $client->mobile_no = $request->mobile_no;
         $client->country = $request->country;
-        $client->state_province = $request->state_province;
         $client->city = $request->city;
+        $client->payment_resource = $request->payment_resource;
+        $client->skype = $request->skype;
+        $client->note = $request->note;
 
-        $client->save();
+        if($client->save()){
+            ClientLogin::create([
+                'client_id' => $client->id,
+                'email' => $request->login_email,
+                'password' => Hash::make($request->password),
+                'status' => $request->status
+            ]);
+        }
 
         return redirect('client/create')->with('success', 'Record has been submited');
     }
@@ -94,7 +105,7 @@ class ClientController extends Controller
         $this->validate($request, [
             'full_name' => 'required',
             'email' => 'required',
-            // 'mobile_no' => 'required',
+            'payment_resource'=> 'required'
         ]);
 
         $client = Client::find($id);
@@ -104,8 +115,10 @@ class ClientController extends Controller
         $client->email = $request->email;
         $client->mobile_no = $request->mobile_no;
         $client->country = $request->country;
-        $client->state_province = $request->state_province;
         $client->city = $request->city;
+        $client->payment_resource = $request->payment_resource;
+        $client->skype = $request->skype;
+        $client->note = $request->note;
 
         $client->save();
 

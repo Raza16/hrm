@@ -23,7 +23,7 @@
             <div class="body" style="padding-left:70px !important;padding-right:70px !important;">
                 <div class="row">
                     <div class="col-12" style="text-align:center;margin-top:50px;">
-                        <img style="margin-right:20px;" src="{{asset('img/da_tech.png')}}" width="50"/>
+                        <img style="margin-right:20px;" src="{{asset('img/datech-logo.png')}}" width="50"/>
                         <h5 class="mt-3" style="font-weight:600;">DA Tech</h5>
                         <p>Plot 6/1 - 5A, Ground floor, Nazimabad Block 5
                            Karachi, 74600<br>

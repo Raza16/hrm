@@ -36,9 +36,9 @@ class UserDashboardController extends Controller
         ->where('status', 'process')
         ->count();
 
-        $ongoingTasks = Task::where(['employee_id' => $employee->id, 'status' => 'ongoing'])->get();
+        $ongoingPendingTasks = Task::where(['employee_id' => $employee->id, 'status' => 'ongoing'])->orWhere('status', 'in progress')->get();
 
-        $employeeTimes = TimeTracker::orderBy('id', 'DESC')
+        $employeeTimes = TimeTracker::orderBy('date', 'asc')
         ->where('employee_id', $employee->id)
         ->get();
 
@@ -74,32 +74,18 @@ class UserDashboardController extends Controller
         ->where('employee_id', $employee->id)
         ->where('date', Carbon::today())
         ->first();
-        // dd($checkinDone);
-
-        // $checkinTime = TimeTracker::select('id')
-        // ->where('employee_id', $employee->id)
-        // ->where('date', date('Y-m-d'))
-        // ->first();
-        // dd($checkinTime);
 
         $breakinDone = TimeBreaker::whereNull('breakout')
         ->where('employee_id', $employee->id)
         ->first();
-        // dd($breakinDone);
-
-        // $leave_days = Leave::where('employee_id', Auth::user()->employee->id)
-        // ->select('from_date', 'to_date')
-        // ->first();
 
         $totalAttendanceCurrentMonth = TimeTracker::where('employee_id', Auth::user()->employee->id)
         ->whereMonth('date', Carbon::now()->month)
         ->count();
-        // dd($totalAttendance);
 
         $todayBreakTime = TimeBreaker::where('employee_id', Auth::user()->employee->id)
         ->whereDate('date', Carbon::today())
         ->get();
-        // dd($todayBreakTime);
 
         $timeTrackerId = TimeTracker::select('id')->whereNull('checkout')
             ->where('employee_id', Auth::user()->employee->id)
@@ -119,19 +105,15 @@ class UserDashboardController extends Controller
                 $sumBreakTime ="00:00:00";
             }
 
-            // disableCheckin =
-
         return view('user_account.dashboard', compact(
             'employee',
             'leaveCount',
             'completedTaskCount',
             'processTaskCount',
-            'ongoingTasks',
+            'ongoingPendingTasks',
             'checkinDone',
             'breakinDone',
-            // 'checkinPrevious',
             'employeeTimes',
-            // 'leave_days'
             'totalAttendanceCurrentMonth',
             'todayBreakTime',
             'sumBreakTime'
@@ -253,7 +235,6 @@ class UserDashboardController extends Controller
                 'total_hours' =>  $total_time,
                 'break_hours' =>  $sumTime,
             ]);
-
 
             $getWorkingHours = TimeTracker::select('total_hours', 'break_hours')
             ->where('employee_id', Auth::user()->employee->id)

@@ -34,6 +34,7 @@
                                 <th>Priority</th>
                                 <th>Assign Date</th>
                                 <th>Deadline Date</th>
+                                <th>Progress</th>
                                 <th>Status</th>
                                 <th>Options</th>
                             </tr>
@@ -45,6 +46,7 @@
                                 <th>Priority</th>
                                 <th>Assign Date</th>
                                 <th>Deadline Date</th>
+                                <th>Progress</th>
                                 <th>Status</th>
                                 <th>Options</th>
                             </tr>
@@ -72,8 +74,16 @@
                                     {{$task->deadline_date ? \Carbon\Carbon::parse($task->deadline_date)->format('j F, Y') : null}}
                                 </td>
                                 <td>
+                                    <p style="margin-bottom: -10px;"><small>{{$task->progress}}%</small></p>
+                                    <div class="progress" style="margin-top:8px;background:#F7C600;border-radius:0;">
+                                    <div class="progress-bar l-green" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100" style="width: {{$task->progress}}%;border-radius:0;"></div>
+                                    </div>
+                                </td>
+                                <td>
                                     @if ($task->status == 'ongoing')
                                         <span class="badge badge-primary">{{$task->status}}</span>
+                                    @elseif ($task->status == 'in progress')
+                                        <span class="badge badge-warning">{{$task->status}}</span>
                                     @elseif($task->status == 'completed')
                                         <span class="badge badge-success">{{$task->status}}</span>
                                     @endif
@@ -81,12 +91,6 @@
                                 <td>
                                     <div style="display: flex;">
                                         <a href="{{url('employee-task/'.$task->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Task"><i class="far fa-eye"></i></a>
-
-                                        <a href="{{url('employee-task-progress/'.$task->id.'/task-progress')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Submit Task Progress"><i class="fas fa-tasks"></i></a>
-
-                                        {{-- <a class="btn btn-default" role="button" data-toggle="collapse" href="#task-{{$task->id}}" aria-expanded="false"
-                                        aria-controls="collapseExample">View</a> --}}
-                                        <a  href="javascript:void(0)" onclick="editModule({{$task->id}})"  class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -111,34 +115,18 @@
                                         <div class="form-group">
                                             <label><b>Project progress(%)</b></label>
                                             <select class="form-control" id="progress" name="progress">
-                                                <option value="100">100% (Completed)</option>
-                                                <option value="95">95%</option>
-                                                <option value="90">90%</option>
-                                                <option value="85">85%</option>
-                                                <option value="80">80%</option>
-                                                <option value="75">75%</option>
-                                                <option value="70">70%</option>
-                                                <option value="65">65%</option>
-                                                <option value="60">60%</option>
-                                                <option value="55">55%</option>
-                                                <option value="50">50%</option>
-                                                <option value="45">45%</option>
-                                                <option value="40">40%</option>
-                                                <option value="35">35%</option>
-                                                <option value="30">30%</option>
-                                                <option value="25">25%</option>
-                                                <option value="20">20%</option>
-                                                <option value="15">15%</option>
-                                                <option value="10">10%</option>
-                                                <option value="5">5%</option>
                                                 <option value="0" selected>0%</option>
+                                                <option value="20">20%</option>
+                                                <option value="50">50%</option>
+                                                <option value="70">70%</option>
+                                                <option value="100">100% (Completed)</option>
                                             </select>
                                         </div>
 
                                         <div class="form-group">
                                             <label><b>Project Status</b></label>
                                             <select class="form-control" id="status" name="status">
-                                                <option value="ongoing">Ongoing</option>
+                                                <option value="in-progress">In Progess</option>
                                                 <option value="completed">Completed</option>
                                             </select>
                                         </div>
@@ -191,8 +179,6 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                {{-- <div class="col-md-6">
-                                                </div> --}}
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -260,7 +246,7 @@ $('#task-form-edit').submit(function(e){
 
     let _token = $('input[name=_token]').val();
     let id = $('#id').val();
-    let status = $('.status').val();
+    let status = $('#status').val();
 
     $.ajax({
         url: "{{url('employee-task')}}"+"/"+id,

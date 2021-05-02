@@ -50,3 +50,7 @@ table.dataTable{
     display: table-header-group;
 } */
 
+a:hover{
+    text-decoration: underline;
+}
+

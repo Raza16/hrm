@@ -7,6 +7,9 @@
 <link  rel="stylesheet" href="{{asset('assets/plugins/ssi-uploader/dist/ssi-uploader/styles/ssi-uploader.min.css')}}"/>
 @stop
 
+
+
+
 @section('content')
 
 @include('layouts.alert_message')
@@ -35,7 +38,7 @@
                 <div class="row clearfix">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Project Tital</label>
+                            <label>Project Title</label>
                             <select name="project_id" class="form-control show-tick ms select2" data-placeholder="Select">
                                 <option></option>
                                 @foreach ($projects as $project)
@@ -89,6 +92,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Status</label>
+                            <select name="status" class="form-control form-control-sm">
+                                <option value="pending" {{$task->status == 'pending' ? 'selected' : null}}>Pending</option>
+                                <option value="in progress" {{$task->status == 'in progress' ? 'selected' : null}}>In Progress</option>
+                                <option value="ongoing" {{$task->status == 'ongoing' ? 'selected' : null}}>Ongoing</option>
+                            </select>
+                            @error('status')
+                                <label class="error">{{$errors->first('status')}}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label>Note</label>
                             <textarea name="note" class="summernote">{{$task->note}}</textarea>
                             @error('note')
@@ -98,7 +113,8 @@
 
                         <div class="form-group">
                             <label>File Attachment</label>
-                            <input type="file" name="document" multiple id="ssi-upload" accept=".docx, .doc, .pdf, .csv, .png, .jpeg, .jpg, .pptx, .xls, .xlsx"/>
+
+                            <input type="file" name="document" multiple id="fileuploader"  accept=".docx, .doc, .pdf, .csv, .png, .jpeg, .jpg, .pptx, .xls, .xlsx"/>
                         </div>
 
                     </div>

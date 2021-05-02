@@ -34,9 +34,19 @@ class RedirectIfAuthenticated
 
                 if (Auth::user()->role_id == 2) {
 
-                    return redirect('/user_account');
+                    return redirect('/emp/dashboard');
+                }
+
+                if (Auth::user()->role_id == 3) {
+
+                    return redirect('/manager/dashboard');
                 }
             }
+
+            if ($guard == "client_login" && Auth::guard($guard)->check()) {
+                return redirect('/ClientDashboard');
+            }
+
         }
 
         return $next($request);

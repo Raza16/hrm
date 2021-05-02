@@ -47,12 +47,14 @@ class ProjectController extends Controller
             'start_date' => 'required',
             'status' => 'required',
             'service' => 'required',
+            'project_type' => 'required'
         ]);
 
         $project = new Project;
 
         $project->client_id = $request->client_id;
         $project->title = $request->title;
+        $project->project_type = $request->project_type;
         $project->status = $request->status;
         $project->start_date = $request->start_date;
         $project->end_date = $request->end_date;
@@ -111,6 +113,7 @@ class ProjectController extends Controller
 
         $project->client_id = $request->client_id;
         $project->title = $request->title;
+        $project->project_type = $request->project_type;
         $project->status = $request->status;
         $project->start_date = $request->start_date;
         $project->end_date = $request->end_date;

@@ -69,19 +69,23 @@ class TaskController extends Controller
         $task->priority = $request->priority;
         $task->assign_date = $request->assign_date;
         $task->deadline_date = $request->deadline_date;
-        $task->status = 'ongoing';
+        $task->status = $request->status;
+        $task->progress = 0;
         $task->note = $request->note;
 
-        if ($request->hasFile('document')) {
-            $file = $request->file('document');
-            $fileName = time().'_'.$file->getClientOriginalName();
-            $destinationPath = public_path('/storage/task_files');
-            $filePath = $destinationPath. "/".  $fileName;
-            $file->move($destinationPath, $fileName);
-            $task->document = $fileName;
+        if($task->save())
+        {
+            foreach ($request->attachment ? : [] as $file) {
+                $filename =  time().'_'.$file->getClientOriginalName();
+                $destinationPath = public_path('/storage/task_files');
+                $filePath = $destinationPath. "/".  $filename;
+                $file->move($destinationPath, $filename);
+                DB::table('task_attachments')->insert([
+                    'task_id' => $task->id,
+                    'attachment' => $filename
+                ]);
+            }
         }
-
-        $task->save();
 
         return redirect('task/create')->with('success', 'Record has been submited');
     }
@@ -94,7 +98,9 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //
+        $task = Task::find($id);
+
+        return response()->json($task);
     }
 
     /**
@@ -136,6 +142,7 @@ class TaskController extends Controller
         $task->priority = $request->priority;
         $task->assign_date = $request->assign_date;
         $task->deadline_date = $request->deadline_date;
+        $task->status = $request->status;
         $task->note = $request->note;
 
         if ($request->hasFile('document')) {
@@ -144,7 +151,7 @@ class TaskController extends Controller
             $destinationPath = public_path('/storage/task_files');
             $filePath = $destinationPath. "/".  $fileName;
             $file->move($destinationPath, $fileName);
-            $old_image = $task->document;
+            $old_image = $task->attachment;
             $task->document = $fileName;
 
             Storage::disk('task-attachment')->delete($old_image);
@@ -164,8 +171,9 @@ class TaskController extends Controller
     public function destroy($id)
     {
         $task = Task::find($id)->delete();
+        $task = Task::find($id)->task_attachment->delete();
 
-        Storage::disk('task-attachment')->delete($task->document);
+        Storage::disk('task-attachment')->delete($task->attachment);
 
         return redirect('/task');
     }

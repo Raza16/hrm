@@ -62,9 +62,9 @@
                                 <td>{{$time_tracker->working_hours}}</td>
                                 <td>
                                     <div style="display: flex;">
-                                        <a href="javascript:void(0)" onclick="editModule({{$time_tracker->id}})" class="btn btn-sm btn-neutral" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a>
+                                        <a href="javascript:void(0)" onclick="editModule({{$time_tracker->id}})" class="btn btn-sm btn-neutral" data-toggle="tooltip" data-placement="top" title="Edit Check In"><i class="far fa-edit"></i></a>
 
-                                        <a href="javascript:void(0)" onclick="viewBreakTimeModule({{$time_tracker->id}})" class="btn btn-sm btn-neutral" data-toggle="tooltip" data-placement="top" title="view"><i class="far fa-eye"></i></a>
+                                        <a href="javascript:void(0)" onclick="viewBreakTimeModule({{$time_tracker->id}})" class="btn btn-sm btn-neutral" data-toggle="tooltip" data-placement="top" title="View Break Time"><i class="far fa-eye"></i></a>
 
                                         <form action="{{url('time-tracker/'.$time_tracker->id)}}" method="post">
                                             @method('delete')
@@ -80,7 +80,7 @@
                 </div>
 
                 <!-- Edit Modal for TimeTracker -->
-                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="checkinModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -89,7 +89,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                         </div>
-                        <form id="FormEdit">
+                        <form id="Edit-Checkin">
                         <div class="modal-body">
                             @csrf
                             <input type="hidden" id="id" name="id"/>
@@ -110,9 +110,6 @@
                     </div>
                     </div>
                 </div>
-
-
-
 
             </div>
         </div>
@@ -182,12 +179,12 @@ function editModule(id){
         $('#id').val(timeTracker.id);
         $('#checkin').val(timeTracker.checkin);
         $('#checkout').val(timeTracker.checkout);
-        $('#editModal').modal('toggle');
+        $('#checkinModal').modal('toggle');
     });
 
 }
 
-    $('#FormEdit').submit(function(e){
+    $('#Edit-Checkin').submit(function(e){
         e.preventDefault();
 
         let _token = $('input[name=_token]').val();
@@ -204,12 +201,13 @@ function editModule(id){
                 checkout:checkout,
             },
             success:function(response){
-                // $('#mid' + response.id +' td:nth-child(1)').text(response.module);
-                $('#editModal').modal('toggle');
+                $('#checkinModal').modal('toggle');
                 alert('Record has been updated!');
             }
-        })
+        });
     });
+
+
 
 function viewBreakTimeModule(id){
 $.get('/time-breaker/'+id, function(timeBreaker){

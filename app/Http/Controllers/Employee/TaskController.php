@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Response;
 use App\Models\Task;
+use App\Models\TaskAttachment;
 use Carbon\Carbon;
 use DB;
 
@@ -18,35 +19,11 @@ class TaskController extends Controller
     {
         $employee_id = Auth::user()->employee_id;
 
-        $tasks = Task::where('employee_id', $employee_id)->get();
-
-        // $tasks = DB::table('tasks')
-        // ->join('projects', 'projects.id', '=', 'tasks.project_id')
-        // ->select('tasks.id as taskId',
-        //         'tasks.task_no',
-        //         'tasks.priority',
-        //         'tasks.assign_date',
-        //         'tasks.status',
-        //         'tasks.note',
-        //         'tasks.document',
-        //         'projects.id as projectId')
-        // ->where('employee_id', '=', $employee_id)
-        // ->groupBy('tasks.id as taskId',
-        // // 'tasks.project_id',
-        // 'tasks.task_no',
-        // 'tasks.priority',
-        // 'tasks.assign_date',
-        // 'tasks.status',
-        // 'tasks.note',
-        // 'tasks.document',
-        // 'projects.id as projectId')
-        // ->get();
-
-        // dd($tasks);
-
-        // $taskDetailView = Task::find($employee_id);
-        // // dd($taskDetailView);
-        // $todayDate = date("Y-m-d");
+        $tasks = Task::where(['employee_id' => $employee_id, 'status' => 'ongoing'])
+        // ->orWhere('status', 'ongoing')
+        ->orWhere('status', 'in progress')
+        ->orWhere('status', 'completed')
+        ->get();
 
         $modules = DB::table('task_modules')->select('module')->get();
 
@@ -56,13 +33,16 @@ class TaskController extends Controller
     public function edit($id)
     {
         $taskStatus = DB::table('tasks')->select('id', 'status')->where('id', $id)->first();
-        // dd($taskStatus);
 
         $task = Task::find($id);
 
-        // return view('user_account.task.edit', compact('task', 'taskStatus'));
+        $task_attachment = Task::find($id)->task_attachment;
+
+        $modules = DB::table('task_modules')->select('module')->get();
+
+        return view('user_account.task.edit', compact('task', 'taskStatus', 'task_attachment', 'modules'));
+
         // return response()->json([$task, $modules]);
-        return response()->json($task);
     }
 
     public function update(Request $request, $id)
@@ -77,22 +57,36 @@ class TaskController extends Controller
 
         $task->save();
 
-        // return redirect('employee-task');
-        return response()->json('Record has been updated!');
+        // return redirect('employee-task')->with('success', 'Record has been updated');
+        return response()->json($task);
     }
 
-    public function getDownload($id)
+    public function progressUpdate(Request $request, $id)
     {
         $task = Task::find($id);
 
-        $file = public_path()."/storage/task_files/".$task->document;
+        $task->progress = $request->progress;
 
-        $headers = array(
+        $task->save();
 
-            'Content-Type: application/*',
-        );
+        return response()->json($task);
+    }
 
-        return response()->download($file, $task->document, $headers);
+    public function getDownload(Request $request, $id)
+    {
+
+        try{
+            $task = TaskAttachment::find($id);
+            $file = public_path()."/storage/task_files/".$task->attachment;
+            $headers = array(
+
+                'Content-Type: application/*',
+            );
+            return response()->download($file, $task->attachment, $headers);
+        }
+        catch(\Exception $e){
+            return view('errors.file_not_found');
+        }
     }
 
 
@@ -129,8 +123,8 @@ class TaskController extends Controller
 
         DB::table('task_progress')->insert([$data]);
 
-        // return redirect('/employee-task')->with('success', 'Record has been Submitted');
-        return response()->json('Record has been sent');
+        return redirect()->back()->with('success', 'Task progress submit successfully');
+        // return response()->json('Record has been sent');
 
     }
 
