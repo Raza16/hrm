@@ -16,13 +16,13 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'role_id' => 1,
-            'email' => 'admin@thedatech.com',
-            'password' => Hash::make('datech@$'),
-            'status' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        // DB::table('users')->insert([
+        //     'role_id' => 1,
+        //     'email' => 'admin@thedatech.com',
+        //     'password' => Hash::make('datech@$'),
+        //     'status' => 1,
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now(),
+        // ]);
     }
 }
