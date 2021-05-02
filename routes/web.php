@@ -150,13 +150,13 @@ Route::get('/', function () {
 Auth::routes();
 //-------------------------- Artisan commands
 
-Route::get('/migrate', function () {
-    Artisan::call('migrate', [
-       '--force' => true
-    ]);
+// Route::get('/migrate', function () {
+//     Artisan::call('migrate', [
+//        '--force' => true
+//     ]);
 
-    return 'Migrate Database Successfully!';
-});
+//     return 'Migrate Database Successfully!';
+// });
 
 // Route::get('/config-cache', function() {
 
@@ -172,13 +172,13 @@ Route::get('/storage-link', function() {
     return "Storage Link Successfully";
 });
 
-Route::get('/dbseed', function () {
-    Artisan::call('db:seed', [
-       '--force' => true
-    ]);
+// Route::get('/dbseed', function () {
+//     Artisan::call('db:seed', [
+//        '--force' => true
+//     ]);
 
-    return 'DB Seed completed!';
-});
+//     return 'DB Seed completed!';
+// });
 
 
 // Route::get('/composer-update', function () {

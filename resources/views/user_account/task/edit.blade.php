@@ -89,19 +89,21 @@
                                     <button type="submit" style="margin-top:-5px; margin-left:10px;" class="btn btn-sm btn-success" id="btn-task-completed">Mark as Completed</button>
                                     @endif
                                 </form> --}}
+                                @if ($task->status != 'ongoing')
 
                                 <form style="margin: -20px 0px 15px 100px;">
                                     @csrf
                                     <input type="hidden" id="id" value="{{$task->id}}">
                                     <label>Select Task Progress(%)</label>
                                     <select style="width: 160px;" name="progress" id="progress">
-                                        <option value="100" {{$task->progress == 100 ? 'selected' : null}}><span style="color: green;">Mark as Completed(100%)</span></option>
-                                        <option value="75" {{$task->progress == 75 ? 'selected' : null}}>75%</option>
-                                        <option value="50" {{$task->progress == 50 ? 'selected' : null}}>50%</option>
-                                        <option value="25" {{$task->progress == 25 ? 'selected' : null}}>25%</option>
                                         <option value="0" {{$task->progress == 0 ? 'selected' : null}}>0%</option>
+                                        <option value="25" {{$task->progress == 25 ? 'selected' : null}}>25%</option>
+                                        <option value="50" {{$task->progress == 50 ? 'selected' : null}}>50%</option>
+                                        <option value="75" {{$task->progress == 75 ? 'selected' : null}}>75%</option>
+                                        <option value="100" {{$task->progress == 100 ? 'selected' : null}}><span style="color: green;">Mark as Completed(100%)</span></option>
                                     </select>
                                 </form>
+                                @endif
                             </div>
 
                             <table class="table">
@@ -115,7 +117,15 @@
                                 </tr>
                                 <tr>
                                     <td><label class="text-muted">Priority</label></td>
-                                    <td><p>{{$task->priority}}</p></td>
+                                    <td>
+                                        @if ($task->priority == 'normal')
+                                        <p class="badge badge-primary">{{$task->priority}}</p>
+                                        @elseif ($task->priority == 'medium')
+                                        <p class="badge badge-warning">{{$task->priority}}</p>
+                                        @elseif ($task->priority == 'high')
+                                        <p class="badge badge-danger">{{$task->priority}}</p>
+                                        @endif
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><label class="text-muted">Assign Date</label></td>
@@ -127,7 +137,7 @@
                                         @if ($task->deadline_date)
                                         <p>{{date('j F, Y', strtotime($task->deadline_date))}}</p>
                                         @else
-                                            <small class=""><i>--Nil--</i></small>
+                                            <small class="text-muted"><i>--Nil--</i></small>
                                         @endif
                                     </td>
                                 </tr>
@@ -156,7 +166,7 @@
                         <div class="col-md-6 col-sm-12  mt-3">
                             <div class="form-group">
                                 <label><b>Documents</b></label>
-                                @if($task_attachment != [])
+                                @if(!$task_attachment->isEmpty())
                                     @foreach ($task_attachment as $ta)
                                     <p><i class="fas fa-download" aria-hidden="true"></i>&nbsp;<a href="{{url('employee-task-download/'.$ta->id)}}">{{$ta->attachment}}</a></p>
                                     @endforeach

@@ -38,17 +38,16 @@
                             <tr>
                                 <th>project</th>
                                 <th>Assign To</th>
-                                {{-- <th>Assign Date</th> --}}
+                                <th>Progress</th>
                                 <th>Status</th>
                                 <th>Options</th>
-                                {{-- <th>Options</th> --}}
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>project</th>
                                 <th>Assign To</th>
-                                {{-- <th>Assign Date</th> --}}
+                                <th>Progress</th>
                                 <th>Status</th>
                                 <th>Options</th>
                             </tr>
@@ -56,28 +55,32 @@
                         <tbody>
                             @foreach ($tasks as $task)
                             <tr>
-                                <td>
-                                    {{$task->project_id ? $task->project->title : null}}
+                                <td id="hide-option">
+                                    {{$task->project_id ? $task->project->title : null}}<br>
+
+
+
+                                    <ul class="header-dropdown" id="show-option" style="visibility:hidden;list-style-type: none;padding: 0;margin-top: 10px;">
+                                        <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i data-toggle="tooltip" data-placement="top" title="Options" style="font-size: 15px;" class="fas fa-ellipsis-h-alt"></i> </a>
+                                            <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(33px, 34px, 0px);">
+                                                <li><a href="javascript:void(0);">View</a></li>
+                                                <li><a href="javascript:void(0);">Edit</a></li>
+                                                <li><a href="javascript:void(0);">Delete</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+
+
                                 </td>
                                 <td>
                                     {{$task->employee_id ? $task->employee->first_name.' '.$task->employee->middle_name.' '.$task->employee->last_name : null}}
                                 </td>
-                                {{-- <td>{{$task->task_no}}</td> --}}
-                                {{-- <td>
-                                    @if ($task->priority == 'normal')
-                                        <span class="badge badge-primary">{{$task->priority}}</span>
-                                    @elseif($task->priority == 'medium')
-                                        <span class="badge badge-warning">{{$task->priority}}</span>
-                                    @elseif($task->priority == 'high')
-                                        <span class="badge badge-danger">{{$task->priority}}</span>
-                                    @endif
-                                </td> --}}
-                                {{-- <td>
-                                    {{$task->assign_date ? \Carbon\Carbon::parse($task->assign_date)->format('j F, Y') : null}}
-                                </td> --}}
-                                {{-- <td>
-                                    {{$task->deadline_date ? \Carbon\Carbon::parse($task->deadline_date)->format('j F, Y') : null}}
-                                </td> --}}
+                                <td>
+                                    <p style="margin-bottom: -10px;"><small>{{$task->progress}}%</small></p>
+                                    <div class="progress" style="margin-top:8px;background:#F7C600;border-radius:0;">
+                                    <div class="progress-bar l-green" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100" style="width: {{$task->progress}}%;border-radius:0;"></div>
+                                    </div>
+                                </td>
                                 <td>
                                     @if ($task->status == 'ongoing')
                                         <span class="badge badge-primary">{{$task->status}}</span>
@@ -103,7 +106,6 @@
                                         </form>
                                     </div>
                                 </td>
-
                             </tr>
                             @endforeach
                         </tbody>
@@ -202,6 +204,13 @@ function viewDetails(id){
     });
 }
 
+$('#hide-option').hover(function(){
+    $('#show-option').css('visibility', 'visible');
+},
+function () {
+    $('#show-option').css('visibility', 'hidden');
+    }
+);
 
 
 </script>
