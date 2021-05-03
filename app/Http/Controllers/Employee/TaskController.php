@@ -19,11 +19,10 @@ class TaskController extends Controller
     {
         $employee_id = Auth::user()->employee_id;
 
-        $tasks = Task::where(['employee_id' => $employee_id, 'status' => 'ongoing'])
-        // ->orWhere('status', 'ongoing')
-        ->orWhere('status', 'in progress')
-        ->orWhere('status', 'completed')
+        $tasks = Task::where(['employee_id' => $employee_id])
         ->get();
+        // ->orWhere('status', 'in progress')
+        // ->orWhere('status', 'completed')
 
         $modules = DB::table('task_modules')->select('module')->get();
 

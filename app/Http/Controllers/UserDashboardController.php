@@ -133,7 +133,7 @@ class UserDashboardController extends Controller
 
         $timeTracker->save();
 
-        return redirect('/user_account')->with('success', 'CheckIn time has been submited');
+        return redirect('/emp/dashboard')->with('success', 'CheckIn time has been submited');
 
     }
 
@@ -192,7 +192,7 @@ class UserDashboardController extends Controller
                     'total_hours' =>  $total_time,
                 ]);
 
-                return redirect('/user_account')->with('success', 'Break Off time has been submited');
+                return redirect('/emp/dashboard')->with('success', 'Break Off time has been submited');
             }
     }
 
@@ -252,10 +252,10 @@ class UserDashboardController extends Controller
                 'working_hours' =>  $workingHours,
             ]);
 
-            return redirect('/user_account')->with('success', 'CheckOut time has been submited');
+            return redirect('/emp/dashboard')->with('success', 'CheckOut time has been submited');
         }
         else{
-            return redirect('/user_account')->with('success', 'CheckOut time is missing');
+            return redirect('/emp/dashboard')->with('success', 'CheckOut time is missing');
         }
 
         // $checkinPrevious = TimeTracker::whereNull('checkout')
