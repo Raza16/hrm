@@ -116,7 +116,7 @@
                             @enderror
                         </div>
 
-                        <div class="form-group" class="hide-text" id='hide-copyright'>
+                        <div class="form-group">
                             <label>File Attachment</label>
                             <input type="file" name="attachment" multiple id="fileuploader"/>
                         </div>
@@ -138,8 +138,8 @@
 @section('page-script')
 <script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/plugins/summernote/dist/summernote.js')}}"></script>
-<script src="{{asset('assets/plugins/fileuploader/jquery.fileuploader.min.js')}}"></script>
 <script src="{{asset('assets/js/pages/forms/advanced-form-elements.js')}}"></script>
+<script src="{{asset('assets/plugins/fileuploader/jquery.fileuploader.min.js')}}"></script>
 
 <script src="{{asset('assets/plugins/jquery-validation/jquery.validate.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-steps/jquery.steps.js')}}"></script>
