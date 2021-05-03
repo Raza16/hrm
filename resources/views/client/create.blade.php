@@ -88,9 +88,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" name="address" class="form-control form-control-sm" value="{{old('address')}}">
+                            @error('address')
+                                <label class="error">{{ $errors->first('address') }}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label>Payment Resource</label>
                             <select name="payment_resource" class="form-control form-control-sm">
-                                <option value="paypal">PayPay</option>
+                                <option value="paypal">PayPal</option>
                                 <option value="guru">Guru</option>
                                 <option value="fiverr">Fiverr</option>
                                 <option value="upwork">Upwork</option>
@@ -120,7 +128,7 @@
 
                     </div>
                     <div class="col-md-6">
-                        <h6>Client Login</h6>
+                        {{-- <h6>Client Login</h6>
                         <div class="form-group">
                             <label>Login Email</label>
                             <input type="email" name="login_email" class="form-control form-control-sm" value="{{old('login_email')}}">
@@ -151,10 +159,7 @@
                             @error('status')
                                 <label class="error">{{$errors->first('status')}}</label>
                             @enderror
-                        </div>
-
-
-
+                        </div> --}}
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>

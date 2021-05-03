@@ -308,6 +308,8 @@
                                     <span class="badge badge-primary">{{$ongoingPendingTask->status}}</span>
                                 @elseif ($ongoingPendingTask->status == 'pending')
                                     <span class="badge badge-danger">{{$ongoingPendingTask->status}}</span>
+                                {{-- @elseif ($ongoingPendingTask->status == 'completed')
+                                    <span class="badge badge-success">{{$ongoingPendingTask->status}}</span> --}}
                                 @endif
                             </td>
                             <td>
