@@ -80,7 +80,9 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @if ($task->status == 'ongoing')
+                                    @if ($task->status == 'pending')
+                                        <span class="badge badge-danger">{{$task->status}}</span>
+                                    @elseif ($task->status == 'ongoing')
                                         <span class="badge badge-primary">{{$task->status}}</span>
                                     @elseif ($task->status == 'in progress')
                                         <span class="badge badge-warning">{{$task->status}}</span>
