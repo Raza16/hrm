@@ -306,7 +306,6 @@
                                     <span class="badge badge-warning">{{$ongoingPendingTask->status}}</span>
                                 @elseif ($ongoingPendingTask->status == 'ongoing')
                                     <span class="badge badge-primary">{{$ongoingPendingTask->status}}</span>
-                                @endif
                             </td>
                             <td>
                                 <div style="display: flex;">
