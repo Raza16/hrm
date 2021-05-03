@@ -36,7 +36,7 @@ class UserDashboardController extends Controller
         ->where('status', 'process')
         ->count();
 
-        $ongoingPendingTasks = Task::where(['employee_id' => $employee->id])->orwhere(['status' => 'in progress'])->get();
+        $ongoingPendingTasks = Task::where(['employee_id' => $employee->id])->orwhere([])->get();
 
         $employeeTimes = TimeTracker::orderBy('date', 'asc')
         ->where('employee_id', $employee->id)
