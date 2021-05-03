@@ -132,7 +132,6 @@ class TaskController extends Controller
         $this->validate($request, [
             'project_id' => 'required',
             'employee_id' => 'required',
-            // 'task_no' => 'required|unique:tasks',
             'priority' => 'required',
             'assign_date' => 'required',
         ]);
@@ -147,19 +146,20 @@ class TaskController extends Controller
         $task->status = $request->status;
         $task->note = $request->note;
 
-        if ($request->hasFile('document')) {
-            $file = $request->file('document');
-            $fileName = time().'_'.$file->getClientOriginalName();
-            $destinationPath = public_path('/storage/task_files');
-            $filePath = $destinationPath. "/".  $fileName;
-            $file->move($destinationPath, $fileName);
-            $old_image = $task->attachment;
-            $task->document = $fileName;
-
-            Storage::disk('task-attachment')->delete($old_image);
+        if($task->save())
+        {
+            foreach ($request->attachment ? : [] as $file) {
+                $filename =  time().'_'.$file->getClientOriginalName();
+                $destinationPath = public_path('/storage/task_files');
+                $filePath = $destinationPath. "/".  $filename;
+                $file->move($destinationPath, $filename);
+                DB::table('task_attachments')->insert([
+                    'task_id' => $task->id,
+                    'attachment' => $filename
+                ]);
+                // Storage::disk('task-attachment')->delete($old_image);
+            }
         }
-
-        $task->save();
 
         return redirect()->back()->with('update', 'Record has been updated');
     }
@@ -173,11 +173,11 @@ class TaskController extends Controller
     public function destroy($id)
     {
         $task = Task::find($id)->delete();
-        $task = Task::find($id)->task_attachment->delete();
+        // $task = Task::find($id)->task_attachment->delete();
 
-        Storage::disk('task-attachment')->delete($task->attachment);
+        // Storage::disk('task-attachment')->delete($task->attachment);
 
-        return redirect('/task');
+        return redirect('/task')->with('success', 'Task deleted successfully');
     }
 
 
@@ -222,7 +222,7 @@ class TaskController extends Controller
             'updated_at' => \Carbon\Carbon::now(),
         ]);
 
-        return redirect()->back()->with('success', 'Record has been submited');
+        return redirect()->back()->with('success', 'Record submitted successfully');
     }
 
     public function taskModuleEdit($id)
@@ -248,10 +248,8 @@ class TaskController extends Controller
         DB::table('task_modules')->where('id', $id)->delete();
 
         return response()->json([
-            'message' => 'Record has been deleted!',
+            'message' => 'Record deleted successfully!',
         ]);
     }
-
-
 
 }
