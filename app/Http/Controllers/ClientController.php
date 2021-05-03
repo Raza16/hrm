@@ -54,18 +54,21 @@ class ClientController extends Controller
         $client->mobile_no = $request->mobile_no;
         $client->country = $request->country;
         $client->city = $request->city;
+        $client->address = $request->address;
         $client->payment_resource = $request->payment_resource;
         $client->skype = $request->skype;
         $client->note = $request->note;
 
-        if($client->save()){
-            ClientLogin::create([
-                'client_id' => $client->id,
-                'email' => $request->login_email,
-                'password' => Hash::make($request->password),
-                'status' => $request->status
-            ]);
-        }
+        $client->save();
+
+        // if($client->save()){
+        //     ClientLogin::create([
+        //         'client_id' => $client->id,
+        //         'email' => $request->login_email,
+        //         'password' => Hash::make($request->password),
+        //         'status' => $request->status
+        //     ]);
+        // }
 
         return redirect('client/create')->with('success', 'Record has been submited');
     }
@@ -116,6 +119,7 @@ class ClientController extends Controller
         $client->mobile_no = $request->mobile_no;
         $client->country = $request->country;
         $client->city = $request->city;
+        $client->address = $request->address;
         $client->payment_resource = $request->payment_resource;
         $client->skype = $request->skype;
         $client->note = $request->note;

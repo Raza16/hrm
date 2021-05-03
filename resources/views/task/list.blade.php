@@ -15,6 +15,8 @@
 
 @section('content')
 
+@include('layouts.alert_message')
+
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">

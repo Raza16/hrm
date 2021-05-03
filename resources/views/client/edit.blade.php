@@ -90,6 +90,14 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" name="address" class="form-control form-control-sm" value="{{$client->address}}">
+                            @error('address')
+                                <label class="error">{{ $errors->first('address') }}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label>Payment Resource</label>
                             <select name="payment_resource" class="form-control form-control-sm">
                                 <option value="paypal" {{$client->payment_resource == 'paypal' ? 'selected' : null}}>PayPay</option>
