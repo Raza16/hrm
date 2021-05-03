@@ -144,7 +144,9 @@
                                 <tr>
                                     <td><label class="text-muted">Status</label></td>
                                     <td>
-                                        @if ($task->status == 'ongoing')
+                                        @if ($task->status == 'pending')
+                                        <p class="badge badge-danger hide-badge">{{$task->status}}</p>
+                                        @elseif ($task->status == 'ongoing')
                                         <p class="badge badge-primary hide-badge">{{$task->status}}</p>
                                         @elseif ($task->status == 'in progress')
                                         <p class="badge badge-warning hide-badge">{{$task->status}}</p>
