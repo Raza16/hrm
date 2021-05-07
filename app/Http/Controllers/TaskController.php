@@ -17,7 +17,12 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        try {
+            $tasks = Task::all();
+        } catch (\Exception $e) {
+
+            return 'Record not found!';
+        }
 
         return view('task.list', compact('tasks'));
     }
@@ -180,6 +185,84 @@ class TaskController extends Controller
         return redirect('/task')->with('success', 'Task deleted successfully');
     }
 
+    public function viewTaskProgress($id)
+    {
+        // $assignTo = Task::find($id);
+        // // dd($assignTo->employee_id);
+
+        $viewTaskProgress = DB::table('task_progress')
+        ->join('tasks', 'tasks.id', '=', 'task_progress.task_id')
+        ->join('projects', 'projects.id', '=', 'tasks.project_id')
+        // ->join('clients', 'clients.id', '=', 'projects.client_id')
+        ->join('employees', 'employees.id', '=', 'tasks.employee_id')
+        ->select(
+            'employees.first_name',
+            'employees.middle_name',
+            'employees.last_name',
+            'projects.title',
+            // 'clients.full_name',
+            // 'task_progress.date',
+            // 'task_progress.module',
+            // 'task_progress.hours',
+            // 'task_progress.work_detail',
+            'tasks.task_no',
+            'tasks.priority',
+            'tasks.assign_date',
+            'tasks.deadline_date',
+            'tasks.status',
+            'tasks.progress',
+        )
+        ->where('tasks.id', $id)
+        ->first();
+        // dd($viewTaskProgress);
+
+        $viewWorkDetail = DB::table('task_progress')
+        ->join('tasks', 'tasks.id', '=', 'task_progress.task_id')
+        ->join('projects', 'projects.id', '=', 'tasks.project_id')
+        ->join('clients', 'clients.id', '=', 'projects.client_id')
+        ->join('employees', 'employees.id', '=', 'tasks.employee_id')
+        ->select(
+            'employees.first_name',
+            'employees.middle_name',
+            'employees.last_name',
+            'projects.title',
+            'clients.full_name',
+            'task_progress.date',
+            'task_progress.module',
+            'task_progress.hours',
+            'task_progress.work_detail',
+            'tasks.status',
+            'tasks.progress',
+        )
+        ->where('task_progress.task_id', $id)
+        ->get();
+
+        return view('task.task_progress', compact('viewWorkDetail', 'viewTaskProgress'));
+    }
+
+    public function checkViewProgress($id)
+    {
+        $checkViewProgress = DB::table('task_progress')
+        ->join('tasks', 'tasks.id', '=', 'task_progress.task_id')
+        ->join('projects', 'projects.id', '=', 'tasks.project_id')
+        ->join('employees', 'employees.id', '=', 'tasks.employee_id')
+        ->select(
+            'employees.first_name',
+            'employees.middle_name',
+            'employees.last_name',
+            'projects.title',
+            'tasks.task_no',
+            'tasks.priority',
+            'tasks.assign_date',
+            'tasks.deadline_date',
+            'tasks.status',
+            'tasks.progress',
+        )
+        ->where('tasks.id', $id)
+        ->first();
+
+        return response()->json($checkViewProgress);
+    }
 
     public function taskReport()
     {
@@ -198,7 +281,6 @@ class TaskController extends Controller
                 'task_progress.hours',
                 'task_progress.work_detail')
         ->get();
-
 
         return view('task.report', compact('taskReport'));
     }

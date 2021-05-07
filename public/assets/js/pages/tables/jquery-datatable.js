@@ -6,13 +6,17 @@ $(function () {
 // Setup - add a text input to each footer cell
 $('.admin-datatable tfoot th').each( function () {
     var title = $(this).text();
-    $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    if(title != 'Options'){
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    }
 } );
 
-// User Database
 var admin_datatable = $('.admin-datatable').DataTable({
     dom: 'lBfrtip',
     'scrollX': true,
+    columnDefs: [
+        { width: 200, targets: 0 }
+    ],
     buttons: [
         {
             extend: 'csv',
