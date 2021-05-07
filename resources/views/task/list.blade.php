@@ -37,7 +37,6 @@
                     <table class="admin-datatable table table-hover" style="width: 100%;">
                         <thead class="thead-light">
                             <tr>
-                                <th>Id</th>
                                 <th>Options</th>
                                 <th>project</th>
                                 <th>Assign To</th>
@@ -47,7 +46,6 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Id</th>
                                 <th>Options</th>
                                 <th>project</th>
                                 <th>Assign To</th>
@@ -58,7 +56,6 @@
                         <tbody>
                             @foreach ($tasks as $task)
                             <tr class="show-option" style="height:0px;">
-                                <td>{{$task->id}}</td>
                                 <td>
                                     <div  class="container hide-option">
                                     <div class="row">
