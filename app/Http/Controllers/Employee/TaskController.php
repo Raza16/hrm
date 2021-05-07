@@ -21,8 +21,6 @@ class TaskController extends Controller
 
         $tasks = Task::where(['employee_id' => $employee_id])
         ->get();
-        // ->orWhere('status', 'in progress')
-        // ->orWhere('status', 'completed')
 
         $modules = DB::table('task_modules')->select('module')->get();
 
@@ -78,7 +76,6 @@ class TaskController extends Controller
             $task = TaskAttachment::find($id);
             $file = public_path()."/storage/task_files/".$task->attachment;
             $headers = array(
-
                 'Content-Type: application/*',
             );
             return response()->download($file, $task->attachment, $headers);

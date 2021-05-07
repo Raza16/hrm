@@ -39,6 +39,9 @@ Route::middleware(['admin', 'logout'])->group(function() {
 
     Route::get('task-report', [App\Http\Controllers\TaskController::class, 'taskReport']);
 
+    Route::get('view-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'viewTaskProgress']);
+    Route::get('check-view-progress/{id}', [App\Http\Controllers\TaskController::class, 'checkViewProgress']);
+
     Route::get('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
     Route::post('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
     Route::get('task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleEdit']);

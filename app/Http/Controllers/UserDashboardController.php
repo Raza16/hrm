@@ -28,7 +28,7 @@ class UserDashboardController extends Controller
 
         $completedTaskCount = DB::table('tasks')
         ->where('employee_id', $employee->id)
-        ->where('status', 'completed')
+        ->whereIn('status', ['completed'])
         ->count();
 
         $processTaskCount = DB::table('tasks')

@@ -28,6 +28,8 @@
                     <table class="admin-datatable table table-hover" style="width: 100%;">
                         <thead class="thead-light">
                             <tr>
+                                <th>Options</th>
+                                <th>Day</th>
                                 <th>Employee</th>
                                 <th>Date</th>
                                 <th>Check In</th>
@@ -35,11 +37,13 @@
                                 <th>Total Hours</th>
                                 <th>Break Hours</th>
                                 <th>Working Hours</th>
-                                <th>Options</th>
+                                <th>Task Time Status</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Options</th>
+                                <th>Day</th>
                                 <th>Employee</th>
                                 <th>Date</th>
                                 <th>Check In</th>
@@ -47,12 +51,31 @@
                                 <th>Total Hours</th>
                                 <th>Break Hours</th>
                                 <th>Working Hours</th>
-                                <th>Options</th>
+                                <th>Task Time Status</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($time_trackers as $time_tracker)
-                            <tr>
+                            <tr class="show-option">
+                                <td>
+                                    <ul class="header-dropdown hide-option" style="list-style-type: none;padding:0;margin-top:0px;margin-bottom:0;">
+                                        <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i style="font-size: 20px;" class="fas fa-ellipsis-h-alt"></i></a>
+                                            <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(33px, 34px, 0px);">
+                                                <li><a href="javascript:void(0);" onclick="viewBreakTimeModule({{$time_tracker->id}})">View</a></li>
+                                                <li><a href="javascript:void(0);" onclick="editModule({{$time_tracker->id}})">Edit</a></li>
+                                                <li>
+                                                    <a href="{{url('time-tracker/'.$time_tracker->id)}}" onclick="event.preventDefault();
+                                                        document.getElementById('delete').submit();">Delete</a>
+                                                    <form id="delete" action="{{url('time-tracker/'.$time_tracker->id)}}" method="post">
+                                                        @method('delete')
+                                                        @csrf
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>{{date('l j, F', strtotime($time_tracker->date))}}</td>
                                 <td>{{$time_tracker->employee->first_name.' '.$time_tracker->employee->middle_name.' '.$time_tracker->employee->last_name}}</td>
                                 <td>{{$time_tracker->date ? date('j F, Y', strtotime($time_tracker->date)):null}}</td>
                                 <td>{{$time_tracker->checkin ? date('j F, Y | g:i a', strtotime($time_tracker->checkin)):null}}</td>
@@ -60,7 +83,8 @@
                                 <td>{{$time_tracker->total_hours}}</td>
                                 <td>{{$time_tracker->break_hours}}</td>
                                 <td>{{$time_tracker->working_hours}}</td>
-                                <td>
+                                <td></td>
+                                {{-- <td>
                                     <div style="display: flex;">
                                         <a href="javascript:void(0)" onclick="editModule({{$time_tracker->id}})" class="btn btn-sm btn-neutral" data-toggle="tooltip" data-placement="top" title="Edit Check In"><i class="far fa-edit"></i></a>
 
@@ -72,7 +96,7 @@
                                             <button type="submit" class="btn btn-sm btn-neutral" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></button>
                                         </form>
                                     </div>
-                                </td>
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>

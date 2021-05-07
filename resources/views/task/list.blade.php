@@ -6,9 +6,8 @@
 
 {{-- @section('after-styles')
 <style>
-    tr td{
-    padding: 0 !important;
-    margin: 0 !important;
+    .hide-option:hover{
+        display: block;
     }
 </style>
 @endsection --}}
@@ -38,41 +37,60 @@
                     <table class="admin-datatable table table-hover" style="width: 100%;">
                         <thead class="thead-light">
                             <tr>
+                                <th>Id</th>
+                                <th>Options</th>
                                 <th>project</th>
                                 <th>Assign To</th>
                                 <th>Progress</th>
                                 <th>Status</th>
-                                <th>Options</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Id</th>
+                                <th>Options</th>
                                 <th>project</th>
                                 <th>Assign To</th>
                                 <th>Progress</th>
                                 <th>Status</th>
-                                <th>Options</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($tasks as $task)
-                            <tr>
-                                <td id="hide-option">
-                                    {{$task->project_id ? $task->project->title : null}}<br>
+                            <tr class="show-option" style="height:0px;">
+                                <td>{{$task->id}}</td>
+                                <td>
+                                    {{-- <button class="btn btn-primary btn-icon btn-icon-mini btn-round"> <i class="zmdi zmdi-favorite-outline"></i> </button> --}}
 
-
-
-                                    <ul class="header-dropdown" id="show-option" style="visibility:hidden;list-style-type: none;padding: 0;margin-top: 10px;">
-                                        <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i data-toggle="tooltip" data-placement="top" title="Options" style="font-size: 15px;" class="fas fa-ellipsis-h-alt"></i> </a>
+                                    <div  class="container hide-option">
+                                    <div class="row">
+                                    <div class="col-md-12">
+                                    <div style="border: 0.5px solid #888888;border-radius:50px;padding:2px 0px 1px 4px;width:28px;margin-top:-3px;margin-left:-5px;">
+                                    <ul class="header-dropdown" style="list-style-type:none;padding:0;margin-top:1px;margin-left:2px;margin-bottom:2px;">
+                                        <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i style="font-size: 15px;" class="fas fa-ellipsis-h-alt"></i> </a>
                                             <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(33px, 34px, 0px);">
-                                                <li><a href="javascript:void(0);">View</a></li>
-                                                <li><a href="javascript:void(0);">Edit</a></li>
-                                                <li><a href="javascript:void(0);">Delete</a></li>
+                                                <li><a href="javascript:void(0);" onclick="viewDetails({{$task->id}})">View</a></li>
+                                                <li><a href="javascript:void(0);" onclick="viewProgress({{$task->id}})">View Progress</a></li>
+                                                {{-- {{url('view-task-progress/'.$task->id)}} --}}
+                                                <li><a href="{{url('task/'.$task->id.'/edit')}}">Edit</a></li>
+                                                <li>
+                                                    <a href="{{url('task/'.$task->id)}}" onclick="event.preventDefault();
+                                                        document.getElementById('delete').submit();">Delete</a>
+                                                    <form id="delete" action="{{url('task/'.$task->id)}}" method="post">
+                                                        @method('delete')
+                                                        @csrf
+                                                    </form>
+                                                </li>
                                             </ul>
                                         </li>
                                     </ul>
-
-
+                                    </div>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{$task->project_id ? $task->project->title : null}}<br>
                                 </td>
                                 <td>
                                     {{$task->employee_id ? $task->employee->first_name.' '.$task->employee->middle_name.' '.$task->employee->last_name : null}}
@@ -93,20 +111,6 @@
                                     @elseif($task->status == 'completed')
                                         <span class="badge badge-success">{{$task->status}}</span>
                                     @endif
-                                </td>
-
-                                <td>
-                                    <div style="display: flex;">
-                                        <a href="javascript:void(0)" onclick="viewDetails({{$task->id}})" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View"><i class="far fa-eye"></i></a>
-
-                                        <a href="{{url('task/'.$task->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a>
-
-                                        <form action="{{url('task/'.$task->id)}}" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></button>
-                                        </form>
-                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -132,34 +136,34 @@
             </button>
             </div>
             <div class="modal-body">
-                <table class="table">
+                <table class="table" style="height:0px;">
                     <tr>
-                        <th>Project</th>
-                        <td><p id="project"></p></td>
+                        <td class="table-style text-muted">Project</td>
+                        <td id="project" class="table-style"></td>
                     </tr>
                     <tr>
-                        <th>Employee</th>
-                        <td><p id="employee"></p></td>
+                        <td class="table-style text-muted">Employee</td>
+                        <td id="employee" class="table-style"></td>
                     </tr>
                     <tr>
-                        <th>Task No</th>
-                        <td><p id="task_no"></p></td>
+                        <td class="table-style text-muted">Task No</td>
+                        <td id="task_no" class="table-style"></td>
                     </tr>
                     <tr>
-                        <th>Priority</th>
-                        <td><p id="priority"></p></td>
+                        <td class="table-style text-muted">Priority</td>
+                        <td id="priority" class="table-style"></td>
                     </tr>
                     <tr>
-                        <th>Assign Date</th>
-                        <td><p id="assign_date"></p></td>
+                        <td class="table-style text-muted">Assign Date</td>
+                        <td id="assign_date" class="table-style"></td>
                     </tr>
                     <tr>
-                        <th>Deadline Date</th>
-                        <td><p id="deadline_date"></p></td>
+                        <td class="table-style text-muted">Deadline Date</td>
+                        <td id="deadline_date" class="table-style"></td>
                     </tr>
                     <tr>
-                        <th>Status</th>
-                        <td><p id="status"></p></td>
+                        <td class="table-style text-muted">Status</td>
+                        <td id="status" class="table-style"></td>
                     </tr>
 
                 </table>
@@ -206,15 +210,19 @@ function viewDetails(id){
     });
 }
 
-$('#hide-option').hover(function(){
-    $('#show-option').css('visibility', 'visible');
-},
-function () {
-    $('#show-option').css('visibility', 'hidden');
-    }
-);
+function viewProgress(id){
+    $.get('/check-view-progress/'+id, function(checkViewProgress){
+        if(checkViewProgress.title)
+        {
+            window.location.href = "{{url('/view-task-progress')}}"+"/"+id;
+        }
+        else{
+            alert('No task progress submit yet');
+        }
+    });
+}
+
 
 
 </script>
-
 @endpush
