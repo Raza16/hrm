@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Task;
+use App\Models\Project;
+use App\Models\Employee;
 use Carbon\Carbon;
 use DB;
 
@@ -179,7 +181,6 @@ class TaskController extends Controller
     {
         $task = Task::find($id)->delete();
         // $task = Task::find($id)->task_attachment->delete();
-
         // Storage::disk('task-attachment')->delete($task->attachment);
 
         return redirect('/task')->with('success', 'Task deleted successfully');
@@ -187,9 +188,6 @@ class TaskController extends Controller
 
     public function viewTaskProgress($id)
     {
-        // $assignTo = Task::find($id);
-        // // dd($assignTo->employee_id);
-
         $viewTaskProgress = DB::table('task_progress')
         ->join('tasks', 'tasks.id', '=', 'task_progress.task_id')
         ->join('projects', 'projects.id', '=', 'tasks.project_id')
@@ -205,6 +203,7 @@ class TaskController extends Controller
             // 'task_progress.module',
             // 'task_progress.hours',
             // 'task_progress.work_detail',
+            'tasks.id',
             'tasks.task_no',
             'tasks.priority',
             'tasks.assign_date',
@@ -214,7 +213,6 @@ class TaskController extends Controller
         )
         ->where('tasks.id', $id)
         ->first();
-        // dd($viewTaskProgress);
 
         $viewWorkDetail = DB::table('task_progress')
         ->join('tasks', 'tasks.id', '=', 'task_progress.task_id')
@@ -227,6 +225,7 @@ class TaskController extends Controller
             'employees.last_name',
             'projects.title',
             'clients.full_name',
+            'task_progress.id',
             'task_progress.date',
             'task_progress.module',
             'task_progress.hours',
@@ -237,7 +236,12 @@ class TaskController extends Controller
         ->where('task_progress.task_id', $id)
         ->get();
 
-        return view('task.task_progress', compact('viewWorkDetail', 'viewTaskProgress'));
+        $modules = DB::table('task_modules')->select('module')->get();
+
+        $projects = Project::select('title')->get();
+        $employees = Employee::select('first_name', 'middle_name', 'last_name')->get();
+
+        return view('task.task_progress', compact('viewWorkDetail', 'viewTaskProgress', 'modules', 'projects', 'employees'));
     }
 
     public function checkViewProgress($id)
@@ -252,6 +256,7 @@ class TaskController extends Controller
             'employees.last_name',
             'projects.title',
             'tasks.task_no',
+            'tasks.id',
             'tasks.priority',
             'tasks.assign_date',
             'tasks.deadline_date',
@@ -262,6 +267,35 @@ class TaskController extends Controller
         ->first();
 
         return response()->json($checkViewProgress);
+    }
+
+
+    public function taskEdit($id)
+    {
+        $editTask  = Task::where('id', $id)->first();
+
+        return response()->json($editTask);
+    }
+
+    public function taskProgressEdit($id)
+    {
+        $taskProgress  = DB::table('task_progress')->where('id', $id)->first();
+
+        return response()->json($taskProgress);
+    }
+
+    public function taskProgressUpdate(Request $request, $id)
+    {
+        $taskProgressUpdate  = DB::table('task_progress')
+        ->where('id', $id)
+        ->update([
+            'date' => $request->date,
+            'module' => $request->module,
+            'hours' => $request->hours,
+            'work_detail' => $request->work_detail
+        ]);
+
+        return response()->json('Task progress Updated!');
     }
 
     public function taskReport()

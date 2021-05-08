@@ -71,7 +71,6 @@ class TaskController extends Controller
 
     public function getDownload(Request $request, $id)
     {
-
         try{
             $task = TaskAttachment::find($id);
             $file = public_path()."/storage/task_files/".$task->attachment;
@@ -83,17 +82,6 @@ class TaskController extends Controller
         catch(\Exception $e){
             return view('errors.file_not_found');
         }
-    }
-
-
-    public function taskProgressForm($id)
-    {
-        $task = Task::find($id);
-        $todayDate = date("Y-m-d");
-
-        $modules = DB::table('task_modules')->select('module')->get();
-
-        return view('user_account.task.create', compact('task', 'todayDate', 'modules'));
     }
 
     public function taskProgressStore(Request $request, $id)

@@ -19,17 +19,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                {{-- <div class="card">
                     <h6>Color Skins</h6>
                     <ul class="choose-skin list-unstyled">
                         <li data-theme="purple"><div class="purple"></div></li>
                         <li data-theme="blue"><div class="blue"></div></li>
                         <li data-theme="cyan"><div class="cyan"></div></li>
                         <li data-theme="green"><div class="green"></div></li>
-                        <li data-theme="orange"><div class="orange"></div></li>
-                        <li data-theme="blush" class="active"><div class="blush"></div></li>
+                        <li data-theme="orange" class="active"><div class="orange"></div></li>
+                        <li data-theme="blush"><div class="blush"></div></li>
                     </ul>
-                </div>
+                </div> --}}
                 <div class="card">
                     <h6>General Settings</h6>
                     <ul class="setting-list list-unstyled">

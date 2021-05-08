@@ -2,6 +2,9 @@
 @section('title', 'Task Progress')
 @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css')}}"/>
+<link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
+<link rel="stylesheet" href="{{asset('assets/plugins/summernote/dist/summernote.css')}}"/>
+<link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.css')}}"/>
 @stop
 
 @section('content')
@@ -9,7 +12,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="header">
-                {{-- <h2>Task Reports {{$assignTo->employee->first_name}}</h2> --}}
+                <h2>Task Progress</h2>
                 <ul class="header-dropdown">
                     <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                         <ul class="dropdown-menu dropdown-menu-right">
@@ -22,17 +25,17 @@
                     </li>
                 </ul>
             </div>
-            <div class="body">
+            <div class="body" id="refresh-data">
                 <h5><span class="text-muted">Project: </span>
                     @if ($viewTaskProgress->title)
                         {{$viewTaskProgress->title}}
                     @endif
+                    <a href="javascript:void(0);" onclick="editTask({{$viewTaskProgress->id}})"><i data-toggle="tooltip" data-placement="top" title="Edit" style="font-size: 15px;" class="fad fa-pencil-alt"></i></a>
                 </h5>
                 <p><span class="text-muted">Assign To:</span> {{$viewTaskProgress->first_name.' '.$viewTaskProgress->middle_name.' '.$viewTaskProgress->last_name}}</p>
                 <p><span class="text-muted">Task No:</span> {{$viewTaskProgress->task_no}}</p>
                 <p><span class="text-muted">Assign Date:</span> {{date('l d F, Y', strtotime($viewTaskProgress->assign_date))}}</p>
-                <p><span class="text-muted">Deadline Date:</span> {{date('l d F, Y', strtotime($viewTaskProgress->deadline_date))}}</p>
-                {{-- <p><span class="text-muted">Priority:</span> {{$viewTaskProgress->deadline_date}}</p> --}}
+                <p><span class="text-muted">Deadline Date:</span> {{$viewTaskProgress->deadline_date ? date('l d F, Y', strtotime($viewTaskProgress->deadline_date)) : '--Nil--'}}</p>
                 <p style="margin:0;"><span class="text-muted">Priority:</span>
                     @if ($viewTaskProgress->priority == 'normal')
                         <span class="badge badge-primary">{{$viewTaskProgress->priority}}</span>
@@ -43,8 +46,6 @@
                     @endif
                 </p>
                 <br>
-
-                {{-- <p><span class="text-muted">Status:</span> {{$viewTaskProgress->status}}</p> --}}
                 <p style="margin:0;"><span class="text-muted">Status:</span>
                     @if ($viewTaskProgress->status == 'in progress')
                         <span class="badge badge-warning">{{$viewTaskProgress->status}}</span>
@@ -64,12 +65,14 @@
                         </div>
                     </span>
                 </div>
-                {{-- <br> --}}
+                <hr style="border-top: 1px dashed #bbb8b8;">
 
                 @foreach ($viewWorkDetail as $vtp)
                 <ul class="list-unstyled activity">
                     <li class="a_contact">
-                        <h4><span class="text-muted">Submit Date: </span>{{date('l d F, Y', strtotime($vtp->date))}}</h4>
+                        <h4><span class="text-muted">Submit Date: </span>{{date('l d F, Y', strtotime($vtp->date))}}
+                            <a href="javascript:void(0);" onclick="editTaskProgress({{$vtp->id}})"><i data-toggle="tooltip" data-placement="top" title="Edit" class="fad fa-pencil-alt"></i></a>
+                        </h4>
                         <br>
                         <p style="margin:0;"><span class="text-muted">Hour:</span> {{$vtp->hours}}</p><br>
                         <p style="margin:0;"><span class="text-muted">Module:</span> {{$vtp->module}}</p><br>
@@ -83,8 +86,186 @@
 </div>
 
 @stop
+
+@section('modal')
+    <!-- Task Progress Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h6 class="modal-title" id="exampleModalLabel">Edit Task Progress</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <form id="UpdateTaskProgress">
+                @csrf
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <div class="col-md-12">
+                            <input type="hidden" id="id" name="id">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" id="date" name="date" class="form-control form-control-sm">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Module</label>
+                                <select id="module" name="module" class="form-control show-tick ms select2">
+                                    <option></option>
+                                    @foreach ($modules as $module)
+                                        <option value="{{$module->module}}">{{$module->module}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Hours</label>
+                                <input type="text" id="hours" name="hours" class="form-control form-control-sm">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Work Detail</label>
+                                <textarea type="text" id="work_detail" name="work_detail" class="summernote form-control form-control-sm"></textarea>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+        </div>
+        </div>
+        </div>
+
+    <!-- Task Modal -->
+    <div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h6 class="modal-title" id="exampleModalLabel">Edit Task Progress</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <form id="UpdateTask">
+                @csrf
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <div class="col-md-12">
+                            <input type="hidden" id="id" name="id">
+                            <div class="form-group">
+                                <label>Project Title</label>
+                                <select name="project_id" id="project" class="form-control show-tick ms select2" data-placeholder="Select">
+                                    <option></option>
+                                    @foreach ($projects as $project)
+                                        <option value="{{$project->id}}">{{$project->title}}</option>
+                                    @endforeach
+                                </select>
+                                @error('project_id')
+                                    <label class="error">{{$errors->first('project_id')}}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Assign To Employee</label>
+                                <select name="employee_id" id="employee" class="form-control show-tick ms select2" data-placeholder="Select">
+                                    <option></option>
+                                    @foreach ($employees as $employee)
+                                        <option value="{{$employee->id}}">{{$employee->first_name.' '.$employee->middle_name.' '.$employee->last_name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('employee_id')
+                                    <label class="error">{{$errors->first('employee_id')}}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Task No</label>
+                                <input type="text" name="task_no" id="task_no" class="form-control form-control-sm" readonly>
+                                @error('task_no')
+                                <label class="error">{{$errors->first('task_no')}}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Priority</label>
+                                <select name="priority" id="priority" class="form-control">
+                                    <option value="normal">Normal</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                                @error('priority')
+                                    <label class="error">{{$errors->first('priority')}}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Assign Date</label>
+                                <input type="date" name="assign_date" id="assign_date" class="form-control form-control-sm">
+                                @error('assign_date')
+                                    <label class="error">{{$errors->first('assign_date')}}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Deadline Date</label>
+                                <input type="date" name="deadline_date" id="deadline_date" class="form-control form-control-sm">
+                                @error('deadline_date')
+                                    <label class="error">{{$errors->first('deadline_date')}}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select name="status" id="status" class="form-control form-control-sm">
+                                    <option value="pending">Pending</option>
+                                    <option value="in progress">In Progress</option>
+                                    <option value="ongoing">Ongoing</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                                @error('status')
+                                    <label class="error">{{$errors->first('status')}}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Select Task Progress(%)</label>
+                                <select style="width: 160px;" name="progress" id="progress" class="form-control form-control-sm">
+                                    <option value="0">0%</option>
+                                    <option value="25">25%</option>
+                                    <option value="50">50%</option>
+                                    <option value="75">75%</option>
+                                    <option value="100"><span style="color: green;">Mark as Completed(100%)</span></option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Note</label>
+                                <textarea name="note" id="note" class="summernote"></textarea>
+                                @error('note')
+                                    <label class="error">{{$errors->first('note')}}</label>
+                                @enderror
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+        </div>
+        </div>
+        </div>
+@endsection
+
+
 @section('page-script')
 <script src="{{asset('assets/bundles/datatablescripts.bundle.js')}}"></script>
+<script src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/dataTables.buttons.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/buttons.bootstrap4.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/buttons.colVis.min.js')}}"></script>
@@ -96,4 +277,74 @@
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/buttons.html5.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/buttons.print.min.js')}}"></script>
 <script src="{{asset('assets/js/pages/tables/jquery-datatable.js')}}"></script>
+<script src="{{asset('assets/plugins/summernote/dist/summernote.js')}}"></script>
+<script src="{{asset('assets/js/notify.js')}}"></script>
 @stop
+
+@push('after-scripts')
+<script>
+
+// Edit Task
+function editTask(id){
+    $.get('/edit-task/'+id, function(editTask){
+        $('#id').val(editTask.id);
+        $('#project').val(editTask.project.title);
+        $('#employee').val(editTask.employee.first_name);
+        $('#task_no').val(editTask.task_no);
+        $('#priority').val(editTask.priority);
+        $('#assign_date').val(editTask.assign_date);
+        $('#deadline_date').val(editTask.deadline_date);
+        $('#status').val(editTask.status);
+        $('#progress').val(editTask.progress);
+        $('#note').html(editTask.note);
+        $('#editTaskModal').modal('toggle');
+    });
+}
+
+// Edit Task Progress
+function editTaskProgress(id){
+    $.get('/edit-task-progress/'+id, function(taskProgress){
+        $('#id').val(taskProgress.id);
+        $('#date').val(taskProgress.date);
+        $('#module').val(taskProgress.module);
+        $('#hours').val(taskProgress.hours);
+        $('#work_detail').html(taskProgress.work_detail);
+        $('#editModal').modal('toggle');
+    });
+}
+
+$('#UpdateTaskProgress').submit(function(e){
+    e.preventDefault();
+
+    let _token = $('input[name=_token]').val();
+    let id = $('#id').val();
+    let date = $('#date').val();
+    let module = $('#module').val();
+    let hours = $('#hours').val();
+    let work_detail = $('#work_detail').val();
+
+    $.ajax({
+        url: '{{url("update-task-progress")}}/'+id,
+        type: "PUT",
+        data: {
+            _token:_token,
+            date:date,
+            module:module,
+            hours:hours,
+            work_detail:work_detail,
+        },
+        success:function(response){
+            $.notify(
+                response, "success"
+            );
+            $('#editModal').modal('toggle');
+            $('#refresh-data').fadeOut(300, function(){
+                $("#refresh-data").fadeIn().load(location.href + " #refresh-data");
+            });
+        }
+    });
+
+});
+
+</script>
+@endpush

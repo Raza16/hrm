@@ -37,34 +37,32 @@
                     <table class="admin-datatable table table-hover" style="width: 100%;">
                         <thead class="thead-light">
                             <tr>
-                                <th>Options</th>
+                                <th >Options</th>
                                 <th>project</th>
                                 <th>Assign To</th>
                                 <th>Progress</th>
-                                <th>Status</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Options</th>
+                                <th >Options</th>
                                 <th>project</th>
                                 <th>Assign To</th>
                                 <th>Progress</th>
-                                <th>Status</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($tasks as $task)
-                            <tr class="show-option" style="height:0px;">
+                            <tr class="show-option" style="height:0px;" >
                                 <td>
                                     <div  class="container hide-option">
                                     <div class="row">
                                     <div class="col-md-12">
-                                    <div style="border: 0.5px solid #888888;border-radius:50px;padding:2px 0px 1px 4px;width:28px;margin-top:-3px;margin-left:-5px;">
+                                    <div style="border: 0.5px solid #888888;border-radius:50px;padding:2px 0px 1px 4px;width:28px;margin-top:15px;margin-left:-5px;">
                                     <ul class="header-dropdown" style="list-style-type:none;padding:0;margin-top:1px;margin-left:2px;margin-bottom:2px;">
                                         <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i style="font-size: 15px;" class="fas fa-ellipsis-h-alt"></i> </a>
                                             <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(33px, 34px, 0px);">
-                                                <li><a href="javascript:void(0);" onclick="viewDetails({{$task->id}})">View</a></li>
+                                                {{-- <li><a href="javascript:void(0);" onclick="viewDetails({{$task->id}})">View</a></li> --}}
                                                 <li><a href="javascript:void(0);" onclick="viewProgress({{$task->id}})">View Progress</a></li>
                                                 {{-- {{url('view-task-progress/'.$task->id)}} --}}
                                                 <li><a href="{{url('task/'.$task->id.'/edit')}}">Edit</a></li>
@@ -86,19 +84,30 @@
                                 </td>
                                 <td>
                                     {{$task->project_id ? $task->project->title : null}}<br>
+                                    <small>Task No: {{$task->task_no}}</small><br>
+                                    <small>Priority:
+                                        @if ($task->priority == 'normal')
+                                            <span class="text-primary">{{$task->priority}}</span>
+                                        @elseif ($task->priority == 'medium')
+                                            <span class="text-warning">{{$task->priority}}</span>
+                                        @elseif ($task->priority == 'high')
+                                            <span class="text-danger">{{$task->priority}}</span>
+                                        @endif
+                                    </small><br>
                                 </td>
                                 <td>
-                                    {{$task->employee_id ? $task->employee->first_name.' '.$task->employee->middle_name.' '.$task->employee->last_name : null}}
+                                    {{$task->employee_id ? $task->employee->first_name.' '.$task->employee->middle_name.' '.$task->employee->last_name : null}}<br>
+                                    <small>Assign Date: {{date('d F, Y', strtotime($task->assign_date))}}</small><br>
+                                    <small class="text-danger">Deadline Date: {{$task->deadline_date ? date('d F, Y', strtotime($task->deadline_date)) : null }}</small>
                                 </td>
                                 <td>
                                     <p style="margin-bottom: -10px;"><small>{{$task->progress}}%</small></p>
                                     <div class="progress" style="margin-top:8px;background:#F7C600;border-radius:0;">
                                     <div class="progress-bar l-green" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100" style="width: {{$task->progress}}%;border-radius:0;"></div>
                                     </div>
-                                </td>
-                                <td>
+
                                     @if ($task->status == 'ongoing')
-                                        <span class="badge badge-primary">{{$task->status}}</span>
+                                    <span class="badge badge-primary">{{$task->status}}</span>
                                     @elseif ($task->status == 'pending')
                                         <span class="badge badge-danger">{{$task->status}}</span>
                                     @elseif ($task->status == 'in progress')
@@ -107,6 +116,7 @@
                                         <span class="badge badge-success">{{$task->status}}</span>
                                     @endif
                                 </td>
+
                             </tr>
                             @endforeach
                         </tbody>
@@ -190,7 +200,6 @@
 @push('after-scripts')
 
 <script>
-
 function viewDetails(id){
     $.get('/task/'+id, function(task){
         $('#id').html(task.id);

@@ -41,6 +41,9 @@ Route::middleware(['admin', 'logout'])->group(function() {
 
     Route::get('view-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'viewTaskProgress']);
     Route::get('check-view-progress/{id}', [App\Http\Controllers\TaskController::class, 'checkViewProgress']);
+    Route::get('/edit-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'taskProgressEdit']);
+    Route::put('/update-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'taskProgressUpdate']);
+    Route::get('/edit-task/{id}', [App\Http\Controllers\TaskController::class, 'taskEdit']);
 
     Route::get('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
     Route::post('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
@@ -86,7 +89,7 @@ Route::group(['middleware' => ['employee', 'logout']], function() {
 
     Route::get('/employee-task-download/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
 
-    Route::get('/employee-task-progress/{id}/task-progress', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressForm']);
+    Route::get('/employee-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressEdit']);
 
     Route::post('/employee-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressStore']);
 
