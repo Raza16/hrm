@@ -60,7 +60,7 @@
             </div>
             <div class="body">
                 <div class="table-responsive">
-                    <table class="leave-datatable table table-hover">
+                    <table class="admin-datatable table table-hover">
                         <thead class="thead-light">
                             <tr>
                                 <th>Modules</th>

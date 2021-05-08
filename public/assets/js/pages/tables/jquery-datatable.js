@@ -14,9 +14,10 @@ $('.admin-datatable tfoot th').each( function () {
 var admin_datatable = $('.admin-datatable').DataTable({
     dom: 'lBfrtip',
     'scrollX': true,
-    columnDefs: [
-        { width: 200, targets: 0 }
-    ],
+    "autoWidth": false,
+    // columnDefs: [
+    //     { width: 200, targets: 0 }
+    // ],
     buttons: [
         {
             extend: 'csv',

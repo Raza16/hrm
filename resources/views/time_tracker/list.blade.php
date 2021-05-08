@@ -208,30 +208,28 @@ function editModule(id){
 
 }
 
-    $('#Edit-Checkin').submit(function(e){
-        e.preventDefault();
+$('#Edit-Checkin').submit(function(e){
+    e.preventDefault();
 
-        let _token = $('input[name=_token]').val();
-        let id = $('#id').val();
-        let checkin = $('#checkin').val();
-        let checkout = $('#checkout').val();
+    let _token = $('input[name=_token]').val();
+    let id = $('#id').val();
+    let checkin = $('#checkin').val();
+    let checkout = $('#checkout').val();
 
-        $.ajax({
-            url: "{{url('time-tracker')}}"+"/"+id,
-            type: "PUT",
-            data: {
-                _token:_token,
-                checkin:checkin,
-                checkout:checkout,
-            },
-            success:function(response){
-                $('#checkinModal').modal('toggle');
-                alert('Record has been updated!');
-            }
-        });
+    $.ajax({
+        url: "{{url('time-tracker')}}"+"/"+id,
+        type: "PUT",
+        data: {
+            _token:_token,
+            checkin:checkin,
+            checkout:checkout,
+        },
+        success:function(response){
+            $('#checkinModal').modal('toggle');
+            alert('Record has been updated!');
+        }
     });
-
-
+});
 
 function viewBreakTimeModule(id){
 $.get('/time-breaker/'+id, function(timeBreaker){

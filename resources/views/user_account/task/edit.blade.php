@@ -31,13 +31,13 @@
 
                  <!-- Nav tabs -->
                  <ul class="nav nav-tabs p-0 mb-3">
-                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#view-task">View Task</a></li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#add-task-update">Add Task Update</a></li>
+                     <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#add-task-update">Add Task Update</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#view-task">View Task</a></li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane in active" id="view-task">
+                    <div role="tabpanel" class="tab-pane" id="view-task">
                         <div class="row">
                             <div class="col-12">
                                 <div style="margin-right:-20px;margin-left:-20px;">
@@ -89,8 +89,7 @@
                                     <button type="submit" style="margin-top:-5px; margin-left:10px;" class="btn btn-sm btn-success" id="btn-task-completed">Mark as Completed</button>
                                     @endif
                                 </form> --}}
-                                @if ($task->status != 'ongoing')
-
+                                {{-- @if ($task->status != 'ongoing')
                                 <form style="margin: -20px 0px 15px 100px;">
                                     @csrf
                                     <input type="hidden" id="id" value="{{$task->id}}">
@@ -103,7 +102,7 @@
                                         <option value="100" {{$task->progress == 100 ? 'selected' : null}}><span style="color: green;">Mark as Completed(100%)</span></option>
                                     </select>
                                 </form>
-                                @endif
+                                @endif --}}
                             </div>
 
                             <table class="table">
@@ -184,13 +183,37 @@
                         </div>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane" id="add-task-update">
+                    <div role="tabpanel" class="tab-pane in active" id="add-task-update">
+                        <div class="row clearfix">
+                        <div class="col-md-6 mt-3">
+                        @if ($task->status != 'ongoing')
+                        <form>
+                            @csrf
+                            <input type="hidden" id="id" value="{{$task->id}}">
+                            <div class="form-group">
+                            <label>Select Task Progress(%)</label>
+                            <select style="width: 160px;" name="progress" id="progress" class="form-control form-control-sm">
+                                <option value="0" {{$task->progress == 0 ? 'selected' : null}}>0%</option>
+                                <option value="25" {{$task->progress == 25 ? 'selected' : null}}>25%</option>
+                                <option value="50" {{$task->progress == 50 ? 'selected' : null}}>50%</option>
+                                <option value="75" {{$task->progress == 75 ? 'selected' : null}}>75%</option>
+                                <option value="100" {{$task->progress == 100 ? 'selected' : null}}><span style="color: green;">Mark as Completed(100%)</span></option>
+                            </select>
+                            </div>
+                        </form>
+                        @endif
+                        </div>
+                        </div>
+
                         <form action="{{url('employee-task-progress/'.$task->id)}}" method="post">
                             @csrf
                         <div class="row clearfix">
                             <div class="col-md-6 mt-3">
                                 <h6>Add hourly Task Progress</h6>
                                 <hr>
+                                {{-- ------------------------------ --}}
+
+                                {{-- ------------------------------------------- --}}
                                 <div class="form-group">
                                     <label>Date</label>
                                     <input type="date" name="date" class="form-control form-control-sm" value="{{date('Y-m-d')}}">
@@ -249,7 +272,7 @@
 {{-- <script src="{{asset('assets/plugins/bootstrap-notify/bootstrap-notify.js')}}"></script> --}}
 {{-- <script src="{{asset('assets/js/pages/ui/notifications.js')}}"></script> --}}
 {{-- <script src="{{asset('assets/plugins/sticky_notification/sticky.js')}}"></script> --}}
-<script src="https://cdn.jsdelivr.net/npm/@pnotify/core@5.2.0/dist/PNotify.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/@pnotify/core@5.2.0/dist/PNotify.min.js"></script> --}}
 @stop
 
 @push('after-scripts')
@@ -315,11 +338,9 @@
                             $('#header-status').html('completed');
                             $('.hide-badge').hide();
                             $('#task-status').html('<p class="badge badge-success">completed</p>');
-
                             $.notify(
-                                "Task mark as completed", "success"
+                                "Task 100(%) mark as completed", "success"
                             );
-
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             console.log(jqXHR);
@@ -342,7 +363,7 @@
                             $('.hide-badge').hide();
                             $('#task-status').html('<p class="badge badge-warning">in progress</p>');
                             $.notify(
-                                "Task is in progress", "warning"
+                                "Task "+progress+"(%) in progress", "warning"
                             );
                         },
                         error: function (jqXHR, textStatus, errorThrown) {

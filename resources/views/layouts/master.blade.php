@@ -46,7 +46,7 @@
             $theme .= " rtl";
         }
     ?>
-    <body class="<?= $theme ?>" style="font-family: 'Inter', sans-serif;">
+    <body class="theme-orange" style="font-family: 'Inter', sans-serif;">
         <!-- Page Loader -->
         <div class="page-loader-wrapper">
             <div class="loader">
