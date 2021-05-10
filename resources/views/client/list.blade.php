@@ -24,7 +24,7 @@
                 </ul>
             </div>
             <div class="body">
-                <div class="table-responsive">
+                {{-- <div class="table-responsive"> --}}
                     <table class="admin-datatable table table-hover" style="width: 100%;">
                         <thead class="thead-light">
                             <tr>
@@ -92,15 +92,11 @@
                             @endforeach
                         </tbody>
                     </table>
+                {{-- </div> --}}
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 @stop
-@section('page-script')
-<script src="{{asset('assets/bundles/datatablescripts.bundle.js')}}"></script>
+
+@section('page=script')
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/dataTables.buttons.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/buttons.bootstrap4.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/buttons.colVis.min.js')}}"></script>

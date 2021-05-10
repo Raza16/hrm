@@ -45,7 +45,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th >Options</th>
+                                <th>Options</th>
                                 <th>project</th>
                                 <th>Assign To</th>
                                 <th>Progress</th>
