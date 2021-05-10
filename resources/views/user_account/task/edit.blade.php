@@ -205,6 +205,9 @@
                         </div>
                         </div>
 
+                        @if (Auth::user()->role_id == 3)
+                        <form action="{{url('manager-task-progress/'.$task->id)}}" method="post">
+                        @endif
                         <form action="{{url('employee-task-progress/'.$task->id)}}" method="post">
                             @csrf
                         <div class="row clearfix">
@@ -276,37 +279,9 @@
 @stop
 
 @push('after-scripts')
+
+@if (Auth::user()->role_id == 2)
 <script>
-    // $('#mark-as-completed').submit(function(e){
-    //     e.preventDefault();
-
-    //     let _token = $('input[name=_token]').val();
-    //     let id = $('#id').val();
-    //     let status = $('#status').val();
-
-    //     $.ajax({
-    //         url: "{{url('employee-task')}}"+"/"+id,
-    //         type: "PUT",
-    //         data : {
-    //             _token:_token,
-    //             id:id,
-    //             status:status
-    //         },
-    //         success: function(response, textStatus, jqXHR) {
-    //             $('.hide-badge').hide();
-    //             $('#task-status').append('<p class="badge badge-success">completed</p>');
-    //             $('#btn-task-completed').html('<i class="fal fa-check"></i> completed');
-    //             $('#header-status').html('completed');
-    //             alert('Task Mark as Completed');
-    //         },
-    //         error: function (jqXHR, textStatus, errorThrown) {
-    //             console.log(jqXHR);
-    //             console.log(textStatus);
-    //             console.log(errorThrown);
-    //         }
-    //     });
-    // });
-
 
     $( "#progress" ).change(function() {
 
@@ -379,7 +354,82 @@
         });
     });
 
+</script>
 
+@elseif (Auth::user()->role_id == 3)
+<script>
+$( "#progress" ).change(function() {
+
+    let _token = $('input[name=_token]').val();
+    var id = $("#id").val();
+    var progress = $("#progress").val();
+
+    $.ajax({
+        url: "{{url('manager-task-progress')}}"+"/"+id,
+        type: "PUT",
+        data: {
+            _token:_token,
+            progress:progress
+        },
+        success: function(data){
+            $('#progress-count').html(progress);
+            $('.progress-bar').css({"width":progress+'%'});
+            if(progress == 100){
+
+                $.ajax({
+                    url: "{{url('manager-task')}}"+"/"+id,
+                    type: "PUT",
+                    data : {
+                        _token:_token,
+                        id:id,
+                        status:'completed'
+                    },
+                    success: function(response, textStatus, jqXHR) {
+                        $('#header-status').html('completed');
+                        $('.hide-badge').hide();
+                        $('#task-status').html('<p class="badge badge-success">completed</p>');
+                        $.notify(
+                            "Task 100(%) mark as completed", "success"
+                        );
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                });
+
+            }else{
+                $.ajax({
+                    url: "{{url('manager-task')}}"+"/"+id,
+                    type: "PUT",
+                    data : {
+                        _token:_token,
+                        id:id,
+                        status:'in progress'
+                    },
+                    success: function(response, textStatus, jqXHR) {
+                        $('#header-status').html('in progress');
+                        $('.hide-badge').hide();
+                        $('#task-status').html('<p class="badge badge-warning">in progress</p>');
+                        $.notify(
+                            "Task "+progress+"(%) in progress", "warning"
+                        );
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                });
+            }
+            // alert('Progress updated!')
+            // $.notify("Access granted", "success");
+        },
+    });
+});
 
 </script>
+@endif
+
 @endpush

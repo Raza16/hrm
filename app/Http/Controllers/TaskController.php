@@ -269,7 +269,6 @@ class TaskController extends Controller
         return response()->json($checkViewProgress);
     }
 
-
     public function taskEdit($id)
     {
         $editTask  = Task::where('id', $id)->first();
@@ -295,7 +294,7 @@ class TaskController extends Controller
             'work_detail' => $request->work_detail
         ]);
 
-        return response()->json('Task progress Updated!');
+        return response()->json('Task Progress Updated!');
     }
 
     public function taskReport()

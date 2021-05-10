@@ -160,6 +160,22 @@
                     <li class="{{ request()->is('manager/task-module') ? 'active' : null }}"><a href="{{url('manager/task-module')}}">Task Module</a></li>
                 </ul>
             </li>
+
+
+            <li class="{{request()->is('leave') || request()->is('leave/create') ? 'active' : null}}">
+                <a href="javascript:void(0)" class="menu-toggle"><i class="fas fa-file-alt"></i> <span>Leaves</span></a>
+                <ul class="ml-menu">
+                    <li class="{{request()->is('leave') ? 'active' : null}}"><a href="{{url('leave')}}">All Leave</a></li>
+                    <li class="{{request()->is('leave/create') ? 'active' : null}}"><a href="{{url('leave/create')}}">Apply Leave</a></li>
+                </ul>
+            </li>
+
+            <li class="{{request()->is('manager-task') ? 'active' : null}}">
+                <a href="javascript:void(0)" class="menu-toggle"><i class="fas fa-tasks"></i> <span>My Task</span></a>
+                <ul class="ml-menu">
+                    <li class="{{request()->is('manager-task') ? 'active' : null}}"><a href="{{url('manager-task')}}">All Task</a></li>
+                </ul>
+            </li>
             @endif
 
         </ul>

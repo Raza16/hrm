@@ -84,182 +84,184 @@
         </div>
     </div>
 </div>
+{{-- ------------------------------------------------------ --}}
+ <!-- Task Progress Modal -->
+ <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalLabel">Edit Task Progress</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <form id="UpdateTaskProgress">
+            @csrf
+        <div class="modal-body">
+            <div class="row clearfix">
+                <div class="col-md-12">
+                        <input type="hidden" id="id" name="id">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" id="date" name="date" class="form-control form-control-sm">
+                        </div>
 
+                        <div class="form-group">
+                            <label>Module</label>
+                            <select id="module" name="module" class="form-control show-tick ms select2">
+                                <option></option>
+                                @foreach ($modules as $module)
+                                    <option value="{{$module->module}}">{{$module->module}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Hours</label>
+                            <input type="text" id="hours" name="hours" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Work Detail</label>
+                            <textarea type="text" id="work_detail" name="work_detail" class="summernote"></textarea>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </form>
+    </div>
+    </div>
+    </div>
+
+<!-- Task Modal -->
+<div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h6 class="modal-title" id="exampleModalLabel">Edit Task Progress</h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <form id="UpdateTask">
+            @csrf
+        <div class="modal-body">
+            <div class="row clearfix">
+                <div class="col-md-12">
+                        <input type="hidden" id="id" name="id">
+                        <div class="form-group">
+                            <label>Project Title</label>
+                            <select name="project_id" id="project" class="form-control show-tick ms select2" data-placeholder="Select">
+                                <option></option>
+                                @foreach ($projects as $project)
+                                    <option value="{{$project->id}}">{{$project->title}}</option>
+                                @endforeach
+                            </select>
+                            @error('project_id')
+                                <label class="error">{{$errors->first('project_id')}}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Assign To Employee</label>
+                            <select name="employee_id" id="employee" class="form-control show-tick ms select2" data-placeholder="Select">
+                                <option></option>
+                                @foreach ($employees as $employee)
+                                    <option value="{{$employee->id}}">{{$employee->first_name.' '.$employee->middle_name.' '.$employee->last_name}}</option>
+                                @endforeach
+                            </select>
+                            @error('employee_id')
+                                <label class="error">{{$errors->first('employee_id')}}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Task No</label>
+                            <input type="text" name="task_no" id="task_no" class="form-control form-control-sm" readonly>
+                            @error('task_no')
+                            <label class="error">{{$errors->first('task_no')}}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Priority</label>
+                            <select name="priority" id="priority" class="form-control">
+                                <option value="normal">Normal</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                            @error('priority')
+                                <label class="error">{{$errors->first('priority')}}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Assign Date</label>
+                            <input type="date" name="assign_date" id="assign_date" class="form-control form-control-sm">
+                            @error('assign_date')
+                                <label class="error">{{$errors->first('assign_date')}}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Deadline Date</label>
+                            <input type="date" name="deadline_date" id="deadline_date" class="form-control form-control-sm">
+                            @error('deadline_date')
+                                <label class="error">{{$errors->first('deadline_date')}}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select name="status" id="status" class="form-control form-control-sm">
+                                <option value="pending">Pending</option>
+                                <option value="in progress">In Progress</option>
+                                <option value="ongoing">Ongoing</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                            @error('status')
+                                <label class="error">{{$errors->first('status')}}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Select Task Progress(%)</label>
+                            <select style="width: 160px;" name="progress" id="progress" class="form-control form-control-sm">
+                                <option value="0">0%</option>
+                                <option value="25">25%</option>
+                                <option value="50">50%</option>
+                                <option value="75">75%</option>
+                                <option value="100"><span style="color: green;">Mark as Completed(100%)</span></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Note</label>
+                            <textarea name="note" id="note" class="summernote"></textarea>
+                            @error('note')
+                                <label class="error">{{$errors->first('note')}}</label>
+                            @enderror
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </form>
+    </div>
+    </div>
+    </div>
+    {{-- end modal --}}
 @stop
 
 @section('modal')
-    <!-- Task Progress Modal -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h6 class="modal-title" id="exampleModalLabel">Edit Task Progress</h6>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <form id="UpdateTaskProgress">
-                @csrf
-            <div class="modal-body">
-                <div class="row clearfix">
-                    <div class="col-md-12">
-                            <input type="hidden" id="id" name="id">
-                            <div class="form-group">
-                                <label>Date</label>
-                                <input type="date" id="date" name="date" class="form-control form-control-sm">
-                            </div>
 
-                            <div class="form-group">
-                                <label>Module</label>
-                                <select id="module" name="module" class="form-control show-tick ms select2">
-                                    <option></option>
-                                    @foreach ($modules as $module)
-                                        <option value="{{$module->module}}">{{$module->module}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Hours</label>
-                                <input type="text" id="hours" name="hours" class="form-control form-control-sm">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Work Detail</label>
-                                <textarea type="text" id="work_detail" name="work_detail" class="summernote form-control form-control-sm"></textarea>
-                            </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </form>
-        </div>
-        </div>
-        </div>
-
-    <!-- Task Modal -->
-    <div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h6 class="modal-title" id="exampleModalLabel">Edit Task Progress</h6>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <form id="UpdateTask">
-                @csrf
-            <div class="modal-body">
-                <div class="row clearfix">
-                    <div class="col-md-12">
-                            <input type="hidden" id="id" name="id">
-                            <div class="form-group">
-                                <label>Project Title</label>
-                                <select name="project_id" id="project" class="form-control show-tick ms select2" data-placeholder="Select">
-                                    <option></option>
-                                    @foreach ($projects as $project)
-                                        <option value="{{$project->id}}">{{$project->title}}</option>
-                                    @endforeach
-                                </select>
-                                @error('project_id')
-                                    <label class="error">{{$errors->first('project_id')}}</label>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label>Assign To Employee</label>
-                                <select name="employee_id" id="employee" class="form-control show-tick ms select2" data-placeholder="Select">
-                                    <option></option>
-                                    @foreach ($employees as $employee)
-                                        <option value="{{$employee->id}}">{{$employee->first_name.' '.$employee->middle_name.' '.$employee->last_name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('employee_id')
-                                    <label class="error">{{$errors->first('employee_id')}}</label>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label>Task No</label>
-                                <input type="text" name="task_no" id="task_no" class="form-control form-control-sm" readonly>
-                                @error('task_no')
-                                <label class="error">{{$errors->first('task_no')}}</label>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label>Priority</label>
-                                <select name="priority" id="priority" class="form-control">
-                                    <option value="normal">Normal</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="high">High</option>
-                                </select>
-                                @error('priority')
-                                    <label class="error">{{$errors->first('priority')}}</label>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label>Assign Date</label>
-                                <input type="date" name="assign_date" id="assign_date" class="form-control form-control-sm">
-                                @error('assign_date')
-                                    <label class="error">{{$errors->first('assign_date')}}</label>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label>Deadline Date</label>
-                                <input type="date" name="deadline_date" id="deadline_date" class="form-control form-control-sm">
-                                @error('deadline_date')
-                                    <label class="error">{{$errors->first('deadline_date')}}</label>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label>Status</label>
-                                <select name="status" id="status" class="form-control form-control-sm">
-                                    <option value="pending">Pending</option>
-                                    <option value="in progress">In Progress</option>
-                                    <option value="ongoing">Ongoing</option>
-                                    <option value="completed">Completed</option>
-                                </select>
-                                @error('status')
-                                    <label class="error">{{$errors->first('status')}}</label>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label>Select Task Progress(%)</label>
-                                <select style="width: 160px;" name="progress" id="progress" class="form-control form-control-sm">
-                                    <option value="0">0%</option>
-                                    <option value="25">25%</option>
-                                    <option value="50">50%</option>
-                                    <option value="75">75%</option>
-                                    <option value="100"><span style="color: green;">Mark as Completed(100%)</span></option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Note</label>
-                                <textarea name="note" id="note" class="summernote"></textarea>
-                                @error('note')
-                                    <label class="error">{{$errors->first('note')}}</label>
-                                @enderror
-                            </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </form>
-        </div>
-        </div>
-        </div>
 @endsection
 
 
@@ -288,15 +290,15 @@
 function editTask(id){
     $.get('/edit-task/'+id, function(editTask){
         $('#id').val(editTask.id);
-        $('#project').val(editTask.project.title);
-        $('#employee').val(editTask.employee.first_name);
+        $('#project').val(editTask.project_id);
+        $('#employee').val(editTask.employee_id);
         $('#task_no').val(editTask.task_no);
         $('#priority').val(editTask.priority);
         $('#assign_date').val(editTask.assign_date);
         $('#deadline_date').val(editTask.deadline_date);
         $('#status').val(editTask.status);
         $('#progress').val(editTask.progress);
-        $('#note').html(editTask.note);
+        $('#note').summernote("code", editTask.note);
         $('#editTaskModal').modal('toggle');
     });
 }
@@ -308,7 +310,7 @@ function editTaskProgress(id){
         $('#date').val(taskProgress.date);
         $('#module').val(taskProgress.module);
         $('#hours').val(taskProgress.hours);
-        $('#work_detail').html(taskProgress.work_detail);
+        $("#work_detail").summernote("code", taskProgress.work_detail);
         $('#editModal').modal('toggle');
     });
 }

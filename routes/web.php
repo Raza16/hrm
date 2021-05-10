@@ -77,6 +77,48 @@ Route::middleware(['admin', 'logout'])->group(function() {
 
 });
 
+//----------------------- Manager Routes-----------------------------------------------
+Route::group(['middleware' => ['manager', 'logout']], function() {
+
+    Route::get('/manager/dashboard', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'dashboard']);
+
+    Route::resource('/project', App\Http\Controllers\ProjectController::class);
+
+    Route::resource('manager/task', App\Http\Controllers\TaskController::class);
+
+    Route::get('manager/task-report', [App\Http\Controllers\TaskController::class, 'taskReport']);
+
+    Route::get('manager/task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
+    Route::post('manager/task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
+    Route::get('manager/task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleEdit']);
+    Route::put('manager/task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleUpdate']);
+    Route::delete('manager/task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleDestory']);
+
+    Route::get('/manager-view-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'viewTaskProgress']);
+    Route::get('/manager-check-view-progress/{id}', [App\Http\Controllers\TaskController::class, 'checkViewProgress']);
+    Route::get('/manager-edit-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'taskProgressEdit']);
+    Route::put('/manager-update-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'taskProgressUpdate']);
+    Route::get('/manager-edit-task/{id}', [App\Http\Controllers\TaskController::class, 'taskEdit']);
+
+    Route::get('/manager-task', [App\Http\Controllers\Employee\TaskController::class, 'index']);
+    Route::get('/manager-task/{id}/edit', [App\Http\Controllers\Employee\TaskController::class, 'edit']);
+    Route::put('/manager-task/{id}', [App\Http\Controllers\Employee\TaskController::class, 'update']);
+    Route::put('/manager-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'progressUpdate']);
+    Route::get('/manager-task-download/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
+    Route::get('/manager-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressEdit']);
+    Route::post('/manager-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressStore']);
+
+    Route::post('/manager/checkin', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'checkInTimeStore']);
+    Route::post('/manager/checkout', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'checkOutTimeUpdate']);
+
+    Route::post('/manager/breakin', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'breakInTimeStore']);
+    Route::post('/manager/breakout', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'breakOutTimeUpdate']);
+
+    Route::get('/manager/timebreaker/{id}', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'viewTime']);
+    Route::put('/manager/timetracker/{id}', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'updateTime']);
+});
+
+
 //----------------------- User Routes-----------------------------------------------
 Route::group(['middleware' => ['employee', 'logout']], function() {
 
@@ -86,11 +128,8 @@ Route::group(['middleware' => ['employee', 'logout']], function() {
     Route::get('/employee-task/{id}/edit', [App\Http\Controllers\Employee\TaskController::class, 'edit']);
     Route::put('/employee-task/{id}', [App\Http\Controllers\Employee\TaskController::class, 'update']);
     Route::put('/employee-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'progressUpdate']);
-
     Route::get('/employee-task-download/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
-
     Route::get('/employee-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressEdit']);
-
     Route::post('/employee-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressStore']);
 
     Route::resource('leave', App\Http\Controllers\Employee\LeaveController::class);
@@ -106,36 +145,17 @@ Route::group(['middleware' => ['employee', 'logout']], function() {
 
 });
 
-Route::group(['middleware' => ['manager', 'logout']], function() {
 
-    Route::get('/manager/dashboard', [App\Http\Controllers\UserDashboardController::class, 'dashboard']);
-
-    Route::resource('manager/project', App\Http\Controllers\ProjectController::class);
-
-    Route::resource('manager/task', App\Http\Controllers\TaskController::class);
-
-    Route::get('manager/task-report', [App\Http\Controllers\TaskController::class, 'taskReport']);
-
-    Route::get('manager/task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
-    Route::post('manager/task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
-    Route::get('manager/task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleEdit']);
-    Route::put('manager/task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleUpdate']);
-    Route::delete('manager/task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleDestory']);
-});
-
-
-
+//----------------------- Client Routes-----------------------------------------------
 Route::get('/ClientLogin', [App\Http\Controllers\Auth\LoginController::class, 'showClientLoginForm']);
 Route::post('/ClientLogin', [App\Http\Controllers\Auth\LoginController::class, 'clientLogin']);
 Route::post('/ClientLogout', [App\Http\Controllers\Auth\LoginController::class, 'clientLogout']);
 
-//----------------------- Client Routes-----------------------------------------------
 Route::middleware(['client', 'logout'])->group(function() {
 
     Route::get('/ClientDashboard', [App\Http\Controllers\Client\DashboardController::class, 'dashboard']);
 
     Route::get('/client-project',  [App\Http\Controllers\Client\ProjectController::class, 'index']);
-
 });
 
 

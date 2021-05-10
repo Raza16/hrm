@@ -199,6 +199,24 @@
 
 @push('after-scripts')
 
+{{-- Role_id 3 is Manager Role --}}
+@if (Auth::user()->role_id == 3)
+<script>
+function viewProgress(id){
+    $.get('/manager-check-view-progress/'+id, function(checkViewProgress){
+        if(checkViewProgress.title)
+        {
+            window.location.href = "{{url('/manager-view-task-progress')}}"+"/"+id;
+        }
+        else{
+            alert('No task progress submit yet');
+        }
+    });
+}
+
+</script>
+@endif
+
 <script>
 function viewDetails(id){
     $.get('/task/'+id, function(task){

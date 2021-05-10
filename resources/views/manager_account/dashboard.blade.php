@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Profile')
+@section('title', 'Dashboard')
 @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/light-gallery/css/lightgallery.css')}}">
@@ -101,24 +101,24 @@
                 <span class="mb-2">Current Date Time: <span style="color:red;" id="ct6"></span></span>
                 <div style="display:flex;" class="mt-3 mb-5">
                     @if (!$checkinDone)
-                        <form action="{{url('checkin')}}" method="POST">
+                        <form action="{{url('manager/checkin')}}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-primary">Check In</button>
                         </form>&nbsp;
 
                     @elseif($checkinDone && !$breakinDone)
-                        <form action="{{url('breakin')}}" method="POST">
+                        <form action="{{url('manager/breakin')}}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-primary">Break</button>
                         </form>&nbsp;
 
-                        <form action="{{url('checkout')}}" method="POST">
+                        <form action="{{url('manager/checkout')}}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-primary">Check Out</button>
                         </form>&nbsp;
 
                     @elseif($breakinDone && $checkinDone)
-                        <form action="{{url('breakout')}}" method="POST">
+                        <form action="{{url('manager/breakout')}}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-primary">Break Off</button>
                         </form>
@@ -247,7 +247,7 @@
 
 <div class="card">
     <div class="header">
-        <h2>Ongoing Tasks</h2>
+        <h2>Ongoing/Pending Tasks</h2>
         <ul class="header-dropdown">
             <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                 <ul class="dropdown-menu dropdown-menu-right">
@@ -269,6 +269,8 @@
                         <th>Priority</th>
                         <th>Assign Date</th>
                         <th>Deadline Date</th>
+                        <th>Progress</th>
+                        <th>Status</th>
                         <th>Options</th>
                     </tr>
                 </thead>
@@ -279,22 +281,40 @@
                         <th>Priority</th>
                         <th>Assign Date</th>
                         <th>Deadline Date</th>
+                        <th>Progress</th>
+                        <th>Status</th>
                         <th>Options</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach ($ongoingTasks as $ongoingTask)
+                    @foreach ($ongoingPendingTasks as $ongoingPendingTask)
                         <tr>
-                            <td>{{$ongoingTask->project->title}}</td>
-                            <td>{{$ongoingTask->task_no}}</td>
-                            <td>{{$ongoingTask->priority}}</td>
-                            <td>{{$ongoingTask->assign_date ? \Carbon\Carbon::parse($ongoingTask->assign_date)->format('j F, Y') : null}}</td>
-                            <td>{{$ongoingTask->deadline_date ? \Carbon\Carbon::parse($ongoingTask->deadline_date)->format('j F, Y') : null}}</td>
+                            <td>{{$ongoingPendingTask->project->title}}</td>
+                            <td>{{$ongoingPendingTask->task_no}}</td>
+                            <td>{{$ongoingPendingTask->priority}}</td>
+                            <td>{{$ongoingPendingTask->assign_date ? \Carbon\Carbon::parse($ongoingPendingTask->assign_date)->format('j F, Y') : null}}</td>
+                            <td>{{$ongoingPendingTask->deadline_date ? \Carbon\Carbon::parse($ongoingPendingTask->deadline_date)->format('j F, Y') : null}}
+                            </td>
+                            <td>
+                                <p style="margin-bottom: -10px;"><small>{{$ongoingPendingTask->progress}}%</small></p>
+                                <div class="progress" style="margin-top:8px;background:#F7C600;border-radius:0;">
+                                <div class="progress-bar l-green" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100" style="width: {{$ongoingPendingTask->progress}}%;border-radius:0;"></div>
+                                </div>
+                            </td>
+                            <td>
+                                @if ($ongoingPendingTask->status == 'in progress')
+                                    <span class="badge badge-warning">{{$ongoingPendingTask->status}}</span>
+                                @elseif ($ongoingPendingTask->status == 'ongoing')
+                                    <span class="badge badge-primary">{{$ongoingPendingTask->status}}</span>
+                                @elseif ($ongoingPendingTask->status == 'pending')
+                                    <span class="badge badge-danger">{{$ongoingPendingTask->status}}</span>
+                                {{-- @elseif ($ongoingPendingTask->status == 'completed')
+                                    <span class="badge badge-success">{{$ongoingPendingTask->status}}</span> --}}
+                                @endif
+                            </td>
                             <td>
                                 <div style="display: flex;">
-                                    <a href="{{url('employee-task/'.$ongoingTask->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Task"><i class="far fa-eye"></i></a>
-
-                                    <a href="{{url('employee-task-progress/'.$ongoingTask->id.'/task-progress')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Submit Task Progress"><i class="fas fa-tasks"></i></a>
+                                    <a href="{{url('employee-task/'.$ongoingPendingTask->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Task"><i class="far fa-eye"></i></a>
                                 </div>
                             </td>
                         </tr>

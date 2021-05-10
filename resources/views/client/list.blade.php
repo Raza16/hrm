@@ -28,30 +28,56 @@
                     <table class="admin-datatable table table-hover" style="width: 100%;">
                         <thead class="thead-light">
                             <tr>
+                                <th>Options</th>
                                 <th>Full Name</th>
                                 <th>Gender</th>
                                 <th>Email</th>
                                 <th>Country</th>
-                                <th>Options</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Options</th>
                                 <th>Full Name</th>
                                 <th>Gender</th>
                                 <th>Email</th>
                                 <th>Country</th>
-                                <th>Options</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($clients as $client)
-                                <tr>
+                                <tr class="show-option">
+                                    <td>
+                                        <div  class="container hide-option">
+                                            <div class="row">
+                                            <div class="col-md-12">
+                                            <div style="border: 0.5px solid #888888;border-radius:50px;padding:2px 0px 1px 4px;width:28px;margin-top:15px;margin-left:-5px;">
+                                            <ul class="header-dropdown" style="list-style-type:none;padding:0;margin-top:1px;margin-left:2px;margin-bottom:2px;">
+                                                <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i style="font-size: 15px;" class="fas fa-ellipsis-h-alt"></i> </a>
+                                                    <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(33px, 34px, 0px);">
+                                                        <li><a href="{{url('client-invoice/create/'.$client->id)}}">Add Invoice</a></li>
+                                                        <li><a href="{{url('client/'.$client->id.'/edit')}}">Edit</a></li>
+                                                        <li>
+                                                            <a href="{{url('client/'.$client->id)}}" onclick="event.preventDefault();
+                                                                document.getElementById('delete').submit();">Delete</a>
+                                                            <form id="delete" action="{{url('client/'.$client->id)}}" method="post">
+                                                                @method('delete')
+                                                                @csrf
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                 <td>{{$client->full_name}}</td>
                                 <td>{{$client->gender}}</td>
                                 <td>{{$client->email}}</td>
                                 <td>{{$client->country}}</td>
-                                <td>
+                                {{-- <td>
                                     <div style="display: flex;">
                                         <a href="{{url('client-invoice/create/'.$client->id)}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Create Invoice"><i class="far fa-receipt"></i></a>
                                         <a href="{{url('client/'.$client->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a>
@@ -61,7 +87,7 @@
                                             <button type="submit" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></button>
                                         </form>
                                     </div>
-                                </td>
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>

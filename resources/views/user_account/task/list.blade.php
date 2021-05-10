@@ -92,7 +92,11 @@
                                 </td>
                                 <td>
                                     <div style="display: flex;">
+                                        @if (Auth::user()->role_id == 2)
                                         <a href="{{url('employee-task/'.$task->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Task"><i class="far fa-eye"></i></a>
+                                        @elseif (Auth::user()->role_id == 3)
+                                        <a href="{{url('manager-task/'.$task->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Task"><i class="far fa-eye"></i></a>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -230,6 +234,7 @@
 @stop
 
 @push('after-scripts')
+@if(Auth::user()->role_id == 2)
 <script>
 function editModule(id){
     $.get('/employee-task/'+id+'/edit', function(task){
@@ -266,4 +271,42 @@ $('#task-form-edit').submit(function(e){
 });
 
 </script>
+
+@elseif (Auth::user()->role_id == 3)
+<script>
+    function editModule(id){
+        $.get('/manager-task/'+id+'/edit', function(task){
+            $('#id').val(task.id);
+            $('#projectTitle').html(task.project_id);
+            $('#note').html(task.note);
+
+            $('#viewTaskModal').modal('toggle');
+        });
+    }
+
+    $('#task-form-edit').submit(function(e){
+
+        e.preventDefault();
+
+        let _token = $('input[name=_token]').val();
+        let id = $('#id').val();
+        let status = $('#status').val();
+
+        $.ajax({
+            url: "{{url('manager-task')}}"+"/"+id,
+            type: "put",
+            data: {
+                _token:_token,
+                id:id,
+                status:status,
+            },
+            success:function(response){
+                $('#viewBreakTimeModal').modal('toggle');
+                alert(response);
+            }
+        })
+    });
+
+</script>
+@endif
 @endpush
