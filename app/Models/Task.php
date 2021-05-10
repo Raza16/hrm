@@ -20,6 +20,11 @@ class Task extends Model
         return $this->belongsTo(Employee::class);
     }
 
+    public function taskProject()
+    {
+        return Task::get()->load('Project');
+    }
+
     public function task_attachment()
     {
         return $this->hasMany(TaskAttachment::class);

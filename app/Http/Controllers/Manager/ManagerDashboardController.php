@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Manager;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Leave;
@@ -14,7 +14,7 @@ use Timezone;
 use DB;
 use Carbon\Carbon;
 
-class UserDashboardController extends Controller
+class ManagerDashboardController extends Controller
 {
     public function dashboard()
     {
@@ -36,39 +36,13 @@ class UserDashboardController extends Controller
         ->where('status', 'process')
         ->count();
 
-        $ongoingPendingTasks = Task::where(['employee_id' => $employee->id])->whereNotIn('status', ['completed'])->get();
+        $ongoingPendingTasks = Task::where(['employee_id' => $employee->id])
+        ->whereNotIn('status', ['completed'])
+        ->get();
 
         $employeeTimes = TimeTracker::orderBy('date', 'asc')
         ->where('employee_id', $employee->id)
         ->get();
-
-        // dd($employeeTimes);
-
-        // dd($EmployeeTime);
-
-        // // total hours between two dates
-        // $start_date = new DateTime($timeEntry->checkin);
-        // $since_start = $start_date->diff(new DateTime($timeEntry->checkout));
-        // dd($since_start->h);
-
-        // $timezoneDate = date('g:i a', strtotime(now()));
-        // dd($timezoneDate);
-
-        // -------------24 hours to 12 hours conversion using string
-        // $date = '2021-02-26 11:00:13';
-        // dd(date('g:i a', strtotime($userCreated_at->created_at)));
-
-        // $checkinDone = TimeTracker::whereNull('checkout')
-        //     ->whereHas('employee', function ($query) {
-        //         $query->where('id', Auth::user()->employee->id);
-        //     })
-        //     ->first();
-
-        // $checkinPrevious = TimeTracker::whereNull('checkout')
-        // ->where('employee_id', $employee->id)
-        // ->whereDate('date', Carbon::yesterday())
-        // ->first();
-        // dd($checkinPrevious);
 
         $checkinDone = TimeTracker::whereNull('checkout')
         ->where('employee_id', $employee->id)
@@ -87,10 +61,11 @@ class UserDashboardController extends Controller
         ->whereDate('date', Carbon::today())
         ->get();
 
-        $timeTrackerId = TimeTracker::select('id')->whereNull('checkout')
-            ->where('employee_id', Auth::user()->employee->id)
-            ->whereDate('date', Carbon::today())
-            ->first();
+        $timeTrackerId = TimeTracker::select('id')
+        ->whereNull('checkout')
+        ->where('employee_id', Auth::user()->employee->id)
+        ->whereDate('date', Carbon::today())
+        ->first();
 
             if($timeTrackerId){
 
@@ -105,7 +80,7 @@ class UserDashboardController extends Controller
                 $sumBreakTime ="00:00:00";
             }
 
-        return view('user_account.dashboard', compact(
+        return view('manager_account.dashboard', compact(
             'employee',
             'leaveCount',
             'completedTaskCount',
@@ -133,15 +108,13 @@ class UserDashboardController extends Controller
 
         $timeTracker->save();
 
-        return redirect('/emp/dashboard')->with('success', 'CheckIn time has been submited');
+        return redirect('/manager/dashboard')->with('success', 'CheckIn time has been submited');
 
     }
 
     public function breakInTimeStore(Request $request)
     {
         $employee = Auth::user()->employee;
-
-        // DB::table('time_tracker')->whereExists('date');
 
         $checkInId = TimeTracker::select('id')->whereNull('checkout')
             ->where('employee_id', Auth::user()->employee->id)
@@ -192,7 +165,7 @@ class UserDashboardController extends Controller
                     'total_hours' =>  $total_time,
                 ]);
 
-                return redirect('/emp/dashboard')->with('success', 'Break Off time has been submited');
+                return redirect('/manager/dashboard')->with('success', 'Break Off time has been submited');
             }
     }
 
@@ -252,10 +225,10 @@ class UserDashboardController extends Controller
                 'working_hours' =>  $workingHours,
             ]);
 
-            return redirect('/emp/dashboard')->with('success', 'CheckOut time has been submited');
+            return redirect('/manager/dashboard')->with('success', 'CheckOut time has been submited');
         }
         else{
-            return redirect('/emp/dashboard')->with('success', 'CheckOut time is missing');
+            return redirect('/manager/dashboard')->with('success', 'CheckOut time is missing');
         }
 
     }
@@ -283,6 +256,5 @@ class UserDashboardController extends Controller
 
         return response()->json($viewTime);
     }
-
 
 }

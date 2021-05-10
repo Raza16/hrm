@@ -100,7 +100,7 @@
                         <div class="form-group">
                             <label>Payment Resource</label>
                             <select name="payment_resource" class="form-control form-control-sm">
-                                <option value="paypal" {{$client->payment_resource == 'paypal' ? 'selected' : null}}>PayPay</option>
+                                <option value="paypal" {{$client->payment_resource == 'paypal' ? 'selected' : null}}>PayPal</option>
                                 <option value="guru" {{$client->payment_resource == 'guru' ? 'selected' : null}}>Guru</option>
                                 <option value="fiverr" {{$client->payment_resource == 'fiverr' ? 'selected' : null}}>Fiverr</option>
                                 <option value="upwork" {{$client->payment_resource == 'upwork' ? 'selected' : null}}>Upwork</option>
