@@ -24,7 +24,7 @@
                 </ul>
             </div>
             <div class="body">
-                <div class="table-responsive">
+                {{-- <div class="table-responsive"> --}}
                     <table class="admin-datatable table table-hover" style="width: 100%;">
                         <thead class="thead-light">
                             <tr>
@@ -92,7 +92,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
+                {{-- </div> --}}
             </div>
         </div>
     </div>

@@ -82,7 +82,7 @@ Route::group(['middleware' => ['manager', 'logout']], function() {
 
     Route::get('/manager/dashboard', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'dashboard']);
 
-    Route::resource('/project', App\Http\Controllers\ProjectController::class);
+    Route::resource('/manager/project', App\Http\Controllers\ProjectController::class);
 
     Route::resource('manager/task', App\Http\Controllers\TaskController::class);
 
