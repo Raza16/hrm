@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Task')
+@section('title', 'Task Tracker')
 @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/summernote/dist/summernote.css')}}"/>
@@ -20,7 +20,7 @@
                 <ul class="header-dropdown">
                     <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="{{url('task')}}">All Task</a></li>
+                            <li><a href="{{url('task-tracker')}}">All Task</a></li>
                         </ul>
                     </li>
                     <li class="remove">
@@ -29,7 +29,7 @@
                 </ul>
             </div>
             <div class="body">
-                <form id="form_validation" action="{{url('task')}}" method="post" enctype="multipart/form-data">
+                <form id="form_validation" action="{{url('task-tracker')}}" method="post" enctype="multipart/form-data">
                     @csrf
                 <div class="row clearfix">
                     <div class="col-md-6">

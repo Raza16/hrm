@@ -15,17 +15,17 @@ class AdminRole
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, String $role)
     {
-        if (!Auth::check()) {
-            return redirect('/login');
-        }
+        // if (!Auth::check()) {
+        //     return redirect('/login');
+        // }
 
-        if (Auth::user()->role_id == 1) {
-            return $next($request);
-        }
-        else{
-            return redirect()->back();
-        }
+        // if (Auth::user()->role_id == 1) {
+        //     return $next($request);
+        // }
+        // else{
+        //     return redirect()->back();
+        // }
     }
 }

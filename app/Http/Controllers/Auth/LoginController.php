@@ -36,7 +36,6 @@ class LoginController extends Controller
         protected $redirectTo;
 
         public function redirectTo(){
-
             if (!Auth::check()) {
                 return $this->redirectTo = '/login';
             }
@@ -54,7 +53,13 @@ class LoginController extends Controller
 
                 return $this->redirectTo = '/manager/dashboard';
             }
+
+            if (Auth::user()->role_id == 4) {
+
+                return $this->redirectTo = '/hr/dashboard';
+            }
         }
+
     /**
      * Create a new controller instance.
      *
@@ -109,8 +114,14 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
-        if (Auth::guard('client_login')->attempt(['email' => $request->email, 'password' => $request->password, 'status' => 1], $request->get('remember')))
-        {
+        if (Auth::guard('client_login')->attempt(
+            [
+                'email' => $request->email,
+                'password' => $request->password,
+                'status' => 1
+            ],
+            $request->get('remember')
+        )){
             return redirect()->intended('/ClientDashboard');
         }
 

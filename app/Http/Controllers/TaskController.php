@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\Employee;
 use Carbon\Carbon;
 use DB;
+use Gate;
 
 class TaskController extends Controller
 {
@@ -19,12 +20,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        try {
-            $tasks = Task::all();
-        } catch (\Exception $e) {
-
-            return 'Record not found!';
-        }
+        $tasks = Task::all();
 
         return view('task.list', compact('tasks'));
     }
@@ -95,7 +91,7 @@ class TaskController extends Controller
             }
         }
 
-        return redirect('task/create')->with('success', 'Record has been submited');
+        return redirect('task-tracker/create')->with('success', 'Record has been submited');
     }
 
     /**
@@ -183,7 +179,7 @@ class TaskController extends Controller
         // $task = Task::find($id)->task_attachment->delete();
         // Storage::disk('task-attachment')->delete($task->attachment);
 
-        return redirect('/task')->with('success', 'Task deleted successfully');
+        return redirect('/task-tracker')->with('success', 'Task deleted successfully');
     }
 
     public function viewTaskProgress($id)

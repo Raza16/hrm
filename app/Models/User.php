@@ -55,6 +55,24 @@ class User extends Authenticatable
     //     return $this->belongsTo(User::class);
     // }
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 
+    public function hasAnyRole($role)
+    {
+        if($this->role()->whereIn('role_type', $role)->first()){
+            return true;
+        }
+        return false;
+    }
 
+    public function hasRole($role)
+    {
+        if($this->role()->where('role_type', $role)->first()){
+            return true;
+        }
+        return false;
+    }
 }
