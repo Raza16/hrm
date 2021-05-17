@@ -66,7 +66,7 @@ class EmployeeController extends Controller
             'designation_id' => 'required',
             'employee_id' => 'required',
             'job_status' => 'required',
-            'salary' => 'numeric',
+            'salary' => 'nullable|numeric',
             // 'file.*' => 'mimes:jpeg, png, jpg, pdf, docx, doc'
         ],
         [
@@ -189,7 +189,7 @@ class EmployeeController extends Controller
             'designation_id' => 'required',
             'employee_id' => 'required',
             'job_status' => 'required',
-            'salary' => 'numeric',
+            'salary' => 'nullable|numeric',
             // 'file.*' => 'mimes:jpeg, png, jpg, pdf, docx, doc'
         ],
         [
