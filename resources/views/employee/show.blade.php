@@ -1,12 +1,12 @@
 @extends('layouts.master')
-@section('title', 'Employee Profile')
+@section('title', 'Profile')
 @section('content')
 <div class="row clearfix">
     <div class="col-xl-4 col-lg-12 col-md-12">
         <div class="card mcard_3">
             <div class="body">
                 <a href="javascript:void(0);">
-                    <img src="{{$employee->profile_image ? asset('storage/profile-images/'.$employee->profile_image) : asset('img/no_image.png')}}" class="rounded-circle" alt="profile-image" width="200" height="200">
+                    <img src="{{$employee->profile_image ? asset('storage/profile_images/'.$employee->profile_image) : asset('img/no_image.png')}}" class="rounded-circle" alt="profile-image" width="200" height="200">
                 </a>
                 <h5 class="m-t-10 mt-4">{{$employee->first_name.' '.$employee->middle_name.' '.$employee->last_name}}</h5>
 
@@ -50,7 +50,7 @@
                 <hr> --}}
                 <p class="text-muted">Employee Info </p>
                 <small class="text-muted">Date of Birth: </small>
-                <p>{{$employee->date_of_birth ? date('j F, Y', strtotime($employee->date_of_birth)):null}}</p>
+                <p>{{$employee->date_of_birth ? date('j F, Y', strtotime($employee->date_of_birth)) : null}}</p>
                 <hr>
                 <small class="text-muted">Gender: </small>
                 <p>{{$employee->gender}}</p>
@@ -98,7 +98,6 @@
                         </div>
                     </li>
                 </ul> --}}
-
 
             </div>
         </div>

@@ -251,7 +251,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="file" name="profile_image" class="dropify" data-allowed-file-extensions="png jpg jpeg">
+                                    <input type="file" name="profile_image" class="dropify" data-allowed-file-extensions="png jpg jpeg" accept=".png, .jpg, .jpeg">
                                 </div>
                             </div>
                         </div>
