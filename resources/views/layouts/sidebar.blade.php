@@ -13,11 +13,11 @@
                         @if (Auth::user()->role_id == 1)
                         <img src="{{asset('img/no_image.png')}}" alt="Profile-Photo" />
                         @elseif (Auth::user()->role_id == 2 && Auth::user()->employee->profile_image)
-                        <img src="{{asset('storage/profile-images/'.Auth::user()->employee->profile_image)}}" alt="Profile-Photo" width="" />
+                        <img src="{{asset('storage/profile_images/'.Auth::user()->employee->profile_image)}}" alt="Profile-Photo" width="" />
                         @elseif (Auth::user()->role_id == 3 && Auth::user()->employee->profile_image)
-                        <img src="{{asset('storage/profile-images/'.Auth::user()->employee->profile_image)}}" alt="Profile-Photo" width="" />
+                        <img src="{{asset('storage/profile_images/'.Auth::user()->employee->profile_image)}}" alt="Profile-Photo" width="" />
                         @elseif (Auth::user()->role_id == 4 && Auth::user()->employee->profile_image)
-                        <img src="{{asset('storage/profile-images/'.Auth::user()->employee->profile_image)}}" alt="Profile-Photo" width="" />
+                        <img src="{{asset('storage/profile_images/'.Auth::user()->employee->profile_image)}}" alt="Profile-Photo" width="" />
                         @else
                         <img src="{{asset('img/no_image.png')}}" alt="Profile-Photo" />
                         @endif
