@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\Employee;
+use App\Models\TaskAttachment;
 use Carbon\Carbon;
 use DB;
 use Gate;
+use App\Http\Controllers\Employee\TaskController as EmpTaskController;
 
 class TaskController extends Controller
 {
@@ -119,8 +121,9 @@ class TaskController extends Controller
 
         $projects = DB::table('projects')->select('id', 'title')->get();
         $employees = DB::table('employees')->select('id', 'first_name', 'middle_name', 'last_name')->get();
+        $task_attachment = Task::find($id)->task_attachment;
 
-        return view('task.edit', compact('task', 'projects', 'employees'));
+        return view('task.edit', compact('task', 'projects', 'employees', 'task_attachment'));
     }
 
     /**
@@ -312,6 +315,30 @@ class TaskController extends Controller
         ->get();
 
         return view('task.report', compact('taskReport'));
+    }
+
+    public function getDownload(Request $request, $id)
+    {
+        try{
+            $task = TaskAttachment::find($id);
+            $file = public_path()."/storage/task_files/".$task->attachment;
+            $headers = array(
+                'Content-Type: application/*',
+            );
+            return response()->download($file, $task->attachment, $headers);
+        }
+        catch(\Exception $e){
+            return view('errors.file_not_found');
+        }
+    }
+
+    public function deleteDownload($id)
+    {
+        DB::table('task_attachments')->where('id', $id)->delete();
+
+        return response()->json([
+            'message' => 'File deleted successfully!',
+        ]);
     }
 
     public function taskModuleForm()

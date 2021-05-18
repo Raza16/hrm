@@ -30,7 +30,7 @@
                 </ul>
             </div>
             <div class="body">
-                <form action="{{url('task-tracker/'.$task->id)}}" method="post">
+                <form action="{{url('task-tracker/'.$task->id)}}" method="post" enctype="multipart/form-data">
                     @method('put')
                     @csrf
                 <div class="row clearfix">
@@ -113,11 +113,27 @@
                             <label>File Attachment</label>
                             <input type="file" name="attachment" multiple id="fileuploader" accept=".docx, .doc, .pdf, .csv, .png, .jpeg, .jpg, .pptx, .xls, .xlsx"/>
                         </div>
-
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Documents</label>
+                            @if(!$task_attachment->isEmpty())
+                                @foreach ($task_attachment as $ta)
+                                <p class="display:flex;">
+                                    <i class="fas fa-download" aria-hidden="true"></i>&nbsp;<a href="{{url('admin-task-download/'.$ta->id)}}">{{$ta->attachment}}</a> <a href="javascript:void(0);" class="delete-doc remove" data-id="{{url('task-doc-delete/'.$ta->id)}}"><i data-toggle="tooltip" title="Delete" da class="far fa-trash text-danger"></i></a>
+                                </p>
+                                @endforeach
+                            @else
+                                <small class="text-muted"><br><i>--No uploaded files--</i></small>
+                            @endif
+                        </div>
                     </div>
                 </div>
+
                 <button type="submit" class="mt-5 btn btn-primary">Save Changes</button>
                 </form>
             </div>
@@ -140,5 +156,26 @@
 $('#fileuploader').fileuploader({
         addMore: true
     });
+
+$(".delete-doc").click('.remove',function(){
+    var dataId = $(this).attr("data-id");
+    var del = this;
+    if(confirm("Do you want to delete this attachment?")){
+        $.ajax({
+        url: dataId,
+        type:'DELETE',
+        data:{
+            _token : $("input[name=_token]").val()
+        },
+        success:function(response){
+            $(del).closest( "p" ).remove();
+            alert(response.message);
+        }
+        });
+    }
+
+});
+
+
 </script>
 @endpush

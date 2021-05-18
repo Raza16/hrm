@@ -30,7 +30,7 @@
                     @if ($viewTaskProgress->title)
                         {{$viewTaskProgress->title}}
                     @endif
-                    <a href="javascript:void(0);" onclick="editTask({{$viewTaskProgress->id}})"><i data-toggle="tooltip" data-placement="top" title="Edit" style="font-size: 15px;" class="fad fa-pencil-alt"></i></a>
+                    <a href="{{url('task-tracker/'.$viewTaskProgress->id.'/edit')}}" target="_blank"><i data-toggle="tooltip" data-placement="top" title="Edit" style="font-size: 15px;" class="fad fa-pencil-alt"></i></a>
                 </h5>
                 <p><span class="text-muted">Assign To:</span> {{$viewTaskProgress->first_name.' '.$viewTaskProgress->middle_name.' '.$viewTaskProgress->last_name}}</p>
                 <p><span class="text-muted">Task No:</span> {{$viewTaskProgress->task_no}}</p>
@@ -47,7 +47,9 @@
                 </p>
                 <br>
                 <p style="margin:0;"><span class="text-muted">Status:</span>
-                    @if ($viewTaskProgress->status == 'in progress')
+                    @if ($viewTaskProgress->status == 'pending')
+                        <span class="badge badge-danger">{{$viewTaskProgress->status}}</span>
+                    @elseif ($viewTaskProgress->status == 'in progress')
                         <span class="badge badge-warning">{{$viewTaskProgress->status}}</span>
                     @elseif ($viewTaskProgress->status == 'ongoing')
                         <span class="badge badge-primary">{{$viewTaskProgress->status}}</span>
@@ -65,6 +67,7 @@
                         </div>
                     </span>
                 </div>
+
                 <hr style="border-top: 1px dashed #bbb8b8;">
 
                 @foreach ($viewWorkDetail as $vtp)

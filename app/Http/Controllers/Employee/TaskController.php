@@ -19,8 +19,7 @@ class TaskController extends Controller
     {
         $employee_id = Auth::user()->employee_id;
 
-        $tasks = Task::where(['employee_id' => $employee_id])
-        ->get();
+        $tasks = Task::where(['employee_id' => $employee_id])->get();
 
         $modules = DB::table('task_modules')->select('module')->get();
 

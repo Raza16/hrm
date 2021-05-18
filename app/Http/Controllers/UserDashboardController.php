@@ -93,7 +93,6 @@ class UserDashboardController extends Controller
             ->first();
 
             if($timeTrackerId){
-
                 $sum_total_hours = TimeBreaker::where([
                     'time_tracker_id' => $timeTrackerId->id,
                     'employee_id' => Auth::user()->employee->id,

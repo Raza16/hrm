@@ -107,7 +107,6 @@
                             @enderror
                         </div>
 
-
                         <div class="form-group">
                             <label>Note</label>
                             <textarea name="note" class="summernote">{{old('note')}}</textarea>

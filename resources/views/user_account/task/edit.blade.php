@@ -7,8 +7,8 @@
 {{-- <link rel="stylesheet" href="node_modules/@pnotify/bootstrap4/dist/PNotifyBootstrap4.css" /> --}}
 {{-- <link rel="stylesheet" href="{{asset('assets/plugins/sticky_notification/sticky.css')}}"/> --}}
 {{-- <link href="dist/sticky.css" rel="stylesheet" type="text/css" /> --}}
-
 @stop
+
 @section('content')
 @include('layouts.alert_message')
 <div class="row clearfix">
@@ -19,7 +19,7 @@
                 <ul class="header-dropdown">
                     <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="{{url('employee-task')}}">All Task</a></li>
+                            <li><a href="{{url('task')}}">All Task</a></li>
                         </ul>
                     </li>
                     <li class="remove">
@@ -28,7 +28,6 @@
                 </ul>
             </div>
             <div class="body">
-
                  <!-- Nav tabs -->
                  <ul class="nav nav-tabs p-0 mb-3">
                      <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#add-task-update">Add Task Update</a></li>
@@ -169,7 +168,7 @@
                                 <label><b>Documents</b></label>
                                 @if(!$task_attachment->isEmpty())
                                     @foreach ($task_attachment as $ta)
-                                    <p><i class="fas fa-download" aria-hidden="true"></i>&nbsp;<a href="{{url('employee-task-download/'.$ta->id)}}">{{$ta->attachment}}</a></p>
+                                    <p><i class="fas fa-download" aria-hidden="true"></i>&nbsp;<a href="{{url('task-download/'.$ta->id)}}">{{$ta->attachment}}</a></p>
                                     @endforeach
                                 @else
                                     <small class="text-muted"><br><i>--No uploaded files--</i></small>
@@ -205,18 +204,13 @@
                         </div>
                         </div>
 
-                        @if (Auth::user()->role_id == 3)
-                        <form action="{{url('manager-task-progress/'.$task->id)}}" method="post">
-                        @endif
-                        <form action="{{url('employee-task-progress/'.$task->id)}}" method="post">
+                        <form action="{{url('task-progress/'.$task->id)}}" method="post">
                             @csrf
                         <div class="row clearfix">
                             <div class="col-md-6 mt-3">
                                 <h6>Add hourly Task Progress</h6>
                                 <hr>
-                                {{-- ------------------------------ --}}
 
-                                {{-- ------------------------------------------- --}}
                                 <div class="form-group">
                                     <label>Date</label>
                                     <input type="date" name="date" class="form-control form-control-sm" value="{{date('Y-m-d')}}">
@@ -271,18 +265,10 @@
 <script src="{{asset('assets/js/pages/forms/advanced-form-elements.js')}}"></script>
 <script src="{{asset('assets/plugins/summernote/dist/summernote.js')}}"></script>
 <script src="{{asset('assets/js/notify.js')}}"></script>
-{{-- <script src="{{asset('assets/plugins/bootstrap-notify/bootstrap-notify.js')}}"></script> --}}
-{{-- <script src="{{asset('assets/plugins/bootstrap-notify/bootstrap-notify.js')}}"></script> --}}
-{{-- <script src="{{asset('assets/js/pages/ui/notifications.js')}}"></script> --}}
-{{-- <script src="{{asset('assets/plugins/sticky_notification/sticky.js')}}"></script> --}}
-{{-- <script src="https://cdn.jsdelivr.net/npm/@pnotify/core@5.2.0/dist/PNotify.min.js"></script> --}}
 @stop
 
 @push('after-scripts')
-
-@if (Auth::user()->role_id == 2)
 <script>
-
     $( "#progress" ).change(function() {
 
         let _token = $('input[name=_token]').val();
@@ -290,7 +276,7 @@
         var progress = $("#progress").val();
 
         $.ajax({
-            url: "{{url('employee-task-progress')}}"+"/"+id,
+            url: "{{url('task-progress')}}"+"/"+id,
             type: "PUT",
             data: {
                 _token:_token,
@@ -302,7 +288,7 @@
                 if(progress == 100){
 
                     $.ajax({
-                        url: "{{url('employee-task')}}"+"/"+id,
+                        url: "{{url('task')}}"+"/"+id,
                         type: "PUT",
                         data : {
                             _token:_token,
@@ -326,7 +312,7 @@
 
                 }else{
                     $.ajax({
-                        url: "{{url('employee-task')}}"+"/"+id,
+                        url: "{{url('task')}}"+"/"+id,
                         type: "PUT",
                         data : {
                             _token:_token,
@@ -348,88 +334,9 @@
                         }
                     });
                 }
-                // alert('Progress updated!')
-                // $.notify("Access granted", "success");
             },
         });
     });
 
 </script>
-
-@elseif (Auth::user()->role_id == 3)
-<script>
-$( "#progress" ).change(function() {
-
-    let _token = $('input[name=_token]').val();
-    var id = $("#id").val();
-    var progress = $("#progress").val();
-
-    $.ajax({
-        url: "{{url('manager-task-progress')}}"+"/"+id,
-        type: "PUT",
-        data: {
-            _token:_token,
-            progress:progress
-        },
-        success: function(data){
-            $('#progress-count').html(progress);
-            $('.progress-bar').css({"width":progress+'%'});
-            if(progress == 100){
-
-                $.ajax({
-                    url: "{{url('manager-task')}}"+"/"+id,
-                    type: "PUT",
-                    data : {
-                        _token:_token,
-                        id:id,
-                        status:'completed'
-                    },
-                    success: function(response, textStatus, jqXHR) {
-                        $('#header-status').html('completed');
-                        $('.hide-badge').hide();
-                        $('#task-status').html('<p class="badge badge-success">completed</p>');
-                        $.notify(
-                            "Task 100(%) mark as completed", "success"
-                        );
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                        console.log(textStatus);
-                        console.log(errorThrown);
-                    }
-                });
-
-            }else{
-                $.ajax({
-                    url: "{{url('manager-task')}}"+"/"+id,
-                    type: "PUT",
-                    data : {
-                        _token:_token,
-                        id:id,
-                        status:'in progress'
-                    },
-                    success: function(response, textStatus, jqXHR) {
-                        $('#header-status').html('in progress');
-                        $('.hide-badge').hide();
-                        $('#task-status').html('<p class="badge badge-warning">in progress</p>');
-                        $.notify(
-                            "Task "+progress+"(%) in progress", "warning"
-                        );
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                        console.log(textStatus);
-                        console.log(errorThrown);
-                    }
-                });
-            }
-            // alert('Progress updated!')
-            // $.notify("Access granted", "success");
-        },
-    });
-});
-
-</script>
-@endif
-
 @endpush

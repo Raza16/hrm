@@ -161,10 +161,10 @@
             @endcan
 
             @can('task')
-                <li class="{{request()->is('employee-task') ? 'active' : null}}">
+                <li class="{{request()->is('task') ? 'active' : null}}">
                     <a href="javascript:void(0)" class="menu-toggle"><i class="fas fa-tasks"></i> <span>My Tasks</span></a>
                     <ul class="ml-menu">
-                        <li class="{{request()->is('employee-task') ? 'active' : null}}"><a href="{{url('employee-task')}}">All Task</a></li>
+                        <li class="{{request()->is('task') ? 'active' : null}}"><a href="{{url('task')}}">All Task</a></li>
                     </ul>
                 </li>
             @endcan
