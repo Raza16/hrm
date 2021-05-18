@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use DB;
+use Gate;
 
 class ProjectController extends Controller
 {

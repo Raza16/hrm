@@ -25,33 +25,35 @@
             </div>
             <div class="body">
                 <div class="table-responsive">
-                    <table class="admin-datatable table table-hover" style="width: 100%;">
+                    <table id="refresh-data" class="admin-datatable table table-hover" style="width: 100%;">
                         <thead class="thead-light">
                             <tr>
                                 <th>Options</th>
-                                <th>Day</th>
+                                {{-- <th>Day</th> --}}
                                 <th>Employee</th>
                                 <th>Date</th>
-                                <th>Check In</th>
-                                <th>Check Out</th>
-                                <th>Total Hours</th>
-                                <th>Break Hours</th>
-                                <th>Working Hours</th>
-                                <th>Task Time Status</th>
+                                <th>Time</th>
+                                {{-- <th>Check In</th>
+                                <th>Check Out</th> --}}
+                                <th>Hours</th>
+                                {{-- <th>Break Hours</th> --}}
+                                {{-- <th>Working Hours</th> --}}
+                                {{-- <th>Task Time Status</th> --}}
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>Options</th>
-                                <th>Day</th>
+                                {{-- <th>Day</th> --}}
                                 <th>Employee</th>
                                 <th>Date</th>
-                                <th>Check In</th>
-                                <th>Check Out</th>
-                                <th>Total Hours</th>
-                                <th>Break Hours</th>
-                                <th>Working Hours</th>
-                                <th>Task Time Status</th>
+                                <th>Time</th>
+                                {{-- <th>Check In</th>
+                                <th>Check Out</th> --}}
+                                <th>Hours</th>
+                                {{-- <th>Break Hours</th> --}}
+                                {{-- <th>Working Hours</th> --}}
+                                {{-- <th>Task Time Status</th> --}}
                             </tr>
                         </tfoot>
                         <tbody>
@@ -75,28 +77,31 @@
                                         </li>
                                     </ul>
                                 </td>
-                                <td>{{date('l j, F', strtotime($time_tracker->date))}}</td>
+                                {{-- <td>{{date('l', strtotime($time_tracker->date))}}</td> --}}
                                 <td>{{$time_tracker->employee->first_name.' '.$time_tracker->employee->middle_name.' '.$time_tracker->employee->last_name}}</td>
-                                <td>{{$time_tracker->date ? date('j F, Y', strtotime($time_tracker->date)):null}}</td>
-                                <td>{{$time_tracker->checkin ? date('j F, Y | g:i a', strtotime($time_tracker->checkin)):null}}</td>
-                                <td>{{$time_tracker->checkout ? date('j F, Y | g:i a', strtotime($time_tracker->checkout)) : null}}</td>
-                                <td>{{$time_tracker->total_hours}}</td>
-                                <td>{{$time_tracker->break_hours}}</td>
-                                <td>{{$time_tracker->working_hours}}</td>
-                                <td></td>
-                                {{-- <td>
-                                    <div style="display: flex;">
-                                        <a href="javascript:void(0)" onclick="editModule({{$time_tracker->id}})" class="btn btn-sm btn-neutral" data-toggle="tooltip" data-placement="top" title="Edit Check In"><i class="far fa-edit"></i></a>
-
-                                        <a href="javascript:void(0)" onclick="viewBreakTimeModule({{$time_tracker->id}})" class="btn btn-sm btn-neutral" data-toggle="tooltip" data-placement="top" title="View Break Time"><i class="far fa-eye"></i></a>
-
-                                        <form action="{{url('time-tracker/'.$time_tracker->id)}}" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-neutral" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></button>
-                                        </form>
-                                    </div>
-                                </td> --}}
+                                <td>{{$time_tracker->date ? date('l j F, Y', strtotime($time_tracker->date)):null}}</td>
+                                <td>
+                                    <p style="margin:0;"><span class="text-primary">Check-In:</span><br>
+                                        {{$time_tracker->checkin ? date('j F, Y | g:i a', strtotime($time_tracker->checkin)):null}}
+                                    </p>
+                                    <hr style="margin:0;border-top: 1px dashed #bbb8b8;">
+                                    <p style="margin:0;"><span class="text-danger">Check-Out:</span><br>
+                                        {{$time_tracker->checkout ? date('j F, Y | g:i a', strtotime($time_tracker->checkout)) : '-- Nil --'}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p style="margin:0;"><span class="text-primary">Total Hours:</span><br>
+                                        {{$time_tracker->total_hours ?? '-- Nil --'}}
+                                    </p>
+                                    <hr style="margin:0;border-top: 1px dashed #bbb8b8;">
+                                    <p style="margin:0;"><span class="text-danger">Break Hours:</span><br>
+                                        {{$time_tracker->break_hours ?? '-- Nil --'}}
+                                    </p>
+                                    <hr style="margin:0;border-top: 1px dashed #bbb8b8;">
+                                    <p style="margin:0;"><span class="text-success">Working Hours:</span><br>
+                                        {{$time_tracker->working_hours ?? '-- Nil --'}}
+                                    </p>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -205,7 +210,6 @@ function editModule(id){
         $('#checkout').val(timeTracker.checkout);
         $('#checkinModal').modal('toggle');
     });
-
 }
 
 $('#Edit-Checkin').submit(function(e){
@@ -226,7 +230,10 @@ $('#Edit-Checkin').submit(function(e){
         },
         success:function(response){
             $('#checkinModal').modal('toggle');
-            alert('Record has been updated!');
+            alert('Time updated!');
+            $('#refresh-data').fadeOut(300, function(){
+                $("#refresh-data").fadeIn().load(location.href + " #refresh-data");
+            });
         }
     });
 });

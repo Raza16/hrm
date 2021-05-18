@@ -27,6 +27,9 @@ class RedirectIfAuthenticated
                 if (!Auth::check()) {
                     return redirect('/login');
                 }
+                else{
+                    return redirect()->back();
+                }
 
                 if (Auth::user()->role_id == 1) {
                     return redirect('/admin/dashboard');
@@ -41,11 +44,16 @@ class RedirectIfAuthenticated
 
                     return redirect('/manager/dashboard');
                 }
+
+                if (Auth::user()->role_id == 4) {
+
+                    return redirect('/hr/dashboard');
+                }
             }
 
-            if ($guard == "client_login" && Auth::guard($guard)->check()) {
-                return redirect('/ClientDashboard');
-            }
+            // if ($guard == "client_login" && Auth::guard($guard)->check()) {
+            //     return redirect('/ClientDashboard');
+            // }
 
         }
 

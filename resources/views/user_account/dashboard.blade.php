@@ -13,7 +13,7 @@
     <div class="col-lg-4 col-md-12">
         <div class="card mcard_3">
             <div class="body">
-                <img src="{{$employee->profile_image ? asset('storage/profile-images/'.Auth::user()->employee->profile_image) : asset('img/no_image.png') }}" class="rounded-circle shadow" alt="profile-image" width="200" height="200">
+                <img src="{{$employee->profile_image ? asset('storage/profile_images/'.Auth::user()->employee->profile_image) : asset('img/no_image.png') }}" class="rounded-circle shadow" alt="profile-image" width="200" height="200">
                 <h4 class="m-t-10"></h4>
                 <div class="row">
                     <div class="col-12">

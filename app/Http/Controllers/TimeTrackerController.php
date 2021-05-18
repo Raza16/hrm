@@ -67,7 +67,7 @@ class TimeTrackerController extends Controller
             return response()->json($time_tracker);
         }
 
-            return response()->json($time_tracker);
+        return response()->json($time_tracker);
     }
 
     public function destory($id)
@@ -88,20 +88,10 @@ class TimeTrackerController extends Controller
     {
         foreach($request->breakin as $key => $value)
         {
-            // TimeBreaker::updateOrCreate([
-            //     'id' => $request->id[$key],
-            // ],
-            // [
-            //     'breakin' => $request->breakin[$key],
-            //     'breakout' => $request->breakout[$key],
-            // ]);
-                TimeBreaker::where('time_tracker_id', $id)->update([
-
-                'breakin' => $request->breakin[$key],
-                'breakout' => $request->breakout[$key],
-
+            TimeBreaker::where('time_tracker_id', $id)->update([
+            'breakin' => $request->breakin[$key],
+            'breakout' => $request->breakout[$key],
             ]);
-
         }
 
          return response()->json('Record has been updated!');

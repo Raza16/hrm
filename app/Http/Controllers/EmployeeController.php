@@ -66,7 +66,7 @@ class EmployeeController extends Controller
             'designation_id' => 'required',
             'employee_id' => 'required',
             'job_status' => 'required',
-            'salary' => 'numeric',
+            'salary' => 'nullable|numeric',
             // 'file.*' => 'mimes:jpeg, png, jpg, pdf, docx, doc'
         ],
         [
@@ -117,7 +117,7 @@ class EmployeeController extends Controller
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
             $name = time().'_'.$image->getClientOriginalName();
-            $destinationPath = public_path('/storage/profile-images');
+            $destinationPath = public_path('/storage/profile_images');
             $imagePath = $destinationPath. "/".  $name;
             $image->move($destinationPath, $name);
             $employee->profile_image = $name;
@@ -189,7 +189,7 @@ class EmployeeController extends Controller
             'designation_id' => 'required',
             'employee_id' => 'required',
             'job_status' => 'required',
-            'salary' => 'numeric',
+            'salary' => 'nullable|numeric',
             // 'file.*' => 'mimes:jpeg, png, jpg, pdf, docx, doc'
         ],
         [
@@ -239,7 +239,7 @@ class EmployeeController extends Controller
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
             $name = time().'_'.$image->getClientOriginalName();
-            $destinationPath = public_path('/storage/profile-images');
+            $destinationPath = public_path('/storage/profile_images');
             $imagePath = $destinationPath. "/".  $name;
             $image->move($destinationPath, $name);
             $old_image = $employee->profile_image;

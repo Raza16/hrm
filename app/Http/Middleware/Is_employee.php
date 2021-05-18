@@ -17,16 +17,16 @@ class Is_employee
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) {
-            return redirect('/login');
-        }
+        // if (!Auth::check()) {
+        //     return redirect('/login');
+        // }
 
-        if (Auth::user()->role_id == 2) {
-            return $next($request);
-        }
-        else{
-            return redirect()->back();
-        }
+        // if (Auth::user()->role_id == 2) {
+        //     return $next($request);
+        // }
+        // else{
+        //     return redirect()->back();
+        // }
 
     }
 }

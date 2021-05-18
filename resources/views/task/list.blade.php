@@ -1,20 +1,11 @@
 @extends('layouts.master')
-@section('title', 'Tasks')
+@section('title', 'Task Tracker')
 @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css')}}"/>
 <link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.24/features/searchHighlight/dataTables.searchHighlight.css"/>
 @stop
 
-{{-- @section('after-styles')
-<style>
-    .hide-option:hover{
-        display: block;
-    }
-</style>
-@endsection --}}
-
 @section('content')
-
 @include('layouts.alert_message')
 
 <div class="row clearfix">
@@ -25,7 +16,7 @@
                 <ul class="header-dropdown">
                     <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="{{url('task/create')}}">Add Task</a></li>
+                            <li><a href="{{url('task-tracker/create')}}">Add Task</a></li>
                         </ul>
                     </li>
                     <li class="remove">
@@ -66,11 +57,11 @@
                                                 {{-- <li><a href="javascript:void(0);" onclick="viewDetails({{$task->id}})">View</a></li> --}}
                                                 <li><a href="javascript:void(0);" onclick="viewProgress({{$task->id}})">View Progress</a></li>
                                                 {{-- {{url('view-task-progress/'.$task->id)}} --}}
-                                                <li><a href="{{url('task/'.$task->id.'/edit')}}">Edit</a></li>
+                                                <li><a href="{{url('task-tracker/'.$task->id.'/edit')}}">Edit</a></li>
                                                 <li>
-                                                    <a href="{{url('task/'.$task->id)}}" onclick="event.preventDefault();
+                                                    <a href="{{url('task-tracker/'.$task->id)}}" onclick="event.preventDefault();
                                                         document.getElementById('delete').submit();">Delete</a>
-                                                    <form id="delete" action="{{url('task/'.$task->id)}}" method="post">
+                                                    <form id="delete" action="{{url('task-tracker/'.$task->id)}}" method="post">
                                                         @method('delete')
                                                         @csrf
                                                     </form>
@@ -200,24 +191,6 @@
 @stop
 
 @push('after-scripts')
-
-{{-- Role_id 3 is Manager Role --}}
-@if (Auth::user()->role_id == 3)
-<script>
-function viewProgress(id){
-    $.get('/manager-check-view-progress/'+id, function(checkViewProgress){
-        if(checkViewProgress.title)
-        {
-            window.location.href = "{{url('/manager-view-task-progress')}}"+"/"+id;
-        }
-        else{
-            alert('No task progress submit yet');
-        }
-    });
-}
-
-</script>
-@endif
 
 <script>
 function viewDetails(id){

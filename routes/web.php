@@ -13,47 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route::get('/reg', function () {
 //     return view('welcome');
 // });
 
-//----------------------- Admin Routes---------------------------------------------------
-Route::middleware(['admin', 'logout'])->group(function() {
-
-    Route::get('admin/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard']);
+Route::middleware(['logout', 'role:Admin,HR'])->group(function() {
 
     Route::resource('employee', App\Http\Controllers\EmployeeController::class);
 
-    Route::resource('client', App\Http\Controllers\ClientController::class);
-
-    Route::resource('client-invoice', App\Http\Controllers\ClientInvoiceController::class);
-
-    Route::get('client-invoice/create/{id}', [App\Http\Controllers\ClientInvoiceController::class, 'createInvoice']);
-
-    Route::resource('project', App\Http\Controllers\ProjectController::class);
-
-    Route::resource('task', App\Http\Controllers\TaskController::class);
-
-    Route::get('task-report', [App\Http\Controllers\TaskController::class, 'taskReport']);
-
-    Route::get('view-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'viewTaskProgress']);
-    Route::get('check-view-progress/{id}', [App\Http\Controllers\TaskController::class, 'checkViewProgress']);
-    Route::get('/edit-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'taskProgressEdit']);
-    Route::put('/update-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'taskProgressUpdate']);
-    Route::get('/edit-task/{id}', [App\Http\Controllers\TaskController::class, 'taskEdit']);
-
-    Route::get('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
-    Route::post('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
-    Route::get('task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleEdit']);
-    Route::put('task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleUpdate']);
-    Route::delete('task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleDestory']);
-
     Route::resource('role', App\Http\Controllers\RoleController::class);
-
-    Route::resource('user', App\Http\Controllers\UserController::class);
 
     Route::resource('leave-list', App\Http\Controllers\LeaveController::class);
 
@@ -75,64 +45,64 @@ Route::middleware(['admin', 'logout'])->group(function() {
 
     Route::resource('department', App\Http\Controllers\DepartmentController::class);
 
+    Route::resource('user', App\Http\Controllers\UserController::class);
+
 });
 
-//----------------------- Manager Routes-----------------------------------------------
-Route::group(['middleware' => ['manager', 'logout']], function() {
+Route::middleware(['logout', 'role:Admin,Manager'])->group(function() {
 
-    Route::get('/manager/dashboard', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'dashboard']);
+    Route::resource('client', App\Http\Controllers\ClientController::class);
+    Route::resource('client-invoice', App\Http\Controllers\ClientInvoiceController::class);
+    Route::get('client-invoice/create/{id}', [App\Http\Controllers\ClientInvoiceController::class, 'createInvoice']);
 
-    Route::resource('/manager/project', App\Http\Controllers\ProjectController::class);
+    Route::resource('project', App\Http\Controllers\ProjectController::class);
 
-    Route::resource('manager/task', App\Http\Controllers\TaskController::class);
+    Route::resource('task-tracker', App\Http\Controllers\TaskController::class);
+    Route::get('task-report', [App\Http\Controllers\TaskController::class, 'taskReport']);
+    Route::get('view-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'viewTaskProgress']);
+    Route::get('check-view-progress/{id}', [App\Http\Controllers\TaskController::class, 'checkViewProgress']);
+    Route::get('/edit-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'taskProgressEdit']);
+    Route::put('/update-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'taskProgressUpdate']);
+    Route::get('/edit-task/{id}', [App\Http\Controllers\TaskController::class, 'taskEdit']);
+    Route::get('/admin-task-download/{id}', [App\Http\Controllers\TaskController::class, 'getDownload']);
+    // Route::get('/task-download/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
+    Route::delete('/task-doc-delete/{id}', [App\Http\Controllers\TaskController::class, 'deleteDownload']);
 
-    Route::get('manager/task-report', [App\Http\Controllers\TaskController::class, 'taskReport']);
+    Route::get('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
+    Route::post('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
+    Route::get('task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleEdit']);
+    Route::put('task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleUpdate']);
+    Route::delete('task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleDestory']);
 
-    Route::get('manager/task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
-    Route::post('manager/task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
-    Route::get('manager/task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleEdit']);
-    Route::put('manager/task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleUpdate']);
-    Route::delete('manager/task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleDestory']);
-
-    Route::get('/manager-view-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'viewTaskProgress']);
-    Route::get('/manager-check-view-progress/{id}', [App\Http\Controllers\TaskController::class, 'checkViewProgress']);
-    Route::get('/manager-edit-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'taskProgressEdit']);
-    Route::put('/manager-update-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'taskProgressUpdate']);
-    Route::get('/manager-edit-task/{id}', [App\Http\Controllers\TaskController::class, 'taskEdit']);
-
-    Route::get('/manager-task', [App\Http\Controllers\Employee\TaskController::class, 'index']);
-    Route::get('/manager-task/{id}/edit', [App\Http\Controllers\Employee\TaskController::class, 'edit']);
-    Route::put('/manager-task/{id}', [App\Http\Controllers\Employee\TaskController::class, 'update']);
-    Route::put('/manager-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'progressUpdate']);
-    Route::get('/manager-task-download/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
-    Route::get('/manager-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressEdit']);
-    Route::post('/manager-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressStore']);
-
-    Route::post('/manager/checkin', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'checkInTimeStore']);
-    Route::post('/manager/checkout', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'checkOutTimeUpdate']);
-
-    Route::post('/manager/breakin', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'breakInTimeStore']);
-    Route::post('/manager/breakout', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'breakOutTimeUpdate']);
-
-    Route::get('/manager/timebreaker/{id}', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'viewTime']);
-    Route::put('/manager/timetracker/{id}', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'updateTime']);
 });
 
+Route::middleware(['logout', 'role:Admin'])->group(function() {
+    Route::get('admin/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard']);
+});
 
-//----------------------- User Routes-----------------------------------------------
-Route::group(['middleware' => ['employee', 'logout']], function() {
-
+Route::middleware(['logout', 'role:Employee'])->group(function() {
     Route::get('/emp/dashboard', [App\Http\Controllers\UserDashboardController::class, 'dashboard']);
+});
 
-    Route::get('/employee-task', [App\Http\Controllers\Employee\TaskController::class, 'index']);
-    Route::get('/employee-task/{id}/edit', [App\Http\Controllers\Employee\TaskController::class, 'edit']);
-    Route::put('/employee-task/{id}', [App\Http\Controllers\Employee\TaskController::class, 'update']);
-    Route::put('/employee-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'progressUpdate']);
-    Route::get('/employee-task-download/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
-    Route::get('/employee-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressEdit']);
-    Route::post('/employee-task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressStore']);
+Route::middleware(['logout', 'role:HR'])->group(function() {
+    Route::get('/hr/dashboard', [App\Http\Controllers\UserDashboardController::class, 'dashboard']);
+});
+
+Route::middleware(['logout', 'role:Manager'])->group(function() {
+    Route::get('/manager/dashboard', [App\Http\Controllers\Manager\ManagerDashboardController::class, 'dashboard']);
+});
+
+Route::middleware(['logout', 'role:Manager,Employee,HR'])->group(function() {
 
     Route::resource('leave', App\Http\Controllers\Employee\LeaveController::class);
+
+    Route::get('/task', [App\Http\Controllers\Employee\TaskController::class, 'index']);
+    Route::get('/task/{id}/edit', [App\Http\Controllers\Employee\TaskController::class, 'edit']);
+    Route::put('/task/{id}', [App\Http\Controllers\Employee\TaskController::class, 'update']);
+    Route::get('/task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressEdit']);
+    Route::put('/task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'progressUpdate']);
+    Route::get('/task-download/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
+    Route::post('/task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressStore']);
 
     Route::post('/checkin', [App\Http\Controllers\UserDashboardController::class, 'checkInTimeStore']);
     Route::post('/checkout', [App\Http\Controllers\UserDashboardController::class, 'checkOutTimeUpdate']);
@@ -146,17 +116,19 @@ Route::group(['middleware' => ['employee', 'logout']], function() {
 });
 
 
+
+
 //----------------------- Client Routes-----------------------------------------------
-Route::get('/ClientLogin', [App\Http\Controllers\Auth\LoginController::class, 'showClientLoginForm']);
-Route::post('/ClientLogin', [App\Http\Controllers\Auth\LoginController::class, 'clientLogin']);
-Route::post('/ClientLogout', [App\Http\Controllers\Auth\LoginController::class, 'clientLogout']);
+// Route::get('/ClientLogin', [App\Http\Controllers\Auth\LoginController::class, 'showClientLoginForm']);
+// Route::post('/ClientLogin', [App\Http\Controllers\Auth\LoginController::class, 'clientLogin']);
+// Route::post('/ClientLogout', [App\Http\Controllers\Auth\LoginController::class, 'clientLogout']);
 
-Route::middleware(['client', 'logout'])->group(function() {
+// Route::middleware(['client', 'logout'])->group(function() {
 
-    Route::get('/ClientDashboard', [App\Http\Controllers\Client\DashboardController::class, 'dashboard']);
+//     Route::get('/ClientDashboard', [App\Http\Controllers\Client\DashboardController::class, 'dashboard']);
 
-    Route::get('/client-project',  [App\Http\Controllers\Client\ProjectController::class, 'index']);
-});
+//     Route::get('/client-project',  [App\Http\Controllers\Client\ProjectController::class, 'index']);
+// });
 
 
 
@@ -174,8 +146,9 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-//-------------------------- Artisan commands
 
+
+//-------------------------- Artisan commands
 Route::get('/migrate', function () {
     Artisan::call('migrate', [
        '--force' => true

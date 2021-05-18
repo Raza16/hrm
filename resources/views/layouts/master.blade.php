@@ -71,7 +71,9 @@
                                 @elseif (Auth::user()->role_id == 2)
                                 <a href="{{url('emp/dashboard')}}"><i class="zmdi zmdi-home"></i> Dashboard</a>
                                 @elseif (Auth::user()->role_id == 3)
-                                <a href="{{url('project')}}"><i class="zmdi zmdi-home"></i> Dashboard</a>
+                                <a href="{{url('manager/dashboard')}}"><i class="zmdi zmdi-home"></i> Dashboard</a>
+                                @elseif (Auth::user()->role_id == 4)
+                                <a href="{{url('hr/dashboard')}}"><i class="zmdi zmdi-home"></i> Dashboard</a>
                                 @endif
                             </li>
                             @if (trim($__env->yieldContent('parentPageTitle')))
