@@ -209,6 +209,7 @@ class TaskController extends Controller
             'tasks.deadline_date',
             'tasks.status',
             'tasks.progress',
+            'tasks.note'
         )
         ->where('tasks.id', $id)
         ->first();

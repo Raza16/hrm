@@ -12,7 +12,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="header">
-                <h2>Task Progress</h2>
+                <h2>Task Progress Details</h2>
                 <ul class="header-dropdown">
                     <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                         <ul class="dropdown-menu dropdown-menu-right">
@@ -26,11 +26,13 @@
                 </ul>
             </div>
             <div class="body" id="refresh-data">
+                <div class="row">
+                    <div class="col-md-6">
                 <h5><span class="text-muted">Project: </span>
                     @if ($viewTaskProgress->title)
                         {{$viewTaskProgress->title}}
                     @endif
-                    <a href="{{url('task-tracker/'.$viewTaskProgress->id.'/edit')}}" target="_blank"><i data-toggle="tooltip" data-placement="top" title="Edit" style="font-size: 15px;" class="fad fa-pencil-alt"></i></a>
+                    <a href="{{url('task-tracker/'.$viewTaskProgress->id.'/edit')}}"><i data-toggle="tooltip" data-placement="top" title="Edit" style="font-size: 15px;" class="fad fa-pencil-alt"></i></a>
                 </h5>
                 <p><span class="text-muted">Assign To:</span> {{$viewTaskProgress->first_name.' '.$viewTaskProgress->middle_name.' '.$viewTaskProgress->last_name}}</p>
                 <p><span class="text-muted">Task No:</span> {{$viewTaskProgress->task_no}}</p>
@@ -68,8 +70,16 @@
                     </span>
                 </div>
 
-                <hr style="border-top: 1px dashed #bbb8b8;">
+                </div>
+                <div class="col-md-6">
+                    <p><span class="text-muted">Note:</span></p>
+                    <p>{!! $viewTaskProgress->note !!}</p>
+                </div>
+                </div>
 
+                <hr style="border-top: 1px dashed #bbb8b8;">
+                <div class="row">
+                    <div class="col-md-12">
                 @foreach ($viewWorkDetail as $vtp)
                 <ul class="list-unstyled activity">
                     <li class="a_contact">
@@ -83,6 +93,9 @@
                     </li><br>
                 </ul>
                 @endforeach
+            </div>
+            </div>
+
             </div>
         </div>
     </div>
