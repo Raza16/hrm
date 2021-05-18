@@ -5,16 +5,7 @@
 <link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.24/features/searchHighlight/dataTables.searchHighlight.css"/>
 @stop
 
-{{-- @section('after-styles')
-<style>
-    .hide-option:hover{
-        display: block;
-    }
-</style>
-@endsection --}}
-
 @section('content')
-
 @include('layouts.alert_message')
 
 <div class="row clearfix">
@@ -200,24 +191,6 @@
 @stop
 
 @push('after-scripts')
-
-{{-- Role_id 3 is Manager Role --}}
-@if (Auth::user()->role_id == 3)
-<script>
-function viewProgress(id){
-    $.get('/manager-check-view-progress/'+id, function(checkViewProgress){
-        if(checkViewProgress.title)
-        {
-            window.location.href = "{{url('/manager-view-task-progress')}}"+"/"+id;
-        }
-        else{
-            alert('No task progress submit yet');
-        }
-    });
-}
-
-</script>
-@endif
 
 <script>
 function viewDetails(id){

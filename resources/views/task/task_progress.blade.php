@@ -100,7 +100,7 @@
         </div>
     </div>
 </div>
-{{-- ------------------------------------------------------ --}}
+
  <!-- Task Progress Modal -->
  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">

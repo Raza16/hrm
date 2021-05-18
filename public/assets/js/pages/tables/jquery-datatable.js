@@ -5,9 +5,7 @@ $(function () {
         // 'scrollX': true,
         "autoWidth": true,
         searchHighlight: true,
-        // columnDefs: [
-        //     { width: 200, targets: 0 }
-        // ],
+
         buttons: [
             {
                 extend: 'csv',
@@ -29,7 +27,6 @@ $(function () {
             },
             {
                 extend: 'colvis',
-                // collectionLayout: 'fixed two-column'
             },
 
         ],
