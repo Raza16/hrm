@@ -124,11 +124,11 @@
                             <input type="hidden" id="id" name="id"/>
                             <div class="form-group">
                                 <label><b>Check In Time</b></label>
-                                <input type="text" class="form-control form-control-sm" id="checkin" name="checkin">
+                                <input type="datetime" class="form-control form-control-sm" id="checkin" name="checkin">
                             </div>
                             <div class="form-group">
                                 <label><b>Check Out Time</b></label>
-                                <input type="text" class="form-control form-control-sm" id="checkout" name="checkout">
+                                <input type="datetime" class="form-control form-control-sm" id="checkout" name="checkout">
                             </div>
                         </div>
                         <div class="modal-footer">
