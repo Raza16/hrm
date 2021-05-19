@@ -68,6 +68,8 @@ Route::middleware(['logout', 'role:Admin,Manager'])->group(function() {
     // Route::get('/task-download/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
     Route::delete('/task-doc-delete/{id}', [App\Http\Controllers\TaskController::class, 'deleteDownload']);
 
+    Route::get('task-export', [App\Http\Controllers\TaskController::class, 'taskExport']);
+
     Route::get('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleForm']);
     Route::post('task-module', [App\Http\Controllers\TaskController::class, 'taskModuleStore']);
     Route::get('task-module/{id}', [App\Http\Controllers\TaskController::class, 'taskModuleEdit']);

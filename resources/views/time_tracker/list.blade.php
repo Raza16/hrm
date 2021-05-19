@@ -230,10 +230,13 @@ $('#Edit-Checkin').submit(function(e){
         },
         success:function(response){
             $('#checkinModal').modal('toggle');
-            alert('Time updated!');
-            $('#refresh-data').fadeOut(300, function(){
-                $("#refresh-data").fadeIn().load(location.href + " #refresh-data");
-            });
+            if(alert('Time updated!')){
+                window.reload();
+            }
+
+            // $('#refresh-data').fadeOut(300, function(){
+            //     $("#refresh-data").fadeIn().load(location.href + " #refresh-data");
+            // });
         }
     });
 });

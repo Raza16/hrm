@@ -150,6 +150,16 @@
                 </li>
             @endcan
 
+            @can('reports')
+            <li class="{{ request()->is('reports') ? 'active open' : null }}">
+                <a href="javascript:void(0)" class="menu-toggle"><i class="fas fa-user"></i> <span>Reports</span></a>
+                <ul class="ml-menu">
+                    <li class="{{ request()->is('user') ? 'active' : null }}"><a href="{{url('report')}}">All Reports</a></li>
+                    {{-- <li class="{{ request()->is('user/create') ? 'active' : null }}"><a href="{{url('user/create')}}">Add User</a></li> --}}
+                </ul>
+            </li>
+            @endcan
+
             @can('leave')
                 <li class="{{request()->is('leave') || request()->is('leave/create') ? 'active' : null}}">
                     <a href="javascript:void(0)" class="menu-toggle"><i class="fas fa-file-alt"></i> <span>My Leaves</span></a>
