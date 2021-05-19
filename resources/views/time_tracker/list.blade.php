@@ -121,6 +121,7 @@
                         <form id="Edit-Checkin">
                         <div class="modal-body">
                             @csrf
+                            @method('put')
                             <input type="hidden" id="id" name="id"/>
                             <div class="form-group">
                                 <label><b>Check In Time</b></label>
