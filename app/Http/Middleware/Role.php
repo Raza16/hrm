@@ -26,9 +26,9 @@ class Role
             if(auth()->user()->hasRole($role)){
                 return $next($request);
             }
-            else{
-                return redirect()->back();
-            }
         }
+
+        return redirect()->back();
+
     }
 }
