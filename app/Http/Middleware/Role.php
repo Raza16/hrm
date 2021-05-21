@@ -23,10 +23,12 @@ class Role
         }
 
         foreach($roles as $role) {
-            if(auth()->user()->hasRole($role))
+            if(auth()->user()->hasRole($role)){
                 return $next($request);
+            }
         }
 
         return redirect()->back();
+
     }
 }
