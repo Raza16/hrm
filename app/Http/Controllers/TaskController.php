@@ -11,6 +11,8 @@ use App\Models\TaskAttachment;
 use Carbon\Carbon;
 use DB;
 use Gate;
+use App\Exports\TaskProgressExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Employee\TaskController as EmpTaskController;
 
 class TaskController extends Controller
@@ -389,6 +391,11 @@ class TaskController extends Controller
         return response()->json([
             'message' => 'Record deleted successfully!',
         ]);
+    }
+
+    public function taskExport()
+    {
+        return Excel::download(new TaskProgressExport, 'Project_Progress.xlsx');
     }
 
 }

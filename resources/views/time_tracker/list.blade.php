@@ -121,14 +121,15 @@
                         <form id="Edit-Checkin">
                         <div class="modal-body">
                             @csrf
+                            @method('put')
                             <input type="hidden" id="id" name="id"/>
                             <div class="form-group">
                                 <label><b>Check In Time</b></label>
-                                <input type="text" class="form-control form-control-sm" id="checkin" name="checkin">
+                                <input type="datetime" class="form-control form-control-sm" id="checkin" name="checkin">
                             </div>
                             <div class="form-group">
                                 <label><b>Check Out Time</b></label>
-                                <input type="text" class="form-control form-control-sm" id="checkout" name="checkout">
+                                <input type="datetime" class="form-control form-control-sm" id="checkout" name="checkout">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -230,10 +231,13 @@ $('#Edit-Checkin').submit(function(e){
         },
         success:function(response){
             $('#checkinModal').modal('toggle');
-            alert('Time updated!');
-            $('#refresh-data').fadeOut(300, function(){
-                $("#refresh-data").fadeIn().load(location.href + " #refresh-data");
-            });
+            if(alert('Time updated!')){
+                window.reload();
+            }
+
+            // $('#refresh-data').fadeOut(300, function(){
+            //     $("#refresh-data").fadeIn().load(location.href + " #refresh-data");
+            // });
         }
     });
 });
