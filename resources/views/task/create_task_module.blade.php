@@ -63,19 +63,34 @@
                     <table class="admin-datatable table table-hover">
                         <thead class="thead-light">
                             <tr>
-                                <th>Modules</th>
                                 <th>Options</th>
+                                <th>Modules</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Modules</th>
                                 <th>Options</th>
+                                <th>Modules</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($taskModules as $taskModule)
                             <tr id="mid{{$taskModule->id}}" class="tableReload">
+                                <td>
+                                    <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="{{url('project/'.$project->id.'/edit')}}">Edit</a></li>
+                                            <li>
+                                                <a href="{{url('project/'.$project->id)}}" onclick="event.preventDefault();
+                                                    document.getElementById('delete').submit();">Delete</a>
+                                                <form id="delete" action="{{url('project/'.$project->id)}}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </x-slot>
+                                    </x-options-buttons>
+                                </td>
                                 <td class="taskmodule">{{$taskModule->module}}</td>
                                 <td>
                                     <div style="display: flex;">

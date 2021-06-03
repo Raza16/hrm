@@ -112,10 +112,7 @@ class PayslipController extends Controller
     {
         $payslip = Payslip::find($id)->delete();
 
-        return response()->json([
-            'message' => 'Record has been deleted!',
-        ]);
-        // return redirect('payslip')->with('delete', 'Record has been deleted');
+        return redirect('payslip')->with('delete', 'Record has been deleted');
     }
 
 

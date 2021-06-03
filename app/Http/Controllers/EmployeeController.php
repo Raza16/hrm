@@ -56,8 +56,8 @@ class EmployeeController extends Controller
     {
         $this->validate($request, [
             'employee_no' => 'required|unique:employees',
-            'first_name' => 'required|alpha',
-            'last_name' => 'required|alpha',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'gender' => 'required',
             'cnic' => 'unique:employees',
             'mobile_no' => 'required|unique:employees',
@@ -71,8 +71,8 @@ class EmployeeController extends Controller
         ],
         [
             'profile_image.mimes'=> 'Image must be in jpeg, png, jpg',
-            'designation_id.required' => 'Designation must be required',
-            'employee_id.required' => 'Supervisor must be required'
+            'designation_id.required' => 'Designation is required',
+            'employee_id.required' => 'Supervisor is required'
             // 'file.mimes' => 'File must be jpeg, png, jpg, pdf, docx, doc'
         ]
         );
@@ -162,12 +162,12 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::find($id);
-        $employeeDocuments = Employee::find($id)->documents;
+        $employeeDocs = Employee::find($id)->documents;
 
         $emps = Employee::select('id', 'first_name', 'middle_name', 'last_name')->get();
         $designations = Designation::select('id', 'title')->get();
 
-        return view('employee.edit', compact('employee', 'employeeDocuments', 'emps', 'designations'));
+        return view('employee.edit', compact('employee', 'employeeDocs', 'emps', 'designations'));
     }
 
     /**
@@ -180,8 +180,8 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'first_name' => 'required|alpha',
-            'last_name' => 'required|alpha',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'gender' => 'required',
             'mobile_no' => "required|unique:employees,mobile_no,$id",
             'email' => "required|unique:employees,email,$id",
@@ -194,9 +194,8 @@ class EmployeeController extends Controller
         ],
         [
             'profile_image.mimes'=> 'Image must be in jpeg, png, jpg',
-            'designation_id.required' => 'Designation field is required',
-            'employee_id.required' => 'Supervisor field is required'
-
+            'designation_id.required' => 'Designation is required',
+            'employee_id.required' => 'Supervisor is required'
         ]);
 
 
@@ -293,13 +292,32 @@ class EmployeeController extends Controller
 
     public function deleteDocs($id)
     {
-        $employeeDoc = EmployeeDocuments::find($id);
-        $employeeDoc->delete();
+        DB::table('employee_documents')->where('id', $id)->delete();
 
-        Storage::disk('employee-documents')->delete($employeeDoc->file);
+        // $emp = Employee::find($id);
+        // $doc = DB::table('employee_documents')->where('employee_id');
+
+        // $file = public_path()."/storage/employee_documents/".$doc->file;
+
+        // Storage::disk('employee-documents')->delete($file);
 
         return response()->json([
             'message' => 'Record delete successfully!'
           ]);
+    }
+
+    public function docDownload(Request $request, $id)
+    {
+        try{
+            $doc = EmployeeDocuments::find($id);
+            $file = public_path()."/storage/employee_documents/".$doc->file;
+            $headers = array(
+                'Content-Type: application/*',
+            );
+            return response()->download($file, $doc->file, $headers);
+        }
+        catch(\Exception $e){
+            return view('errors.file_not_found');
+        }
     }
 }

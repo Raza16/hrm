@@ -91,6 +91,7 @@
                 </div>
             </div>
             <div class="container-fluid">
+                @include('layouts.alert_message')
                 @yield('content')
             </div>
         </section>

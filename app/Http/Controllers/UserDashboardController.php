@@ -26,14 +26,24 @@ class UserDashboardController extends Controller
         ->whereYear('created_at', date('Y'))
         ->sum('days');
 
+        $ongoingTaskCount = DB::table('tasks')
+        ->where('employee_id', $employee->id)
+        ->whereIn('status', ['ongoing'])
+        ->count();
+
+        $pendingTaskCount = DB::table('tasks')
+        ->where('employee_id', $employee->id)
+        ->whereIn('status', ['pending'])
+        ->count();
+
+        $inprogressTaskCount = DB::table('tasks')
+        ->where('employee_id', $employee->id)
+        ->whereIn('status', ['in progress'])
+        ->count();
+
         $completedTaskCount = DB::table('tasks')
         ->where('employee_id', $employee->id)
         ->whereIn('status', ['completed'])
-        ->count();
-
-        $processTaskCount = DB::table('tasks')
-        ->where('employee_id', $employee->id)
-        ->where('status', 'process')
         ->count();
 
         $ongoingPendingTasks = Task::where(['employee_id' => $employee->id])->whereNotIn('status', ['completed'])->get();
@@ -77,26 +87,27 @@ class UserDashboardController extends Controller
 
         $breakinDone = TimeBreaker::whereNull('breakout')
         ->where('employee_id', $employee->id)
+        ->where('date', Carbon::today())
         ->first();
 
         $totalAttendanceCurrentMonth = TimeTracker::where('employee_id', Auth::user()->employee->id)
         ->whereMonth('date', Carbon::now()->month)
         ->count();
 
+        $timeTrackercheckoutIsNull = TimeTracker::whereNull('checkout')
+        ->where('employee_id', Auth::user()->employee->id)
+        ->whereDate('date', Carbon::today())
+        ->first();
+
         $todayBreakTime = TimeBreaker::where('employee_id', Auth::user()->employee->id)
         ->whereDate('date', Carbon::today())
         ->get();
 
-        $timeTrackerId = TimeTracker::select('id')->whereNull('checkout')
-            ->where('employee_id', Auth::user()->employee->id)
-            ->whereDate('date', Carbon::today())
-            ->first();
-
-            if($timeTrackerId){
+            if($timeTrackercheckoutIsNull){
                 $sum_total_hours = TimeBreaker::where([
-                    'time_tracker_id' => $timeTrackerId->id,
                     'employee_id' => Auth::user()->employee->id,
-                    'date' => date('Y-m-d')])
+                    'date' => Carbon::today()
+                    ])
                     ->sum(DB::raw("TIME_TO_SEC(total_hours)"));
                     $sumBreakTime = gmdate("H:i:s", $sum_total_hours);
             }
@@ -107,8 +118,10 @@ class UserDashboardController extends Controller
         return view('user_account.dashboard', compact(
             'employee',
             'leaveCount',
+            'ongoingTaskCount',
+            'pendingTaskCount',
+            'inprogressTaskCount',
             'completedTaskCount',
-            'processTaskCount',
             'ongoingPendingTasks',
             'checkinDone',
             'breakinDone',
@@ -129,7 +142,6 @@ class UserDashboardController extends Controller
         $timeTracker->employee_id = $employee->id;
         $timeTracker->checkin = new DateTime("now", new DateTimeZone('Asia/Karachi'));
         $timeTracker->date = Carbon::today();
-
         $timeTracker->save();
 
         return redirect('/emp/dashboard')->with('success', 'CheckIn time has been submited');
@@ -200,7 +212,7 @@ class UserDashboardController extends Controller
         $timeEntry = TimeTracker::whereNull('checkout')
         ->where('employee_id', Auth::user()->employee->id)
         ->whereDate('date', Carbon::today())
-        ->first();
+        ->firstOrFail();
 
         if ($timeEntry)
         {
@@ -226,7 +238,11 @@ class UserDashboardController extends Controller
             ->whereDate('date', Carbon::today())
             ->first();
 
-            $sum_total_hours = TimeBreaker::where(['time_tracker_id' => $timeTrackerId->id, 'employee_id' => Auth::user()->employee->id, 'date' => date('Y-m-d')])
+            $sum_total_hours = TimeBreaker::where([
+             'time_tracker_id' => $timeTrackerId->id,
+             'employee_id' => Auth::user()->employee->id,
+             'date' => date('Y-m-d')
+             ])
             ->sum(DB::raw("TIME_TO_SEC(total_hours)"));
             $sumTime = gmdate("H:i:s", $sum_total_hours);
 

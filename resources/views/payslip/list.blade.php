@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{asset('assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css')}}"/>
 @stop
 @section('content')
-
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -26,34 +25,38 @@
                     <table class="admin-datatable table table-hover" style="width:100%;">
                         <thead class="thead-light">
                             <tr>
+                                <th>Options</th>
                                 <th>Employee</th>
                                 <th>Date</th>
-                                <th>Options</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Options</th>
                                 <th>Employee</th>
                                 <th>Date</th>
-                                <th>Options</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($payslips as $payslip)
                             <tr>
+                                <td>
+                                    <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="{{url('payslip/'.$payslip->id)}}">View</a></li>
+                                            <li>
+                                                <a href="{{url('payslip/'.$payslip->id)}}" onclick="event.preventDefault();
+                                                    document.getElementById('delete').submit();">Delete</a>
+                                                <form id="delete" action="{{url('payslip/'.$payslip->id)}}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </x-slot>
+                                    </x-options-buttons>
+                                </td>
                                 <td>{{$payslip->employee_id ? $payslip->employee->first_name.' '.$payslip->employee->middle_name.' '.$payslip->employee->last_name : null}}</td>
                                 <td>{{$payslip->date ? date('d F, Y', strtotime($payslip->date)) : null}}</td>
-                                <td>
-                                    <div style="display: flex;">
-                                        {{-- <a href="{{url('payslip/'.$payslip->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a> --}}
-                                        <a href="{{url('payslip/'.$payslip->id)}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View"><i class="far fa-eye"></i></a>
-                                        <form action="{{url('payslip/'.$payslip->id)}}" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></button>
-                                        </form>
-                                    </div>
-                                </td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -72,7 +72,8 @@ class ManagerDashboardController extends Controller
                 $sum_total_hours = TimeBreaker::where([
                     'time_tracker_id' => $timeTrackerId->id,
                     'employee_id' => Auth::user()->employee->id,
-                    'date' => date('Y-m-d')])
+                    'date' => date('Y-m-d')
+                    ])
                     ->sum(DB::raw("TIME_TO_SEC(total_hours)"));
                     $sumBreakTime = gmdate("H:i:s", $sum_total_hours);
             }

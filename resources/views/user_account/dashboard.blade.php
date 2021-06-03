@@ -7,8 +7,6 @@
 @stop
 @section('content')
 
-@include('layouts.alert_message')
-
 <div class="row clearfix">
     <div class="col-lg-4 col-md-12">
         <div class="card mcard_3">
@@ -17,43 +15,13 @@
                 <h4 class="m-t-10"></h4>
                 <div class="row">
                     <div class="col-12">
-                        {{-- <ul class="social-links list-unstyled">
-                            <li><a title="facebook" href="javascript:void(0);"><i class="zmdi zmdi-facebook"></i></a></li>
-                            <li><a title="twitter" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a></li>
-                            <li><a title="instagram" href="javascript:void(0);"><i class="zmdi zmdi-instagram"></i></a></li>
-                        </ul> --}}
                         <h5>{{$employee->first_name.' '.$employee->middle_name.' '.$employee->last_name}}</h5>
-                        <p class="text-muted">{{$employee->address}}</p>
-                        {{-- <small class="text-muted">Email address: </small> --}}
-                        <p class="text-muted">{{$employee->email}}</p>
-                        {{-- <hr> --}}
-                        {{-- <small class="text-muted">Phone: </small> --}}
-                        <p class="text-muted">{{$employee->mobile_no}}</p>
+                        <p class="text-muted"><b>Designation:</b> {{$employee->designation->title}}</p>
+                        <p class="text-muted"><b>Date of Joining:</b> {{date('j F, Y', strtotime($employee->joining_date))}}</p>
                     </div>
-                    {{-- <div class="col-4">
-                        <small>Following</small>
-                        <h5>852</h5>
-                    </div>
-                    <div class="col-4">
-                        <small>Followers</small>
-                        <h5>13k</h5>
-                    </div>
-                    <div class="col-4">
-                        <small>Post</small>
-                        <h5>234</h5>
-                    </div> --}}
                 </div>
             </div>
         </div>
-        {{-- <div class="card">
-            <div class="body">
-                <small class="text-muted">Email address: </small>
-                <p>{{$employee->email}}</p>
-                <hr>
-                <small class="text-muted">Phone: </small>
-                <p>{{$employee->mobile_no}}</p>
-            </div>
-        </div> --}}
     </div>
 
     <div class="col-lg-8 col-md-12">
@@ -61,12 +29,12 @@
             <div class="row clearfix">
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="card w_data_1">
-                       <div class="body">
-                            <div class="w_icon green"><i class="fal fa-clock"></i></div>
-                            <h4 class="mt-3">{{$totalAttendanceCurrentMonth}}</h4>
-                            <span class="text-muted">Total Monthly Attendance</span>
-                       </div>
-                    </div>
+                        <div class="body">
+                             <div class="w_icon green"><i class="fal fa-clock"></i></div>
+                             <h4 class="mt-3">{{$totalAttendanceCurrentMonth}}</h4>
+                             <span class="text-muted">Total Monthly Attendance</span>
+                        </div>
+                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="card w_data_1">
@@ -83,7 +51,9 @@
                             <div class="w_icon dark"><i class="fas fa-tasks"></i></div>
                             <h4 class="mt-3"></h4>
                             <span class="text-muted">Tasks</span><br>
-                            <span class="mb-0">Ongoing {{$processTaskCount}}</span><br>
+                            <span class="mb-0">Ongoing {{$ongoingTaskCount}}</span><br>
+                            <span class="mb-0">Pending {{$pendingTaskCount}}</span><br>
+                            <span class="mb-0">In progress {{$inprogressTaskCount}}</span><br>
                             <span class="mb-0">Completed {{$completedTaskCount}}</span>
                        </div>
                     </div>
@@ -114,17 +84,18 @@
 
                         <form action="{{url('checkout')}}" method="POST">
                             @csrf
+                            @method('put')
                             <button type="submit" class="btn btn-sm btn-primary">Check Out</button>
                         </form>&nbsp;
 
                     @elseif($breakinDone && $checkinDone)
                         <form action="{{url('breakout')}}" method="POST">
                             @csrf
+                            @method('put')
                             <button type="submit" class="btn btn-sm btn-primary">Break Off</button>
                         </form>
                     @else
                     <p>checkin done</p>
-
                     @endif
                 </div>
                 {{-- <div class="row"> --}}
@@ -169,44 +140,42 @@
                 <table class="emp-datatable table table-hover" style="width: 100%;">
                     <thead class="thead-light">
                         <tr>
-                            {{-- <th>ID</th> --}}
+                            <th>Options</th>
                             <th>Date</th>
                             <th>Check In</th>
                             <th>Check Out</th>
                             <th>Total Hours</th>
                             <th>Break Hours</th>
                             <th>Working Hours</th>
-                            <th>Options</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            {{-- <th>ID</th> --}}
+                            <th>Options</th>
                             <th>Date</th>
                             <th>Check In</th>
                             <th>Check Out</th>
                             <th>Total Hours</th>
                             <th>Break Hours</th>
                             <th>Working Hours</th>
-                            <th>Options</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach ($employeeTimes as $employeeTime)
                         <tr>
-                            {{-- <td>{{$employeeTime->id}}</td> --}}
+                            <td>
+                                <x-options-buttons>
+                                    <x-slot name="buttons">
+                                        <li><a href="javascript:void(0)" onclick="showModule({{$employeeTime->id}})">View Break Times</a></li>
+                                    </x-slot>
+                                </x-options-buttons>
+                            </td>
                             <td>{{$employeeTime->date ? date('j F, Y', strtotime($employeeTime->date)):null}}</td>
                             <td>{{$employeeTime->checkin ? date('j F, Y | g:i a', strtotime($employeeTime->checkin)):null}}</td>
                             <td>{{$employeeTime->checkout ? date('j F, Y | g:i a', strtotime($employeeTime->checkout)):null}}</td>
                             <td>{{$employeeTime->total_hours ? $employeeTime->total_hours : null}}</td>
                             <td>{{$employeeTime->break_hours ? $employeeTime->break_hours : null}}</td>
                             <td>{{$employeeTime->working_hours ? $employeeTime->working_hours : null}}</td>
-                            <td>
-                                <div style="display: flex;">
-                                    {{-- <a href="" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a> --}}
-                                    <a href="javascript:void(0)" onclick="showModule({{$employeeTime->id}})"class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Break Times"><i class="far fa-eye"></i></a>
-                                </div>
-                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -231,7 +200,6 @@
                                     </tr>
                                 </thead>
                                 <tbody id="break-time">
-
                                 </tbody>
                             </table>
                         </div>
@@ -264,6 +232,7 @@
             <table class="emp-datatable table table-hover" style="width: 100%;">
                 <thead class="thead-light">
                     <tr>
+                        <th>Options</th>
                         <th>Project Title</th>
                         <th>Task No</th>
                         <th>Priority</th>
@@ -271,11 +240,11 @@
                         <th>Deadline Date</th>
                         <th>Progress</th>
                         <th>Status</th>
-                        <th>Options</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
+                        <th>Options</th>
                         <th>Project Title</th>
                         <th>Task No</th>
                         <th>Priority</th>
@@ -283,12 +252,18 @@
                         <th>Deadline Date</th>
                         <th>Progress</th>
                         <th>Status</th>
-                        <th>Options</th>
                     </tr>
                 </tfoot>
                 <tbody>
                     @foreach ($ongoingPendingTasks as $ongoingPendingTask)
                         <tr>
+                            <td>
+                                <x-options-buttons>
+                                    <x-slot name="buttons">
+                                        <li><a href="{{url('employee-task/'.$ongoingPendingTask->id.'/edit')}}">View Task</a></li>
+                                    </x-slot>
+                                </x-options-buttons>
+                            </td>
                             <td>{{$ongoingPendingTask->project->title}}</td>
                             <td>{{$ongoingPendingTask->task_no}}</td>
                             <td>{{$ongoingPendingTask->priority}}</td>
@@ -311,11 +286,6 @@
                                 {{-- @elseif ($ongoingPendingTask->status == 'completed')
                                     <span class="badge badge-success">{{$ongoingPendingTask->status}}</span> --}}
                                 @endif
-                            </td>
-                            <td>
-                                <div style="display: flex;">
-                                    <a href="{{url('employee-task/'.$ongoingPendingTask->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Task"><i class="far fa-eye"></i></a>
-                                </div>
                             </td>
                         </tr>
                     @endforeach

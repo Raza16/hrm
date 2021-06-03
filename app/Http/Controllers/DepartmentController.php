@@ -50,15 +50,9 @@ class DepartmentController extends Controller
         if($department)
         {
             foreach($request->title as $key => $value){
-                // $data = [
-                //     'department_id' => $department->id,
-                //     'title' => $request->title[$key],
-                // ];
 
-                // Designation::create($data);
                 $designation = new Designation;
-
-                $designation->department_id = $request->department->id;
+                $designation->department_id = $department->id;
                 $designation->title = $request->title[$key];
                 $designation->save();
             }

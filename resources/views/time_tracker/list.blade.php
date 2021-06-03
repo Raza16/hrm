@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{asset('assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css')}}"/>
 @stop
 @section('content')
-@include('layouts.alert_message')
+
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -14,8 +14,6 @@
                     {{-- <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                         <ul class="dropdown-menu dropdown-menu-right slideUp">
                             <li><a href="javascript:void(0);">Edit</a></li>
-                            <li><a href="javascript:void(0);">Delete</a></li>
-                            <li><a href="javascript:void(0);">Report</a></li>
                         </ul>
                     </li> --}}
                     <li class="remove">
@@ -29,55 +27,40 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>Options</th>
-                                {{-- <th>Day</th> --}}
                                 <th>Employee</th>
                                 <th>Date</th>
                                 <th>Time</th>
-                                {{-- <th>Check In</th>
-                                <th>Check Out</th> --}}
                                 <th>Hours</th>
-                                {{-- <th>Break Hours</th> --}}
-                                {{-- <th>Working Hours</th> --}}
-                                {{-- <th>Task Time Status</th> --}}
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>Options</th>
-                                {{-- <th>Day</th> --}}
                                 <th>Employee</th>
                                 <th>Date</th>
                                 <th>Time</th>
-                                {{-- <th>Check In</th>
-                                <th>Check Out</th> --}}
                                 <th>Hours</th>
-                                {{-- <th>Break Hours</th> --}}
-                                {{-- <th>Working Hours</th> --}}
-                                {{-- <th>Task Time Status</th> --}}
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($time_trackers as $time_tracker)
-                            <tr class="show-option">
+                            <tr>
                                 <td>
-                                    <ul class="header-dropdown hide-option" style="list-style-type: none;padding:0;margin-top:0px;margin-bottom:0;">
-                                        <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i style="font-size: 20px;" class="fas fa-ellipsis-h-alt"></i></a>
-                                            <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(33px, 34px, 0px);">
-                                                <li><a href="javascript:void(0);" onclick="viewBreakTimeModule({{$time_tracker->id}})">View</a></li>
-                                                <li><a href="javascript:void(0);" onclick="editModule({{$time_tracker->id}})">Edit</a></li>
-                                                <li>
-                                                    <a href="{{url('time-tracker/'.$time_tracker->id)}}" onclick="event.preventDefault();
-                                                        document.getElementById('delete').submit();">Delete</a>
-                                                    <form id="delete" action="{{url('time-tracker/'.$time_tracker->id)}}" method="post">
-                                                        @method('delete')
-                                                        @csrf
-                                                    </form>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                    <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="javascript:void(0);" onclick="viewBreakTimeModule({{$time_tracker->id}})">View</a></li>
+                                            <li><a href="javascript:void(0);" onclick="editModule({{$time_tracker->id}})">Edit</a></li>
+                                            <li>
+                                                <a href="{{url('time-tracker/'.$time_tracker->id)}}" onclick="event.preventDefault();
+                                                    document.getElementById('delete').submit();">Delete</a>
+                                                <form id="delete" action="{{url('time-tracker/'.$time_tracker->id)}}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </x-slot>
+                                    </x-options-buttons>
                                 </td>
-                                {{-- <td>{{date('l', strtotime($time_tracker->date))}}</td> --}}
                                 <td>{{$time_tracker->employee->first_name.' '.$time_tracker->employee->middle_name.' '.$time_tracker->employee->last_name}}</td>
                                 <td>{{$time_tracker->date ? date('l j F, Y', strtotime($time_tracker->date)):null}}</td>
                                 <td>

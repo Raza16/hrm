@@ -1,4 +1,4 @@
-@extends('layouts.master')
+e@extends('layouts.master')
 @section('title', 'Task Tracker')
 @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
@@ -9,9 +9,6 @@
 @stop
 
 @section('content')
-
-@include('layouts.alert_message')
-
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -31,8 +28,8 @@
             </div>
             <div class="body">
                 <form action="{{url('task-tracker/'.$task->id)}}" method="post" enctype="multipart/form-data">
-                    @method('put')
-                    @csrf
+                @method('put')
+                @csrf
                 <div class="row clearfix">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -124,7 +121,7 @@
                             @if(!$task_attachment->isEmpty())
                                 @foreach ($task_attachment as $ta)
                                 <p class="display:flex;">
-                                    <i class="fas fa-download" aria-hidden="true"></i>&nbsp;<a href="{{url('admin-task-download/'.$ta->id)}}">{{$ta->attachment}}</a> <a href="javascript:void(0);" class="delete-doc remove" data-id="{{url('task-doc-delete/'.$ta->id)}}"><i data-toggle="tooltip" title="Delete" da class="far fa-trash text-danger"></i></a>
+                                    <i class="fas fa-download" aria-hidden="true"></i>&nbsp;<a href="{{url('admin-task-download/'.$ta->id)}}">{{$ta->attachment}}</a> <a href="javascript:void(0);" class="delete-doc remove" data-id="{{url('task-doc-delete/'.$ta->id)}}"><i data-toggle="tooltip" title="Delete" class="far fa-trash text-danger"></i></a>
                                 </p>
                                 @endforeach
                             @else
@@ -152,7 +149,7 @@
 
 @push('after-scripts')
 <script>
-// enable fileuploader plugin
+
 $('#fileuploader').fileuploader({
         addMore: true
     });
@@ -175,7 +172,5 @@ $(".delete-doc").click('.remove',function(){
     }
 
 });
-
-
 </script>
 @endpush
