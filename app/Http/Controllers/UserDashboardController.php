@@ -97,7 +97,7 @@ class UserDashboardController extends Controller
                 $sum_total_hours = TimeBreaker::where([
                     'time_tracker_id' => $timeTrackerId->id,
                     'employee_id' => Auth::user()->employee->id,
-                    'date' => date('Y-m-d')])
+                    'date' => Carbon::today()])
                     ->sum(DB::raw("TIME_TO_SEC(total_hours)"));
                     $sumBreakTime = gmdate("H:i:s", $sum_total_hours);
             }
@@ -129,7 +129,6 @@ class UserDashboardController extends Controller
 
         $timeTracker->employee_id = $employee->id;
         $timeTracker->checkin = new DateTime("now", new DateTimeZone('Asia/Karachi'));
-        // $timeTracker->checkin = new DateTime("now");
         $timeTracker->date = Carbon::today();
         $timeTracker->save();
 
