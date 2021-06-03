@@ -35,9 +35,10 @@ Route::middleware(['logout', 'role:Admin,HR'])->group(function() {
     Route::get('time-breaker/{id}', [App\Http\Controllers\TimeTrackerController::class, 'editBreakTime']);
     Route::put('time-breaker/{id}', [App\Http\Controllers\TimeTrackerController::class, 'updateBreakTime']);
 
-    Route::delete('employee-doc/{id}', [App\Http\Controllers\EmployeeController::class, 'deleteDocs']);
-
     Route::get('employee-doc/{id}/view', [App\Http\Controllers\EmployeeController::class, 'viewDocs']);
+
+    Route::get('/emp-doc-download/{id}', [App\Http\Controllers\EmployeeController::class, 'docDownload']);
+    Route::delete('/emp-doc-delete/{id}', [App\Http\Controllers\EmployeeController::class, 'deleteDocs']);
 
     Route::resource('payslip', App\Http\Controllers\PayslipController::class);
 
@@ -65,8 +66,8 @@ Route::middleware(['logout', 'role:Admin,Manager'])->group(function() {
     Route::put('/update-task-progress/{id}', [App\Http\Controllers\TaskController::class, 'taskProgressUpdate']);
     Route::get('/edit-task/{id}', [App\Http\Controllers\TaskController::class, 'taskEdit']);
     Route::get('/admin-task-download/{id}', [App\Http\Controllers\TaskController::class, 'getDownload']);
-    // Route::get('/task-download/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
     Route::delete('/task-doc-delete/{id}', [App\Http\Controllers\TaskController::class, 'deleteDownload']);
+    // Route::get('/task-download/{id}', [App\Http\Controllers\Employee\TaskController::class, 'getDownload']);
 
     Route::get('task-export', [App\Http\Controllers\TaskController::class, 'taskExport']);
 
@@ -107,10 +108,10 @@ Route::middleware(['logout', 'role:Manager,Employee,HR'])->group(function() {
     Route::post('/task-progress/{id}', [App\Http\Controllers\Employee\TaskController::class, 'taskProgressStore']);
 
     Route::post('/checkin', [App\Http\Controllers\UserDashboardController::class, 'checkInTimeStore']);
-    Route::post('/checkout', [App\Http\Controllers\UserDashboardController::class, 'checkOutTimeUpdate']);
+    Route::put('/checkout', [App\Http\Controllers\UserDashboardController::class, 'checkOutTimeUpdate']);
 
     Route::post('/breakin', [App\Http\Controllers\UserDashboardController::class, 'breakInTimeStore']);
-    Route::post('/breakout', [App\Http\Controllers\UserDashboardController::class, 'breakOutTimeUpdate']);
+    Route::put('/breakout', [App\Http\Controllers\UserDashboardController::class, 'breakOutTimeUpdate']);
 
     Route::get('/timebreaker/{id}', [App\Http\Controllers\UserDashboardController::class, 'viewTime']);
     Route::put('/timetracker/{id}', [App\Http\Controllers\UserDashboardController::class, 'updateTime']);

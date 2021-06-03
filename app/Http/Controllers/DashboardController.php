@@ -7,6 +7,7 @@ use DB;
 use App\Models\Task;
 use DateTime;
 use Auth;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -14,10 +15,12 @@ class DashboardController extends Controller
     {
         $totalEmployees = DB::table('employees')->count();
         $totalClients = DB::table('clients')->count();
+
         $totalProjects = DB::table('projects')->count();
         $processProjects = DB::table('projects')->where('status', 'process')->count();
         $pendingProjects = DB::table('projects')->where('status', 'pending')->count();
         $completedProjects = DB::table('projects')->where('status', 'completed')->count();
+
         $totalTasks = DB::table('tasks')->count();
         $totalTasksOngoing = DB::table('tasks')->where('status', 'ongoing')->count();
         $totalTasksCompleted = DB::table('tasks')->where('status', 'completed')->count();
@@ -32,36 +35,55 @@ class DashboardController extends Controller
         $todayLeaves = DB::table('leaves')->whereDate('created_at', date('Y-m-d'))->count();
 
         $totalUser = DB::table('users')->select('employee_id')->where('employee_id', Auth::user()->employee_id)->get();
-        // dd($totalUser);
-        // $totalUser = DB::table('users')->count();
+
         $totalUserActive = DB::table('users')->where('status', 1)->count();
         $totalUserInactive = DB::table('users')->where('status', 0)->count();
-
-
-        // $totalLoggedInUser = Auth::user()->;
-        // dd($totalLoggedInUser);
 
         $ongoingTasks = Task::where(['status' => 'ongoing'])->get();
 
         $loggedInUser = Auth::user()->email;
-        // dd($loggedInUser);
 
-        return view('dashboard/index', compact(
+        $todayCheckins = DB::table('time_tracker')
+        ->join('employees', 'employees.id', '=', 'time_tracker.employee_id')
+        ->where('time_tracker.date', Carbon::today())->get();
+
+        // $pendingProjectsDatas = DB::table('tasks')
+        // ->join('projects', 'projects.id', '=', 'tasks.project_id')
+        // ->join('clients', 'clients.id', '=', 'projects.client_id')
+        // ->select(
+        //     'projects.title',
+        //     'clients.full_name',
+        //     DB::raw('COUNT(tasks.project_id) as taskCount'),
+        //     DB::raw('COUNT(select tasks.status from tasks where tasks.status = "in progress") as taskPending'),
+        // )
+        // ->groupBy(
+        //     'projects.title',
+        //     'clients.full_name',
+        // )
+        // ->get();
+        // dd($pendingProjectsDatas);
+
+        $missingCheckouts = DB::table('time_tracker')
+        ->join('employees', 'employees.id', '=', 'time_tracker.employee_id')
+        ->whereNull('time_tracker.checkout')
+        ->get();
+
+        // dd($missingCheckouts);
+
+        return view('dashboard.index', compact(
             'totalEmployees',
             'totalClients',
             'totalProjects',
             'processProjects',
             'pendingProjects',
             'completedProjects',
-            // 'projectStatus',
             'totalTasks',
             'totalTasksOngoing',
             'totalTasksCompleted',
             'ongoingTasks',
-            // 'todayLeaves',
-            // 'totalUser',
-            // 'totalUserActive',
-            // 'totalUserInactive'
+            'todayCheckins',
+            // 'pendingProjectsDatas',
+            'missingCheckouts'
         ));
     }
 }

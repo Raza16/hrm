@@ -79,7 +79,6 @@
                                 <th>Assign Date</th>
                                 <th>Deadline Date</th>
                                 <th>Status</th>
-                                {{-- <th>Options</th> --}}
                             </tr>
                         </thead>
                         <tfoot>
@@ -91,7 +90,6 @@
                                 <th>Assign Date</th>
                                 <th>Deadline Date</th>
                                 <th>Status</th>
-                                {{-- <th>Options</th> --}}
                             </tr>
                         </tfoot>
                         <tbody>
@@ -140,7 +138,445 @@
     </div>
 </div>
 
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="header">
+                <h2>Today Checkins</h2>
+                <ul class="header-dropdown">
+                    <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{url('time-tracker')}}">All Checkin</a></li>
+                        </ul>
+                    </li>
+                    <li class="remove">
+                        <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                <div class="table-responsive">
+                    <table id="refresh-data" class="admin-datatable table table-hover" style="width: 100%;">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Options</th>
+                                <th>Employee</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Options</th>
+                                <th>Employee</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Hours</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach ($todayCheckins as $todayCheckin)
+                            <tr>
+                                <td>
+                                    {{-- <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="javascript:void(0);" onclick="viewBreakTimeModule({{$time_tracker->id}})">View</a></li>
+                                            <li><a href="javascript:void(0);" onclick="editModule({{$time_tracker->id}})">Edit</a></li>
+                                            <li>
+                                                <a href="{{url('time-tracker/'.$time_tracker->id)}}" onclick="event.preventDefault();
+                                                    document.getElementById('delete').submit();">Delete</a>
+                                                <form id="delete" action="{{url('time-tracker/'.$time_tracker->id)}}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </x-slot>
+                                    </x-options-buttons> --}}
+                                </td>
+                                <td>{{$todayCheckin->first_name.' '.$todayCheckin->middle_name.' '.$todayCheckin->last_name}}</td>
+                                <td>{{$todayCheckin->date ? date('l j F, Y', strtotime($todayCheckin->date)):null}}</td>
+                                <td>
+                                    <p style="margin:0;"><span class="text-primary">Check-In:</span><br>
+                                        {{$todayCheckin->checkin ? date('j F, Y | g:i a', strtotime($todayCheckin->checkin)):null}}
+                                    </p>
+                                    <hr style="margin:0;border-top: 1px dashed #bbb8b8;">
+                                    <p style="margin:0;"><span class="text-danger">Check-Out:</span><br>
+                                        {{$todayCheckin->checkout ? date('j F, Y | g:i a', strtotime($todayCheckin->checkout)) : '-- Nil --'}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p style="margin:0;"><span class="text-primary">Total Hours:</span><br>
+                                        {{$todayCheckin->total_hours ?? '-- Nil --'}}
+                                    </p>
+                                    <hr style="margin:0;border-top: 1px dashed #bbb8b8;">
+                                    <p style="margin:0;"><span class="text-danger">Break Hours:</span><br>
+                                        {{$todayCheckin->break_hours ?? '-- Nil --'}}
+                                    </p>
+                                    <hr style="margin:0;border-top: 1px dashed #bbb8b8;">
+                                    <p style="margin:0;"><span class="text-success">Working Hours:</span><br>
+                                        {{$todayCheckin->working_hours ?? '-- Nil --'}}
+                                    </p>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Edit Modal for TimeTracker -->
+                <div class="modal fade" id="checkinModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Time</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <form id="Edit-Checkin">
+                        <div class="modal-body">
+                            @csrf
+                            @method('put')
+                            <input type="hidden" id="id" name="id"/>
+                            <div class="form-group">
+                                <label><b>Check In Time</b></label>
+                                <input type="datetime" class="form-control form-control-sm" id="checkin" name="checkin">
+                            </div>
+                            <div class="form-group">
+                                <label><b>Check Out Time</b></label>
+                                <input type="datetime" class="form-control form-control-sm" id="checkout" name="checkout">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+{{-- <div class="row clearfix">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="header">
+                <h2>Pending Projects</h2>
+                <ul class="header-dropdown">
+                    <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{url('time-tracker')}}">All Projects</a></li>
+                        </ul>
+                    </li>
+                    <li class="remove">
+                        <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                <div class="table-responsive">
+                    <table id="refresh-data" class="admin-datatable table table-hover" style="width: 100%;">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Options</th>
+                                <th>Project Name</th>
+                                <th>Client</th>
+                                <th>Status</th>
+                                <th>Task Count</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Options</th>
+                                <th>Project Name</th>
+                                <th>Client</th>
+                                <th>Status</th>
+                                <th>Task Count</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach ($pendingProjectsDatas as $pendingProjectsData)
+                            <tr>
+                                <td>
+                                </td>
+                                <td>{{$pendingProjectsData->title}}</td>
+                                <td>{{$pendingProjectsData->full_name}}</td>
+                                <td>{{$pendingProjectsData->status}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div> --}}
+
+<div class="row clearfix">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="header">
+                <h2>Missing Check-Outs</h2>
+                <ul class="header-dropdown">
+                    <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{url('time-tracker')}}">All Checkin</a></li>
+                        </ul>
+                    </li>
+                    <li class="remove">
+                        <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                <div class="table-responsive">
+                    <table id="refresh-data" class="admin-datatable table table-hover" style="width: 100%;">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Options</th>
+                                <th>Employee</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Options</th>
+                                <th>Employee</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Hours</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach ($missingCheckouts as $missingCheckout)
+                            <tr>
+                                <td>
+                                    {{-- <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="javascript:void(0);" onclick="viewBreakTimeModule({{$time_tracker->id}})">View</a></li>
+                                            <li><a href="javascript:void(0);" onclick="editModule({{$time_tracker->id}})">Edit</a></li>
+                                            <li>
+                                                <a href="{{url('time-tracker/'.$time_tracker->id)}}" onclick="event.preventDefault();
+                                                    document.getElementById('delete').submit();">Delete</a>
+                                                <form id="delete" action="{{url('time-tracker/'.$time_tracker->id)}}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </x-slot>
+                                    </x-options-buttons> --}}
+                                </td>
+                                <td>{{$missingCheckout->first_name.' '.$missingCheckout->middle_name.' '.$missingCheckout->last_name}}</td>
+                                <td>{{$missingCheckout->date ? date('l j F, Y', strtotime($missingCheckout->date)):null}}</td>
+                                <td>
+                                    <p style="margin:0;"><span class="text-primary">Check-In:</span><br>
+                                        {{$missingCheckout->checkin ? date('j F, Y | g:i a', strtotime($missingCheckout->checkin)):null}}
+                                    </p>
+                                    <hr style="margin:0;border-top: 1px dashed #bbb8b8;">
+                                    <p style="margin:0;"><span class="text-danger">Check-Out:</span><br>
+                                        {{$missingCheckout->checkout ? date('j F, Y | g:i a', strtotime($missingCheckout->checkout)) : '-- Nil --'}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p style="margin:0;"><span class="text-primary">Total Hours:</span><br>
+                                        {{$missingCheckout->total_hours ?? '-- Nil --'}}
+                                    </p>
+                                    <hr style="margin:0;border-top: 1px dashed #bbb8b8;">
+                                    <p style="margin:0;"><span class="text-danger">Break Hours:</span><br>
+                                        {{$missingCheckout->break_hours ?? '-- Nil --'}}
+                                    </p>
+                                    <hr style="margin:0;border-top: 1px dashed #bbb8b8;">
+                                    <p style="margin:0;"><span class="text-success">Working Hours:</span><br>
+                                        {{$missingCheckout->working_hours ?? '-- Nil --'}}
+                                    </p>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Edit Modal for TimeTracker -->
+                <div class="modal fade" id="checkinModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Time</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <form id="Edit-Checkin">
+                        <div class="modal-body">
+                            @csrf
+                            @method('put')
+                            <input type="hidden" id="id" name="id"/>
+                            <div class="form-group">
+                                <label><b>Check In Time</b></label>
+                                <input type="datetime" class="form-control form-control-sm" id="checkin" name="checkin">
+                            </div>
+                            <div class="form-group">
+                                <label><b>Check Out Time</b></label>
+                                <input type="datetime" class="form-control form-control-sm" id="checkout" name="checkout">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="header">
+                <h2>Today Checkins</h2>
+                <ul class="header-dropdown">
+                    <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{url('time-tracker')}}">All Checkin</a></li>
+                        </ul>
+                    </li>
+                    <li class="remove">
+                        <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                <div class="table-responsive">
+                    <table id="refresh-data" class="admin-datatable table table-hover" style="width: 100%;">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Options</th>
+                                <th>Employee</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Options</th>
+                                <th>Employee</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Hours</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach ($todayCheckins as $todayCheckin)
+                            <tr>
+                                <td>
+                                    {{-- <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="javascript:void(0);" onclick="viewBreakTimeModule({{$time_tracker->id}})">View</a></li>
+                                            <li><a href="javascript:void(0);" onclick="editModule({{$time_tracker->id}})">Edit</a></li>
+                                            <li>
+                                                <a href="{{url('time-tracker/'.$time_tracker->id)}}" onclick="event.preventDefault();
+                                                    document.getElementById('delete').submit();">Delete</a>
+                                                <form id="delete" action="{{url('time-tracker/'.$time_tracker->id)}}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </x-slot>
+                                    </x-options-buttons> --}}
+                                </td>
+                                <td>{{$todayCheckin->first_name.' '.$todayCheckin->middle_name.' '.$todayCheckin->last_name}}</td>
+                                <td>{{$todayCheckin->date ? date('l j F, Y', strtotime($todayCheckin->date)):null}}</td>
+                                <td>
+                                    <p style="margin:0;"><span class="text-primary">Check-In:</span><br>
+                                        {{$todayCheckin->checkin ? date('j F, Y | g:i a', strtotime($todayCheckin->checkin)):null}}
+                                    </p>
+                                    <hr style="margin:0;border-top: 1px dashed #bbb8b8;">
+                                    <p style="margin:0;"><span class="text-danger">Check-Out:</span><br>
+                                        {{$todayCheckin->checkout ? date('j F, Y | g:i a', strtotime($todayCheckin->checkout)) : '-- Nil --'}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p style="margin:0;"><span class="text-primary">Total Hours:</span><br>
+                                        {{$todayCheckin->total_hours ?? '-- Nil --'}}
+                                    </p>
+                                    <hr style="margin:0;border-top: 1px dashed #bbb8b8;">
+                                    <p style="margin:0;"><span class="text-danger">Break Hours:</span><br>
+                                        {{$todayCheckin->break_hours ?? '-- Nil --'}}
+                                    </p>
+                                    <hr style="margin:0;border-top: 1px dashed #bbb8b8;">
+                                    <p style="margin:0;"><span class="text-success">Working Hours:</span><br>
+                                        {{$todayCheckin->working_hours ?? '-- Nil --'}}
+                                    </p>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Edit Modal for TimeTracker -->
+                <div class="modal fade" id="checkinModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Time</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <form id="Edit-Checkin">
+                        <div class="modal-body">
+                            @csrf
+                            @method('put')
+                            <input type="hidden" id="id" name="id"/>
+                            <div class="form-group">
+                                <label><b>Check In Time</b></label>
+                                <input type="datetime" class="form-control form-control-sm" id="checkin" name="checkin">
+                            </div>
+                            <div class="form-group">
+                                <label><b>Check Out Time</b></label>
+                                <input type="datetime" class="form-control form-control-sm" id="checkout" name="checkout">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
 @stop
+
 @section('page-script')
 <script src="{{asset('assets/bundles/countTo.bundle.js')}}"></script>
 <script src="{{asset('assets/bundles/knob.bundle.js')}}"></script>

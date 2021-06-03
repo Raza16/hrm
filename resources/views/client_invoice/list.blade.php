@@ -4,9 +4,6 @@
 <link rel="stylesheet" href="{{asset('assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css')}}"/>
 @stop
 @section('content')
-
-@include('layouts.alert_message')
-
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -28,50 +25,45 @@
                     <table class="admin-datatable table table-hover" style="width:100%;">
                         <thead class="thead-light">
                             <tr>
+                                <th>Options</th>
                                 <th>Client</th>
                                 <th>Invoice No</th>
                                 <th>Billing Period</th>
-                                {{-- <th>Discount</th> --}}
-                                {{-- <th>Grand Total</th> --}}
                                 <th>Services</th>
-                                <th>Options</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Options</th>
                                 <th>Client</th>
                                 <th>Invoice No</th>
                                 <th>Billing Period</th>
-                                {{-- <th>Discount</th> --}}
-                                {{-- <th>Grand Total</th> --}}
                                 <th>Services</th>
-                                <th>Options</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($clientInvoices as $clientInvoice)
                             <tr>
-                                {{-- @isset($clientInvoice->client->full_name) --}}
+                                <td>
+                                    <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="{{url('client-invoice/'.$clientInvoice->id)}}">View</a></li>
+                                            <li><a href="{{url('client-invoice/'.$clientInvoice->id.'/edit')}}">Edit</a></li>
+                                            <li>
+                                                <a href="{{url('client-invoice/'.$clientInvoice->id)}}" onclick="event.preventDefault();
+                                                    document.getElementById('delete').submit();">Delete</a>
+                                                <form id="delete" action="{{url('client-invoice/'.$clientInvoice->id)}}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </x-slot>
+                                    </x-options-buttons>
+                                </td>
                                 <td>{{$clientInvoice->client->full_name}}</td>
-                                {{-- @endisset --}}
                                 <td>{{$clientInvoice->invoice_no}}</td>
                                 <td><b>From:</b> {{date('j F, Y', strtotime($clientInvoice->from_date)) ?? null}} <br> <b>To:</b> {{$clientInvoice->to_date ? date('j F, Y', strtotime($clientInvoice->to_date)):null}}</td>
-                                {{-- <td>{{$clientInvoice->discount}}</td> --}}
-                                {{-- <td>{{$clientInvoice->grand_total}}</td> --}}
                                 <td>{{$clientInvoice->task_module->module}}</td>
-                                <td>
-                                    <div style="display: flex;">
-                                        {{-- <a href="{{url('client-invoice/'.$clientInvoice->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a> --}}
-
-                                        <a href="{{url('client-invoice/'.$clientInvoice->id)}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View"><i class="far fa-eye"></i></a>
-
-                                        <form action="{{url('client-invoice/'.$clientInvoice->id)}}" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></button>
-                                        </form>
-                                    </div>
-                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -81,8 +73,8 @@
         </div>
     </div>
 </div>
-
 @stop
+
 @section('page-script')
 <script src="{{asset('assets/bundles/datatablescripts.bundle.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/dataTables.buttons.min.js')}}"></script>

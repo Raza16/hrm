@@ -26,27 +26,42 @@
                     <table class="admin-datatable table table-hover" style="width:100%">
                         <thead class="thead-light">
                             <tr>
+                                <th>Options</th>
                                 <th>Client</th>
                                 <th>Title</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Status</th>
-                                <th>Options</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Options</th>
                                 <th>Client</th>
                                 <th>Title</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Status</th>
-                                <th>Options</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($projects as $project)
                             <tr>
+                                <td>
+                                    <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="{{url('project/'.$project->id.'/edit')}}">Edit</a></li>
+                                            <li>
+                                                <a href="{{url('project/'.$project->id)}}" onclick="event.preventDefault();
+                                                    document.getElementById('delete').submit();">Delete</a>
+                                                <form id="delete" action="{{url('project/'.$project->id)}}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </x-slot>
+                                    </x-options-buttons>
+                                </td>
                                 <td>
                                     @if($project->client)
                                         {{$project->client->full_name}}
@@ -66,17 +81,6 @@
                                         <span class="badge badge-danger">{{$project->status}}</span>
                                     @endif
                                 </td>
-                                <td>
-                                    <div style="display: flex;">
-                                        <a href="{{url('project/'.$project->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a>
-                                        {{-- <a href="{{url('project/'.$project->id)}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View"><i class="far fa-eye"></i></a> --}}
-                                        <form action="{{url('project/'.$project->id)}}" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></button>
-                                        </form>
-                                    </div>
-                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -86,8 +90,8 @@
         </div>
     </div>
 </div>
-
 @stop
+
 @section('page-script')
 <script src="{{asset('assets/bundles/datatablescripts.bundle.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-datatable/buttons/dataTables.buttons.min.js')}}"></script>

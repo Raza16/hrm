@@ -88,32 +88,36 @@
                         <thead class="thead-light">
                             <tr>
                                 <tr>
-                                    <th>Department Name</th>
                                     <th>Options</th>
+                                    <th>Department Name</th>
                                 </tr>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Department Name</th>
                                 <th>Options</th>
+                                <th>Department Name</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($departments as $department)
                             <tr>
-                                <td>{{$department->name}}</td>
                                 <td>
-                                    <div style="display: flex;">
-                                        <a href="{{url('department/'.$department->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a>
-                                        {{-- <a href="{{url('department/'.$department->id)}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View"><i class="far fa-eye"></i></a> --}}
-                                        <form action="{{url('department/'.$department->id)}}" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></button>
-                                        </form>
-                                    </div>
+                                    <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="{{url('department/'.$department->id.'/edit')}}">Edit</a></li>
+                                            <li>
+                                                <a href="{{url('department/'.$department->id)}}" onclick="event.preventDefault();
+                                                    document.getElementById('delete').submit();">Delete</a>
+                                                <form id="delete" action="{{url('department/'.$department->id)}}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </x-slot>
+                                    </x-options-buttons>
                                 </td>
+                                <td>{{$department->name}}</td>
                             </tr>
                             @endforeach
                         </tbody>

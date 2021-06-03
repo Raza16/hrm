@@ -26,25 +26,40 @@
                     <table id="user_datatable" class="user-datatable table table-hover" style="width:100%">
                         <thead class="thead-light">
                             <tr>
+                                <th>Options</th>
                                 <th>Employee</th>
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>Status</th>
-                                <th>Options</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Options</th>
                                 <th>Employee</th>
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>Status</th>
-                                <th>Options</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($users as $user)
                             <tr>
+                                <td>
+                                    <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="{{url('user/'.$user->id.'/edit')}}">Edit</a></li>
+                                            <li>
+                                                <a href="{{url('user/'.$user->id)}}" onclick="event.preventDefault();
+                                                    document.getElementById('delete').submit();">Delete</a>
+                                                <form id="delete" action="{{url('user/'.$user->id)}}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </x-slot>
+                                    </x-options-buttons>
+                                </td>
                                 <td>{{$user->first_name.' '.$user->middle_name.' '.$user->last_name}}</td>
                                 <td>{{$user->email}}</td>
                                 <td>{{$user->role_type}}</td>
@@ -53,17 +68,6 @@
                                 @else
                                 <td><span class="badge badge-danger">Inactive</span></td>
                                 @endif
-                                <td>
-                                    <div style="display: flex;">
-                                        <a href="{{url('user/'.$user->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a>
-                                        {{-- <a href="{{url('user/'.$user->id)}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View"><i class="far fa-eye"></i></a> --}}
-                                        <form action="{{url('user/'.$user->id)}}" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></button>
-                                        </form>
-                                    </div>
-                                </td>
                             </tr>
                             @endforeach
                         </tbody>

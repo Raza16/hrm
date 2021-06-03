@@ -29,6 +29,7 @@
                     <table class="emp-datatable table table-hover" style="width:100%;">
                         <thead class="thead-light">
                             <tr>
+                                <th>Options</th>
                                 <th>project</th>
                                 <th>Task No</th>
                                 <th>Priority</th>
@@ -36,11 +37,11 @@
                                 <th>Deadline Date</th>
                                 <th>Progress</th>
                                 <th>Status</th>
-                                <th>Options</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Options</th>
                                 <th>project</th>
                                 <th>Task No</th>
                                 <th>Priority</th>
@@ -48,12 +49,18 @@
                                 <th>Deadline Date</th>
                                 <th>Progress</th>
                                 <th>Status</th>
-                                <th>Options</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($tasks as $task)
                             <tr>
+                                <td>
+                                    <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="{{url('task/'.$task->id.'/edit')}}">View</a></li>
+                                        </x-slot>
+                                    </x-options-buttons>
+                                </td>
                                 <td>
                                     {{$task->project->title ?? null}}
                                 </td>
@@ -89,11 +96,6 @@
                                     @elseif($task->status == 'completed')
                                         <span class="badge badge-success">{{$task->status}}</span>
                                     @endif
-                                </td>
-                                <td>
-                                    <div style="display: flex;">
-                                        <a href="{{url('task/'.$task->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View Task"><i class="far fa-eye"></i></a>
-                                    </div>
                                 </td>
                             </tr>
                             <!-- Modal -->

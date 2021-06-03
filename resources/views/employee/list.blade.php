@@ -28,34 +28,39 @@
                     <table class="admin-datatable table table-hover" style="width: 100%;">
                         <thead class="thead-light">
                             <tr>
+                                <th>Options</th>
                                 <th>Employee No</th>
                                 <th>Employee</th>
-                                <th>Options</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Options</th>
                                 <th>Employee No</th>
                                 <th>Employee</th>
-                                <th>Options</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($employees as $employee)
                             <tr>
+                                <td>
+                                    <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="{{url('employee/'.$employee->id)}}">View</a></li>
+                                            <li><a href="{{url('employee/'.$employee->id.'/edit')}}">Edit</a></li>
+                                            <li>
+                                                <a href="{{url('employee/'.$employee->id)}}" onclick="event.preventDefault();
+                                                    document.getElementById('delete').submit();">Delete</a>
+                                                <form id="delete" action="{{url('employee/'.$employee->id)}}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </x-slot>
+                                    </x-options-buttons>
+                                </td>
                                 <td>{{$employee->employee_no}}</td>
                                 <td>{{$employee->first_name.' '.$employee->middle_name.' '.$employee->last_name}}</td>
-                                <td>
-                                    <div style="display: flex;">
-                                        <a href="{{url('employee/'.$employee->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a>
-                                        <a href="{{url('employee/'.$employee->id)}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View"><i class="far fa-eye"></i></a>
-                                        <form action="{{url('employee/'.$employee->id)}}" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></button>
-                                        </form>
-                                    </div>
-                                </td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -26,29 +26,44 @@
                     <table class="admin-datatable table table-hover" style="width:100%;">
                         <thead class="thead-light">
                             <tr>
+                                <th>Options</th>
                                 <th>Employee</th>
                                 <th>Leave Type</th>
                                 <th>From Date</th>
                                 <th>To Date</th>
                                 <th>Status</th>
                                 <th>Reason</th>
-                                <th>Options</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Options</th>
                                 <th>Employee</th>
                                 <th>Leave Type</th>
                                 <th>From Date</th>
                                 <th>To Date</th>
                                 <th>Status</th>
                                 <th>Reason</th>
-                                <th>Options</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($leaves as $leave)
                             <tr>
+                                <td>
+                                    <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            <li><a href="{{url('leave-list/'.$leave->id.'/edit')}}">Edit</a></li>
+                                            <li>
+                                                <a href="{{url('leave-list/'.$leave->id)}}" onclick="event.preventDefault();
+                                                    document.getElementById('delete').submit();">Delete</a>
+                                                <form id="delete" action="{{url('leave-list/'.$leave->id)}}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        </x-slot>
+                                    </x-options-buttons>
+                                </td>
                                 <td>{{$leave->employee_id ? $leave->employee->first_name.' '.$leave->employee->middle_name.' '.$leave->employee->last_name : null}}</td>
                                 <td>{{$leave->leave_type}}</td>
                                 <td>{{\Carbon\Carbon::parse($leave->from_date)->format('j F, Y')}}</td>
@@ -65,16 +80,6 @@
                                     @endif
                                 </td>
                                 <td>{!!$leave->reason!!}</td>
-                                <td>
-                                    <div style="display: flex;">
-                                        <a href="{{url('leave-list/'.$leave->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="View"><i class="far fa-eye"></i></a>
-                                        <form action="{{url('leave-list/'.$leave->id)}}" method="post">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Delete"><i class="far fa-trash-alt"></i></button>
-                                        </form>
-                                    </div>
-                                </td>
                             </tr>
                             @endforeach
                         </tbody>

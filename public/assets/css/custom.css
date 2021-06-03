@@ -55,13 +55,6 @@ a:hover{
     text-decoration: underline;
 }
 
-.hide-option{
-    display: none;
-}
-.show-option:hover .hide-option{
-    display: block;
-}
-
 .table-style{
     padding-top: 5px !important;
     padding-bottom: 5px !important;

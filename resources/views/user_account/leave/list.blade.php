@@ -26,27 +26,36 @@
                     <table class="emp-datatable table table-hover" style="width:100%;">
                         <thead class="thead-light">
                             <tr>
+                                <th>Options</th>
                                 <th>Leave Type</th>
                                 <th>From Date</th>
                                 <th>To Date</th>
                                 <th>Status</th>
                                 <th>Reason</th>
-                                <th>Options</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>Options</th>
                                 <th>Leave Type</th>
                                 <th>From Date</th>
                                 <th>To Date</th>
                                 <th>Status</th>
                                 <th>Reason</th>
-                                <th>Options</th>
                             </tr>
                         </tfoot>
                         <tbody>
                             @foreach ($leaves as $leave)
                             <tr>
+                                <td>
+                                    <x-options-buttons>
+                                        <x-slot name="buttons">
+                                            @if ($leave->status == 'pending')
+                                            <li><a href="{{url('leave/'.$leave->id.'/edit')}}">Edit</a></li>
+                                            @endif
+                                        </x-slot>
+                                    </x-options-buttons>
+                                </td>
                                 <td>{{$leave->leave_type}}</td>
                                 <td>{{\Carbon\Carbon::parse($leave->from_date)->format('j F, Y')}}</td>
                                 <td>{{\Carbon\Carbon::parse($leave->to_date)->format('j F, Y')}}</td>
@@ -60,13 +69,6 @@
                                     @endif
                                 </td>
                                 <td>{!!$leave->reason!!}</td>
-                                <td>
-                                    <div style="display: flex;">
-                                        @if ($leave->status == 'pending')
-                                        <a href="{{url('leave/'.$leave->id.'/edit')}}" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="top" title="Edit"><i class="far fa-edit"></i></a>
-                                        @endif
-                                    </div>
-                                </td>
                             </tr>
                             @endforeach
                         </tbody>

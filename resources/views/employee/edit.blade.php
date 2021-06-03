@@ -7,11 +7,11 @@
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
 <link rel="stylesheet" href="{{asset('assets/plugins/select2/select2.css')}}"/>
 
+<link rel="stylesheet" href="{{asset('assets/plugins/fileuploader/font/font-fileuploader.css')}}">
+<link rel="stylesheet" href="{{asset('assets/plugins/fileuploader/jquery.fileuploader.min.css')}}">
 @stop
+
 @section('content')
-
-@include('layouts.alert_message')
-
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card">
@@ -241,6 +241,26 @@
                         <textarea class="summernote" name="notes">{{$employee->notes}}</textarea>
                         <br>
 
+                        <h6>Document Attachment</h6>
+                        <hr>
+                        <div class="form-group">
+                            <label>File Attachment</label>
+                            <input type="file" name="file" multiple id="fileuploader" accept=".docx, .doc, .pdf, .csv, .png, .jpeg, .jpg, .pptx, .xls, .xlsx"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Documents</label>
+                            @if(!$employeeDocs->isEmpty())
+                                @foreach ($employeeDocs as $empdoc)
+                                <p class="display:flex;">
+                                    <i class="fas fa-download" aria-hidden="true"></i>&nbsp;<a href="{{url('emp-doc-download/'.$empdoc->id)}}">{{$empdoc->file}}</a> <a href="javascript:void(0);" class="delete-doc remove" data-id="{{url('emp-doc-delete/'.$empdoc->id)}}"><i data-toggle="tooltip" title="Delete" class="far fa-trash text-danger"></i></a>
+                                </p>
+                                @endforeach
+                            @else
+                                <small class="text-muted"><br><i>--No uploaded files--</i></small>
+                            @endif
+                        </div>
+
                         <h6>Profile Image</h6>
                         <hr>
                         <div class="row">
@@ -318,6 +338,29 @@
     }
 
 });
+
+
+$('#fileuploader').fileuploader({
+        addMore: true
+    });
+
+$(".delete-doc").click('.remove',function(){
+    var dataId = $(this).attr("data-id");
+    var del = this;
+    if(confirm("Do you want to delete this attachment?")){
+        $.ajax({
+        url: dataId,
+        type:'DELETE',
+        data:{
+            _token : $("input[name=_token]").val()
+        },
+        success:function(response){
+            $(del).closest( "p" ).remove();
+            alert(response.message);
+        }
+        });
+    }
+});
 </script>
 @endpush
 
@@ -328,6 +371,7 @@
 <script src="{{asset('assets/plugins/summernote/dist/summernote.js')}}"></script>
 <script src="{{asset('assets/plugins/dropify/js/dropify.min.js')}}"></script>
 <script src="{{asset('assets/js/pages/forms/dropify.js')}}"></script>
+<script src="{{asset('assets/plugins/fileuploader/jquery.fileuploader.min.js')}}"></script>
 @stop
 
 

@@ -10,10 +10,8 @@ use App\Models\Employee;
 use App\Models\TaskAttachment;
 use Carbon\Carbon;
 use DB;
-use Gate;
 use App\Exports\TaskProgressExport;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Controllers\Employee\TaskController as EmpTaskController;
 
 class TaskController extends Controller
 {
@@ -192,18 +190,12 @@ class TaskController extends Controller
         $viewTaskProgress = DB::table('task_progress')
         ->join('tasks', 'tasks.id', '=', 'task_progress.task_id')
         ->join('projects', 'projects.id', '=', 'tasks.project_id')
-        // ->join('clients', 'clients.id', '=', 'projects.client_id')
         ->join('employees', 'employees.id', '=', 'tasks.employee_id')
         ->select(
             'employees.first_name',
             'employees.middle_name',
             'employees.last_name',
             'projects.title',
-            // 'clients.full_name',
-            // 'task_progress.date',
-            // 'task_progress.module',
-            // 'task_progress.hours',
-            // 'task_progress.work_detail',
             'tasks.id',
             'tasks.task_no',
             'tasks.priority',
