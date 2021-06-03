@@ -7,8 +7,6 @@
 @stop
 @section('content')
 
-{{-- @include('layouts.alert_message') --}}
-
 <div class="row clearfix">
     <div class="col-lg-4 col-md-12">
         <div class="card mcard_3">
@@ -17,43 +15,13 @@
                 <h4 class="m-t-10"></h4>
                 <div class="row">
                     <div class="col-12">
-                        {{-- <ul class="social-links list-unstyled">
-                            <li><a title="facebook" href="javascript:void(0);"><i class="zmdi zmdi-facebook"></i></a></li>
-                            <li><a title="twitter" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a></li>
-                            <li><a title="instagram" href="javascript:void(0);"><i class="zmdi zmdi-instagram"></i></a></li>
-                        </ul> --}}
                         <h5>{{$employee->first_name.' '.$employee->middle_name.' '.$employee->last_name}}</h5>
-                        <p class="text-muted">{{$employee->address}}</p>
-                        {{-- <small class="text-muted">Email address: </small> --}}
-                        <p class="text-muted">{{$employee->email}}</p>
-                        {{-- <hr> --}}
-                        {{-- <small class="text-muted">Phone: </small> --}}
-                        <p class="text-muted">{{$employee->mobile_no}}</p>
+                        <p class="text-muted"><b>Designation:</b> {{$employee->designation->title}}</p>
+                        <p class="text-muted"><b>Date of Joining:</b> {{date('j F, Y', strtotime($employee->joining_date))}}</p>
                     </div>
-                    {{-- <div class="col-4">
-                        <small>Following</small>
-                        <h5>852</h5>
-                    </div>
-                    <div class="col-4">
-                        <small>Followers</small>
-                        <h5>13k</h5>
-                    </div>
-                    <div class="col-4">
-                        <small>Post</small>
-                        <h5>234</h5>
-                    </div> --}}
                 </div>
             </div>
         </div>
-        {{-- <div class="card">
-            <div class="body">
-                <small class="text-muted">Email address: </small>
-                <p>{{$employee->email}}</p>
-                <hr>
-                <small class="text-muted">Phone: </small>
-                <p>{{$employee->mobile_no}}</p>
-            </div>
-        </div> --}}
     </div>
 
     <div class="col-lg-8 col-md-12">
@@ -83,7 +51,9 @@
                             <div class="w_icon dark"><i class="fas fa-tasks"></i></div>
                             <h4 class="mt-3"></h4>
                             <span class="text-muted">Tasks</span><br>
-                            <span class="mb-0">Ongoing {{$processTaskCount}}</span><br>
+                            <span class="mb-0">Ongoing {{$ongoingTaskCount}}</span><br>
+                            <span class="mb-0">Pending {{$pendingTaskCount}}</span><br>
+                            <span class="mb-0">In progress {{$inprogressTaskCount}}</span><br>
                             <span class="mb-0">Completed {{$completedTaskCount}}</span>
                        </div>
                     </div>
@@ -126,7 +96,6 @@
                         </form>
                     @else
                     <p>checkin done</p>
-
                     @endif
                 </div>
                 {{-- <div class="row"> --}}
@@ -231,7 +200,6 @@
                                     </tr>
                                 </thead>
                                 <tbody id="break-time">
-
                                 </tbody>
                             </table>
                         </div>
