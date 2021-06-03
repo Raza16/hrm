@@ -128,8 +128,8 @@ class UserDashboardController extends Controller
         $timeTracker = new TimeTracker;
 
         $timeTracker->employee_id = $employee->id;
-        // $timeTracker->checkin = new DateTime("now", new DateTimeZone('Asia/Karachi'));
-        $timeTracker->checkin = new DateTime("now");
+        $timeTracker->checkin = new DateTime("now", new DateTimeZone('Asia/Karachi'));
+        // $timeTracker->checkin = new DateTime("now");
         $timeTracker->date = Carbon::today();
         $timeTracker->save();
 
