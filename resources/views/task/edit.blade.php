@@ -1,4 +1,4 @@
-e@extends('layouts.master')
+@extends('layouts.master')
 @section('title', 'Task Tracker')
 @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-select/css/bootstrap-select.css')}}"/>
