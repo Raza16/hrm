@@ -260,7 +260,7 @@
                             <td>
                                 <x-options-buttons>
                                     <x-slot name="buttons">
-                                        <li><a href="{{url('employee-task/'.$ongoingPendingTask->id.'/edit')}}">View Task</a></li>
+                                        <li><a href="{{url('task/'.$ongoingPendingTask->id.'/edit')}}">View Task</a></li>
                                     </x-slot>
                                 </x-options-buttons>
                             </td>
